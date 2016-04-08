@@ -12,5 +12,6 @@
 */
 
 Route::get('/', function () {
+    return redirect()->to('/tenant/index.html');
     return view('welcome');
 });
