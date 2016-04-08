@@ -155,7 +155,17 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        
+        'Barryvdh\Cors\ServiceProvider',
+        
+        // Wala
+        \Wala\Jwt\WalaJwtProvider::class,
+        
+        // Solumax
+        \Solumax\Entity\SolumaxEntityProvider::class,
+        \Solumax\EntityBase\SolumaxEntityBaseProvider::class,
+        \Solumax\AuthorizationClientHttp\SolumaxAuthorizationClientHttpProvider::class,
+        
     ],
 
     /*
@@ -201,6 +211,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+	'ParsedJwt' => Wala\Jwt\Facade\ParsedJwtFacade::class,
 
     ],
 

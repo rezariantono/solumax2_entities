@@ -1,0 +1,1 @@
+{"version":3,"sources":["app/app.js"],"names":[],"mappings":"AAAA;AACA","file":"all.js","sourcesContent":["var app = angular\n        .module('App', []);"],"sourceRoot":"/source/"}

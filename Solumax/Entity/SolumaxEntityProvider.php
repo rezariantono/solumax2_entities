@@ -16,7 +16,6 @@ class SolumaxEntityProvider extends ServiceProvider {
         $this->publishes([
             __DIR__.'/Database/Migrations/' => database_path('migrations/entity')
         ], 'migrations');
-        
     }
     
     public function register() {

@@ -1,0 +1,15 @@
+[submodule "Solumax/PhpHelper"]
+	path = Solumax/PhpHelper
+	url = git@bitbucket.org:rezariantono/solumax2_php_helper.git
+[submodule "Solumax/AuthorizationClientHttp"]
+	path = Solumax/AuthorizationClientHttp
+	url = git@bitbucket.org:rezariantono/solumax2_authorization_client_http.git
+[submodule "public/standard"]
+	path = public/standard
+	url = git@bitbucket.org:rezariantono/publicfolder.git
+[submodule "Wala/Jwt"]
+	path = Wala/Jwt
+	url = git@bitbucket.org:rezariantono/wala2_jwt.git
+[submodule "resources/angular/tenant/app/dependencies"]
+	path = resources/angular/tenant/app/dependencies
+	url = git@bitbucket.org:rezariantono/solumax2_spa_dependencies.git

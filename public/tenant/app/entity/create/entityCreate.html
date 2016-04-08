@@ -1,0 +1,38 @@
+<div class="row">
+	<div class="col-sm-12">
+
+		<h3>Tambah Contact Baru</h3>
+		<hr>
+
+		<form>
+
+			<label>Nama</label>
+			<input type="text" ng-model="ctrl.entity.name">
+
+			<label>Nomor Telepon</label>
+			<input type="text" ng-model="ctrl.entity.phone_number">
+			
+			<label>Nomor Telepon 2</label>
+			<input type="text" ng-model="ctrl.entity.phone_number_2">
+			
+			<label>Email</label>
+			<input type="email" ng-model="ctrl.entity.email">
+			
+			<label>Address</label>
+			<input type="text" ng-model="ctrl.entity.address">
+
+			<hr>
+
+			<label>KTP</label>
+			<input type="email" ng-model="ctrl.entity.ktp">
+			
+			<label>NPWP</label>
+			<input type="text" ng-model="ctrl.entity.npwp">
+			
+		</form>
+
+		<button class="btn btn-block btn-default" ng-click="ctrl.save(ctrl.entity)">Simpan</button>
+		<br>
+
+	</div>
+</div>
