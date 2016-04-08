@@ -12,7 +12,7 @@ angular
 			restrict: 'AE',
 			link: function(scope, elem, attrs) {
 
-				scope.tenantSelectUrl = LinkFactory.tenantSelect.selecting +
+				scope.tenantSelectUrl = LinkFactory.authentication.tenantSelect +
 				'?redirect=' + encodeURIComponent(document.URL.replace(/#.*$/, "")) +
 				'&module_id=' + AppFactory.moduleId +
 				'&jwt=' + JwtValidator.encodedJwt;

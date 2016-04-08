@@ -8,7 +8,7 @@ angular
 
 			if (rejection.data.errors && rejection.status == 400) {
 
-				var errorString = rejection.data.errors.join(', ');
+				var errorString = rejection.data.errors.join('\n');
 				alert(errorString);
 			};
 
