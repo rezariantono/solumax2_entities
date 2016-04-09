@@ -1,6 +1,8 @@
 <?php
 
-Route::group(['prefix' => 'api', 'namespace' => 'Api', 'middleware' => ['wala.jwt.header.parser', 'wala.jwt.header.validation', 'entity_base.tenant_data']], function() {
+$middlewares = ['wala.jwt.header.parser', 'wala.jwt.header.validation', 'multi_tenants.group_database_overwriter_by_jwt'];
+
+Route::group(['prefix' => 'api', 'namespace' => 'Api', 'middleware' => $middlewares], function() {
     
     Route::group(['prefix' => 'entity'], function() {
         

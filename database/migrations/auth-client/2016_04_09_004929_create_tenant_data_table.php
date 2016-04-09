@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTenantSettingsTable extends Migration {
+class CreateTenantDataTable extends Migration {
 
     /**
      * Run the migrations.
@@ -11,9 +11,10 @@ class CreateTenantSettingsTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('tenant_settings', function (Blueprint $table) {
-            $table->integer('tenant_id')->unsigned()->index()->primary();
-            $table->char('default_data_id', 5);
+        Schema::create('tenant_data', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('tenant_id')->unsigned();
+            $table->char('data_id', 5)->index();
             $table->timestamps();
         });
     }
@@ -24,7 +25,7 @@ class CreateTenantSettingsTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('tenant_settings');
+        Schema::drop('tenant_data');
     }
 
 }

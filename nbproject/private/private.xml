@@ -2,6 +2,16 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/D:/Dev/Solumax5/backend/solumax2_entities_php/Solumax/EntityBase/Http/Middleware/TenantData.php</file>
+            <file>file:/D:/Dev/Solumax5/backend/solumax2_entities_php/Solumax/EntityBase/SolumaxEntityBaseProvider.php</file>
+            <file>file:/D:/Dev/Solumax5/backend/solumax2_entities_php/database/migrations/entity-base/2016_03_30_072724_create_tenant_data_table.php</file>
+            <file>file:/D:/Dev/Solumax5/backend/solumax2_entities_php/Solumax/AuthorizationClientHttp/SolumaxAuthorizationClientHttpProvider.php</file>
+            <file>file:/D:/Dev/Solumax5/backend/solumax2_entities_php/Solumax/AuthorizationClientHttp/LocalModel/TenantData/TenantDataModel.php</file>
+            <file>file:/D:/Dev/Solumax5/backend/solumax2_entities_php/Solumax/AuthorizationClientHttp/Http/Middleware/MultiTenantHelpers/DatabaseConnectionOverwriter.php</file>
+            <file>file:/D:/Dev/Solumax5/backend/solumax2_entities_php/Solumax/AuthorizationClientHttp/DirectModel/Tenant/TenantModel.php</file>
+            <file>file:/D:/Dev/Solumax5/backend/solumax2_entities_php/Solumax/AuthorizationClientHttp/Http/Middleware/MultiTenantHelpers/GroupDatabaseConnectionOverwriter.php</file>
+            <file>file:/D:/Dev/Solumax5/backend/solumax2_entities_php/Solumax/AuthorizationClientHttp/Database/Migrations/2016_04_09_004929_create_tenant_data_table.php</file>
+        </group>
     </open-files>
 </project-private>
