@@ -15,10 +15,7 @@ app
 
 			authentication: {
 				login: apps.authentication + 'user/authentication/login',
-			},
-
-			tenantSelect: {
-				selecting: apps.authentication + 'user/tenant-select/selecting/'
+				tenantSelect: apps.authentication + 'user/tenant-select/selecting/'
 			},
 
 			entity: {
