@@ -2,14 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/D:/Dev/Solumax5/backend/solumax2_entities_php/Solumax/AuthorizationClientHttp/Http/Middleware/MultiTenantHelpers/RequestTenantIdOverwriter.php</file>
-            <file>file:/D:/Dev/Solumax5/backend/solumax2_entities_php/Solumax/Entity/Http/Routes/Api.php</file>
-            <file>file:/D:/Dev/Solumax5/backend/solumax2_entities_php/Solumax/Entity/Http/Routes/RedirectApp.php</file>
-            <file>file:/D:/Dev/Solumax5/backend/solumax2_entities_php/Solumax/AuthorizationClientHttp/Http/Middleware/MultiTenantHelpers/DatabaseConnectionOverwriter.php</file>
-            <file>file:/D:/Dev/Solumax5/backend/solumax2_entities_php/Solumax/Entity/Http/Controllers/Api/EntityController.php</file>
-            <file>file:/D:/Dev/Solumax5/backend/solumax2_entities_php/Solumax/Entity/Http/routes.php</file>
-            <file>file:/D:/Dev/Solumax5/backend/solumax2_entities_php/Solumax/AuthorizationClientHttp/Http/Middleware/MultiTenantHelpers/GroupDatabaseConnectionOverwriter.php</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
