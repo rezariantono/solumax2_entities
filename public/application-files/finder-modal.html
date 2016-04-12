@@ -38,16 +38,22 @@
 								<th>Alamat</th>
 								<th>Nomor Telepon</th>
 								<th>Email</th>
+								<th>Pilih</th>
 								<th>Buka</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="entity in entities" ng-click="select(entity)">
+							<tr ng-repeat="entity in entities">
 								<td>{{entity.name}}</td>
 								<td>{{entity.address}}</td>
 								<td>{{entity.phone_number}}</td>
 								<td>{{entity.email}}</td>
-								<td><button class="btn btn-xs" ng-click="openInApp(entity)">Buka</button></td>
+								<td><button class="btn btn-xs btn-warning" ng-click="select(entity)">Buka</button></td>
+								<td><button class="btn btn-xs btn-warning" ng-click="openInApp(entity)">Buka</button></td>
+							</tr>
+
+							<tr ng-if="entities.length == 0">
+								<td colspan="5" class="text-center text-warning">Person / Organisasi tidak ditemukan</td>
 							</tr>
 						</tbody>
 					</table>

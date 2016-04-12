@@ -25,12 +25,12 @@ Route::group(['middleware' => ['cors']], function() {
 
         return response($html);
     });
-    
-    Route::get('create-template', function() {
 
-        $html = file_get_contents(public_path('application-files/create-modal.html'));
+    Route::get('entity-finder-modal.html', function() {
+
+        $html = file_get_contents(public_path('application-files/finder-modal.html'));
 
         return response($html);
-    });    
+    });
 });
 
