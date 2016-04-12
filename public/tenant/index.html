@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="Solumax.Entities">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <meta http-equiv="Content-Security-Policy" content="connect-src * blob: *; default-src *; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; img-src * data:;">
     <meta name="mobile-web-app-capable" content="yes"></meta>
     
-    <title></title>
+    <title ng-bind="pageTitle">Data Person / Organisasi</title>
 
     <link rel="stylesheet" type="text/css" href="/standard/bootstrap-3.3.6-dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/custom/bootstrap/bootstrap-superhero.min.css">
@@ -33,7 +33,7 @@
 
     <script src="app/all.js"></script>
   </head>
-  <body ng-app="TenantApp">
+  <body>
 
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container-fluid">

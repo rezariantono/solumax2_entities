@@ -1,5 +1,5 @@
 var app = angular
-	.module('TenantApp', ['ui.router', 'Solumax.ErrorInterceptor', 'Solumax.JwtManager', 'Solumax.Loading', 'Solumax.TenantDatabaseConnection'])
+	.module('Solumax.Entities', ['ui.router', 'Solumax.ErrorInterceptor', 'Solumax.JwtManager', 'Solumax.Loading', 'Solumax.TenantDatabaseConnection'])
 	.factory('AppFactory', function() {
 
 		var appFactory = {};
@@ -7,4 +7,12 @@ var app = angular
 		appFactory.moduleId = '10777';
 
 		return appFactory;
+	});
+
+app
+	.run(function($rootScope, $state) {
+
+		$rootScope.$on('$stateChangeSuccess', function () {
+			$rootScope.pageTitle = $state.current.pageTitle;
+		});
 	});
