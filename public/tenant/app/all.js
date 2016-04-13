@@ -84,7 +84,7 @@ angular
 		LinkFactory) {
 
 		return {
-			templateUrl: $sce.trustAsResourceUrl(LinkFactory.entity.base + 'finder-template'),
+			templateUrl: $sce.trustAsResourceUrl(LinkFactory.entity.base + 'entity-finder-modal.html'),
 			restrict: 'AE',
 			scope: {
 				selectedEntity: "=",
@@ -198,7 +198,20 @@ angular
 
 		jwtValidator.encodedJwt = localStorage.getItem(jwtName);
 
-		jwtValidator.decodedJwt = jwtValidator.encodedJwt == null ? null : jwtHelper.decodeToken(jwtValidator.encodedJwt);
+		jwtValidator.decodedJwt = jwtValidator.encodedJwt == null ? null : jwtValidator.decode;
+
+		jwtValidator.decode = function() {
+
+			try {
+
+				return jwtHelper.decodeToken(jwtValidator.encodedJwt);
+
+			} catch (e) {
+				
+				jwtValidator.unsetJwt();
+				location.reload();
+			}
+		}
 
 		jwtValidator.isLoggedIn = function() {
 
@@ -206,12 +219,20 @@ angular
 				return false;
 			};
 			
-			if (jwtHelper.isTokenExpired(jwtValidator.encodedJwt)) {
-				alert('Sesi sudah berakhir. Harap login ulang.')
-				JwtValidator.unsetJwt();
-				return false;
-			};
+			try {
 
+				if (jwtHelper.isTokenExpired(jwtValidator.encodedJwt)) {
+					alert('Sesi sudah berakhir. Harap login ulang.')
+					JwtValidator.unsetJwt();
+					return false;
+				};
+
+			} catch (e) {
+
+				jwtValidator.unsetJwt();
+				location.reload();
+			}
+			
 			return true;
 		}
 

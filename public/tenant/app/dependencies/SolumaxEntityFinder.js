@@ -5,7 +5,7 @@ angular
 		LinkFactory) {
 
 		return {
-			templateUrl: $sce.trustAsResourceUrl(LinkFactory.entity.base + 'finder-template'),
+			templateUrl: $sce.trustAsResourceUrl(LinkFactory.entity.base + 'entity-finder-modal.html'),
 			restrict: 'AE',
 			scope: {
 				selectedEntity: "=",
