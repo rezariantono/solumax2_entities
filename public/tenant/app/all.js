@@ -198,20 +198,7 @@ angular
 
 		jwtValidator.encodedJwt = localStorage.getItem(jwtName);
 
-		jwtValidator.decodedJwt = jwtValidator.encodedJwt == null ? null : jwtValidator.decode;
-
-		jwtValidator.decode = function() {
-
-			try {
-
-				return jwtHelper.decodeToken(jwtValidator.encodedJwt);
-
-			} catch (e) {
-				
-				jwtValidator.unsetJwt();
-				location.reload();
-			}
-		}
+		jwtValidator.decodedJwt = jwtValidator.encodedJwt == null ? null : jwtHelper.decodeToken(jwtValidator.encodedJwt);
 
 		jwtValidator.isLoggedIn = function() {
 
