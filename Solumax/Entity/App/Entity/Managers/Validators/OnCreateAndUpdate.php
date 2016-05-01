@@ -28,8 +28,8 @@ class OnCreateAndUpdate {
                 [
                     'name' => 'required',
                     'email' => 'email',
-                    'ktp' => 'unique:entities',
-                    'npwp' => 'unique:entities',
+                    'ktp' => 'unique:entities,ktp,' . $this->entity->id,
+                    'npwp' => 'unique:entities,npwp,' . $this->entity->id,
                 ]);
     }
 }
