@@ -17,6 +17,14 @@ class FromRequest {
         $this->entity->fill($request->only('name', 'phone_number', 'phone_number_2',
                 'email', 'address', 'ktp', 'npwp'));
         
+        if (empty($this->entity->ktp)) {
+            $this->entity->ktp = null;
+        }
+        
+        if (empty($this->entity->npwp)) {
+            $this->entity->npwp = null;
+        }
+        
         return $this->entity;
     }
 }
