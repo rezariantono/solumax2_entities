@@ -25,7 +25,14 @@
 				<input type="text" ng-model="filter.ktp" name="ktp">
 
 				<label>Hasil Per Halaman</label>
-				<input type="text" ng-model="filter.paginate" name="npwp">
+				<input type="text" ng-model="filter.paginate" name="paginate">
+
+				<label>Pengurutan</label>
+				<select ng-model="filter.order" ng-init="asc" name="order">
+					<option value="likeness">Termirip (nama)</option>
+					<option value="asc">Terlama</option>
+					<option value="desc">Terbaru</option>
+				</select>
 
 				<button class="btn btn-block btn-info" ng-click="search(filter)">Cari</button>
 				<br>
@@ -34,6 +41,7 @@
 					<table class="table table-hover table-bordered">
 						<thead>
 							<tr>
+								<th>ID</th>
 								<th>Nama</th>
 								<th>Alamat</th>
 								<th>Nomor Telepon</th>
@@ -44,6 +52,7 @@
 						</thead>
 						<tbody>
 							<tr ng-repeat="entity in entities">
+								<td>{{entity.id}}</td>
 								<td>{{entity.name}}</td>
 								<td>{{entity.address}}</td>
 								<td>{{entity.phone_number}}</td>

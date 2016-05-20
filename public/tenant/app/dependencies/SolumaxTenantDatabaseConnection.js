@@ -7,15 +7,31 @@ angular
 		return {
 			template: function() {
 
-				return '<a style="text-decoration:none;" class="text-warning" ng-href="{{tenantSelectUrl}}">{{insideText}}</a>';
+				return '<a style="text-decoration:none;" class="text-warning" ng-click="selectTenant()">{{insideText}}</a>';
 			},
 			restrict: 'AE',
 			link: function(scope, elem, attrs) {
 
-				scope.tenantSelectUrl = LinkFactory.authentication.tenantSelect +
-				'?redirect=' + encodeURIComponent(document.URL.replace(/#.*$/, "")) +
-				'&module_id=' + AppFactory.moduleId +
-				'&jwt=' + JwtValidator.encodedJwt;
+				scope.selectTenant = function() {
+
+					if (!JwtValidator.decodedJwt) {
+						JwtValidator.login();
+						return;
+					}
+
+					var uri = new URI(window.location.href);
+					var hash = uri.hash();
+
+					var search = {
+						'redirect': uri.fragment(""),
+						'module_id': AppFactory.moduleId,
+						'jwt': JwtValidator.encodedJwt,
+						'state': hash
+					};
+
+					window.location.href = new URI(LinkFactory.authentication.tenantSelect).search(search).toString();
+
+				}
 
 				if (JwtValidator.decodedJwt) {
 					
@@ -27,8 +43,6 @@ angular
 
 				} else {
 					scope.insideText = 'Login'
-					scope.tenantSelectUrl = LinkFactory.authentication.login + '?redirect=' +
-						encodeURIComponent(document.URL.replace(/#.*$/, ""));
 				};
 
 			}

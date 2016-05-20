@@ -46,6 +46,7 @@ angular
 				scope.filter = {
 					paginate: 20,
 					page: 1,
+					order: 'likeness',
 					pageIncrease: function() {
 						this.page++;
 					},

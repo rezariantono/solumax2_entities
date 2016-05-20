@@ -45,14 +45,31 @@ class EntityController extends Controller {
             $query->where('npwp', '=', $request->get('npwp'));
         }
         
+        if ($request->get('order') == 'asc') {
+            
+            $query->orderBy('id', 'asc');
+        } else if ($request->get('order') == 'desc') {
+            
+            $query->orderBy('id', 'desc');
+        } else {
+            
+            $name = $request->get('name');
+            $query->orderByRaw("
+                (CASE WHEN `name` = '".$name."' THEN 0
+                WHEN `name` like '".$name."%' THEN 1
+                WHEN `name` like '% %".$name."% %' THEN 2
+                WHEN `name` like '%".$name."' THEN 3
+                ELSE 4 END), `name`");
+        }
+        
         if ($request->has('paginate')) {
             
-            $entities = $query->orderBy('name', 'asc')->paginate($request->get('paginate'));
+            $entities = $query->paginate($request->get('paginate'));
             return $this->formatCollection($entities, [], $entities);
         
         } else {
             
-            $entities = $query->orderBy('name', 'asc')->get();
+            $entities = $query->get();
             return $this->formatCollection($entities);
         
         }

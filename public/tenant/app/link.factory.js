@@ -19,7 +19,8 @@ app
 			},
 
 			entity: {
-				base: apps.entity + 'api/entity/'
+				base: domains.entity,
+				api: apps.entity + 'api/entity/',
 			},
 
 

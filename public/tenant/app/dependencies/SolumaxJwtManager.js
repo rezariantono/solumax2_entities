@@ -1,6 +1,7 @@
 angular
 	.module('Solumax.JwtManager', ['angular-jwt'])
-	.factory('JwtValidator', function(jwtHelper) {
+	.factory('JwtValidator', function(
+		LinkFactory, jwtHelper) {
 	
 		/*
 			This package REQUIRE Link Factory which have LinkFactory.authorization.login and  LinkFactory.authorization.logout links
@@ -45,7 +46,28 @@ angular
 		}
 
 		jwtValidator.unsetJwt = function() {
-			localStorage.removeItem(jwtName);
+
+			try	{
+				localforage.clear();
+			} catch (e) {
+				console.log(e);
+			}
+
+			localStorage.clear();
+		}
+
+		jwtValidator.login = function() {
+
+			var uri = new URI(window.location.href);
+			var hash = uri.hash();
+
+			var search = {
+				'redirect': uri.fragment(""),
+				'state': hash
+			};
+
+			window.location.href = new URI(LinkFactory.authentication.login).search(search).toString();
+
 		}
 
 		return jwtValidator;
@@ -74,9 +96,19 @@ angular
 			if (typeof uri.search(true).jwt != 'undefined') {
 				
 				JwtValidator.setJwt(uri.search(true).jwt);
+				var state = uri.search(true).state;
 				uri.search('');
-				uri.fragment('');
-				window.location.href = uri;
+
+
+				if (typeof state != "undefined") {
+	
+					window.location.href = uri + state;					
+				
+				} else {
+
+					window.location.href = uri;
+				};
+
 			};
 
 		}
@@ -85,7 +117,7 @@ angular
 
 	})
 	.directive('solAuth', function($compile, $injector, 
-		$location,
+		$location, $timeout,
 		JwtValidator, LinkFactory) {
 
 		return {
@@ -96,19 +128,24 @@ angular
 				if (loggedIn) {
 					return '<a href="" ng-click="logout()">Logout (' + JwtValidator.decodedJwt.name + ')</a>';
 				} else {
-					return '<a ng-href="{{authUrl}}">Login</a>';
+					return '<a href="" ng-click="login()">Login</a>';
 				};
 			},
 			restrict: 'A',
 			link: function(scope, elem, attrs) {
 
-				scope.authUrl = LinkFactory.authentication.login + '?redirect=' + 
-					encodeURIComponent(document.URL.replace(/#.*$/, ""));
+				scope.login = function() {
+
+					JwtValidator.login();
+				}
 
 				scope.logout = function() {
 					if (confirm('Yakin logout?')) {
 						JwtValidator.unsetJwt();
-						location.reload();
+
+						$timeout(function() {
+							location.reload();
+						}, 1000);
 					};
 				}
 			}
