@@ -59,7 +59,7 @@ class EntityController extends Controller {
                 WHEN `name` like '".$name."%' THEN 1
                 WHEN `name` like '% %".$name."% %' THEN 2
                 WHEN `name` like '%".$name."' THEN 3
-                ELSE 4 END), `name`");
+                ELSE 4 END)");
         }
         
         if ($request->has('paginate')) {

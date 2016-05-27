@@ -1,0 +1,30 @@
+<div ng-if="entity.id">
+
+	<button class="btn btn-sm btn-block btn-default" style="padding:8px 8px;border:1px solid #607285;" data-toggle="modal" data-target="#entityUpdaterModal" ng-click="insertValues()">Update Data Person</button>
+
+	<div class="modal fade" id="entityUpdaterModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title"><strong>Update {{entity.id}} : {{entity.name}}</strong></h4>
+				</div>
+				<div class="modal-body">
+
+					<label>Name</label>
+					<input type="text" ng-model="entity.name" name="name">
+
+					<label>Nomor Telepon</label>
+					<input type="text" ng-model="entity.phone_number" name="phone_number">
+
+					<label>Email</label>
+					<input type="text" ng-model="entity.email" name="email">
+
+					<button class="btn btn-block btn-info" ng-click="update(entity)">Update</button>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

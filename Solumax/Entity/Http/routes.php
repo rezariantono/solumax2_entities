@@ -32,5 +32,13 @@ Route::group(['middleware' => ['cors']], function() {
 
         return response($html);
     });
+    
+    Route::get('entity-updater-modal.html', function() {
+
+        $html = file_get_contents(public_path('application-files/updater-modal.html'));
+
+        return response($html);
+    });
+    
 });
 
