@@ -23,5 +23,9 @@ app
 			return $http.post(LinkFactory.entity.api + entity.id, entity);
 		}
 
+		entityModel.delete = function(entity) {
+			return $http.delete(LinkFactory.entity.api + entity.id);
+		}
+
 		return entityModel;
 	});

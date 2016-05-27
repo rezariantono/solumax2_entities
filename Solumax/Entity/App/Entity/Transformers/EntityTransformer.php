@@ -23,6 +23,8 @@ class EntityTransformer extends Fractal\TransformerAbstract {
             'ktp' => (string) $entity->ktp,
             'npwp' => (string) $entity->npwp,
             
+            'deletion_request' => $entity->deletion_request ? json_decode($entity->deletion_request) : null, 
+            
             'creator_tenant_id' => (int) $entity->creator_tenant_id,
         ];
     }

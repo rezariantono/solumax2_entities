@@ -21,7 +21,11 @@ angular
 			};
 
 			if (rejection.status == 403) {
-				alert('Anda tidak memiliki fungsi untuk access ini')
+				alert('Anda tidak memiliki access untuk fungsi ini');
+			};
+
+			if (rejection.status == 404) {
+				alert('Data yang Anda cari tidak tersedia');
 			};
 
 			return $q.reject(rejection);

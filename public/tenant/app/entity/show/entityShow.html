@@ -33,7 +33,22 @@
 		</form>
 
 		<button class="btn btn-block btn-default" ng-click="ctrl.save(ctrl.entity)">Simpan</button>
-		<br>
+		<hr>
+
+		<div class="well">
+			<div ng-if="ctrl.entity && !ctrl.entity.deletion_request">
+				<input type="checkbox" class="form-not-applied" ng-model="ctrl.entity.request_delete">
+				<label>Hapus data person ini</label>
+			</div>
+
+			<div ng-if="ctrl.entity.deletion_request">
+				<h4>Delete Requested</h4>
+				<p>Dimita Oleh: {{ctrl.entity.deletion_request.name}} ({{ctrl.entity.deletion_request.id}}); Waktu: {{ctrl.entity.deletion_request.time}}</p>
+
+				<button class="btn btn-block btn-danger" ng-click="ctrl.delete(ctrl.entity)">Hapus</button>
+			</div>
+		</div>
+		
 
 	</div>
 </div>

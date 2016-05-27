@@ -25,8 +25,14 @@ app
   			controller: 'EntityShowController as ctrl',
   			pageTitle: 'Contact'
 		})
+		.state('entitySearch', {
+			url: '/entity/search',
+  			templateUrl: 'app/entity/search/entitySearch.html',
+  			controller: 'EntitySearchController as ctrl',
+  			pageTitle: 'Pencarian Contact'
+		})
 		.state('entityIndex', {
-			url: '/entity/index',
+			url: '/entity/index/:encodedQuery',
   			templateUrl: 'app/entity/index/entityIndex.html',
   			controller: 'EntityIndexController as ctrl',
   			pageTitle: 'Daftar Contact'

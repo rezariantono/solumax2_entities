@@ -24,6 +24,15 @@ app
 			};
 		}
 
+		vm.delete = function(entity) {
+
+			EntityModel.delete(entity)
+			.success(function() {
+				alert('Berhasil dihapus');
+				$state.go('entitySearch');
+			});
+		}
+
 		if ($stateParams.id) {
 
 			EntityModel.get($stateParams.id)

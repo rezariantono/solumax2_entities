@@ -45,6 +45,10 @@ class EntityController extends Controller {
             $query->where('npwp', '=', $request->get('npwp'));
         }
         
+        if ($request->get('deletion_request') == 'true') {
+            $query->whereNotNull('deletion_request');
+        }
+        
         if ($request->get('order') == 'asc') {
             
             $query->orderBy('id', 'asc');
@@ -103,6 +107,10 @@ class EntityController extends Controller {
         $entity = $this->entity->find($id);
         $entity->assign()->fromRequest($request);
         
+        if ($request->has('request_delete')) {
+            $entity->assign()->onRequestDelete();
+        }
+        
         $validation = $entity->validate()->onCreateAndUpdate();
         if ($validation !== true) {
             return $this->formatErrors($validation);
@@ -112,4 +120,14 @@ class EntityController extends Controller {
         
         return $this->formatItem($entity);
     }
+    
+    
+    public function delete($id) {
+        
+        $entity = $this->entity->find($id);
+        $entity->delete();
+        
+        return response()->json(true);
+    }
+    
 }

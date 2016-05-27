@@ -1,8 +1,49 @@
 <div class="row">
 	<div class="col-sm-12">
-		
-		<entity-finder-modal selected-entity="ctrl.selectedEntity" on-entity-selected="ctrl.open(ctrl.selectedEntity.id)"></entity-finder-modal>
 
+		<div class="table-responsive">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Nama</th>
+						<th>Alamat</th>
+						<th>Nomor Telepon</th>
+						<th>Email</th>
+						<th>Buka</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="entity in ctrl.entities">
+						<td>{{entity.id}}</td>
+						<td>{{entity.name}}</td>
+						<td>{{entity.address}}</td>
+						<td>{{entity.phone_number}}</td>
+						<td>{{entity.email}}</td>
+						<td><a class="btn btn-xs btn-warning" ui-sref="entityShow({id:entity.id})">Buka</a></td>
+					</tr>
+
+					<tr ng-if="entities.length == 0">
+						<td colspan="5" class="text-center text-warning">Person / Organisasi tidak ditemukan</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<nav ng-if="ctrl.meta.pagination">
+			<ul class="pagination">
+				<li ng-if="ctrl.meta.pagination.links.previous">
+					<a ng-click="ctrl.filter.page=ctrl.filter.page-1;ctrl.get();" aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+				<li ng-if="ctrl.meta.pagination.links.next">
+					<a ng-click="ctrl.filter.page=ctrl.filter.page+1;ctrl.get();" aria-label="Next">
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+				</li>
+			</ul>
+		</nav>
 
 	</div>
 </div>

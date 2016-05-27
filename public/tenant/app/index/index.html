@@ -5,17 +5,14 @@
 		<hr>
 
 		<div class="row">
-			<div class="col-sm-4">
+			<div class="col-sm-12">
 
-				<button type="button" class="btn btn-info btn-block btn-lg" ng-click="ctrl.showEntity = !ctrl.showEntity">
-					<i class="fa fa-users fa-3x"></i>
-				</button>
+				<button class="btn btn-default btn-block" ui-sref='entityShow'>Tambah Baru</button>
+				<button class="btn btn-default btn-block" ui-sref='entitySearch'>Daftar Kontak</button>
 
+				<hr>
 
-				<div ng-if="ctrl.showEntity">
-					<button class="btn btn-default btn-block" ui-sref='entityShow'>Tambah Baru</button>
-					<button class="btn btn-default btn-block" ui-sref='entityIndex'>Daftar Kontak</button>
-				</div>
+				<button class="btn btn-default btn-block" ui-sref='entityIndex({encodedQuery:"%7B%22deletion_request%22:true,%22paginate%22:20%7D"})'>Pending Delete</button>
 
 
 			</div>
