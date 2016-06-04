@@ -7,7 +7,7 @@ angular
 		return {
 			template: function() {
 
-				return '<a style="text-decoration:none;" class="text-warning" ng-click="selectTenant()">{{insideText}}</a>';
+				return '<a style="text-decoration:none;" class="text-warning" ng-click="selectTenant()" ng-if="!notLoggedIn">{{insideText}}</a>';
 			},
 			restrict: 'AE',
 			link: function(scope, elem, attrs) {
@@ -42,6 +42,7 @@ angular
 					};
 
 				} else {
+					scope.notLoggedIn = true;
 					scope.insideText = 'Login'
 				};
 

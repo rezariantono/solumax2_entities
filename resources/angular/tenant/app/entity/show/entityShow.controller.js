@@ -1,7 +1,7 @@
 app
 	.controller('EntityShowController', function(
 		$stateParams, $state,
-		EntityModel) {
+		EntityModel, DirectUserModel) {
 
 		var vm = this;
 
@@ -31,6 +31,18 @@ app
 				alert('Berhasil dihapus');
 				$state.go('entitySearch');
 			});
+		}
+
+		vm.findDirectUser = function(email) {
+
+			DirectUserModel.index({email: email})
+			.success(function(data) {
+				if (data.data.length > 0) {
+					var foundUser = data.data[0];
+					alert('User ditemukan dengan ID: ' + foundUser.id + ' Nama: ' + foundUser.name);
+					vm.entity.user_id = foundUser.id;
+				};
+			})
 		}
 
 		if ($stateParams.id) {

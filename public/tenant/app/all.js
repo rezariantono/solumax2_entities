@@ -1,6 +1,7 @@
 var app = angular
 	.module('Solumax.Entities', ['ui.router',
-		'Solumax.ErrorInterceptor', 'Solumax.JwtManager', 'Solumax.Loading', 'Solumax.TenantDatabaseConnection', 'Solumax.EntityFinder'])
+		'Solumax.ErrorInterceptor', 'Solumax.JwtManager', 'Solumax.Loading',
+		'Solumax.TenantDatabaseConnection', 'Solumax.EntityFinder', 'Solumax.DirectUser'])
 	.factory('AppFactory', function() {
 
 		var appFactory = {};
@@ -85,6 +86,19 @@ app
   			pageTitle: 'Daftar Contact'
 		});
 	});
+angular
+	.module('Solumax.DirectUser', [])
+	.factory('DirectUserModel', function(
+		$http) {
+
+		var directUserModel= {};
+
+		directUserModel.index = function(filter) {
+			return $http.get('http://base.hondagelora.com/base/api/user/', {params: filter});
+		}
+
+		return directUserModel;
+	})
 angular
 	.module('Solumax.EntityFinder', [])
 	.directive('entityFinderModal', function(
@@ -454,7 +468,7 @@ angular
 		return {
 			template: function() {
 
-				return '<a style="text-decoration:none;" class="text-warning" ng-click="selectTenant()">{{insideText}}</a>';
+				return '<a style="text-decoration:none;" class="text-warning" ng-click="selectTenant()" ng-if="!notLoggedIn">{{insideText}}</a>';
 			},
 			restrict: 'AE',
 			link: function(scope, elem, attrs) {
@@ -489,6 +503,7 @@ angular
 					};
 
 				} else {
+					scope.notLoggedIn = true;
 					scope.insideText = 'Login'
 				};
 
@@ -608,7 +623,7 @@ app
 app
 	.controller('EntityShowController', function(
 		$stateParams, $state,
-		EntityModel) {
+		EntityModel, DirectUserModel) {
 
 		var vm = this;
 
@@ -638,6 +653,18 @@ app
 				alert('Berhasil dihapus');
 				$state.go('entitySearch');
 			});
+		}
+
+		vm.findDirectUser = function(email) {
+
+			DirectUserModel.index({email: email})
+			.success(function(data) {
+				if (data.data.length > 0) {
+					var foundUser = data.data[0];
+					alert('User ditemukan dengan ID: ' + foundUser.id + ' Nama: ' + foundUser.name);
+					vm.entity.user_id = foundUser.id;
+				};
+			})
 		}
 
 		if ($stateParams.id) {

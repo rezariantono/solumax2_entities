@@ -15,7 +15,7 @@ class FromRequest {
     public function assign(\Illuminate\Http\Request $request) {
         
         $params = ['name', 'phone_number', 'phone_number_2',
-                'email', 'address', 'ktp', 'npwp'];
+                'email', 'address', 'ktp', 'npwp', 'user_id'];
         
         foreach ($params as $param) {
             if (!empty($request->get($param))) {
