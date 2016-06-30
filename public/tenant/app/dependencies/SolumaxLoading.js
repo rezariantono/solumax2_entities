@@ -12,4 +12,24 @@ angular
 			link: function(scope, elem, attrs) {
 			}
 		};
+	})
+	.directive('elementLoading', function() {
+
+		return {
+			restrict: 'E',
+			link: function(scope, elem, attrs) {
+
+				console.log(attrs);
+
+			    scope.$watch(attrs.elementLoading, function(value) {
+			    	console.log(value);
+			    	if (value) {
+			    		attrs.$set('disabled', true);
+			    	} else {
+			    		elm.removeAttr('disabled');
+			    	};
+			    });
+
+			}
+		};
 	});

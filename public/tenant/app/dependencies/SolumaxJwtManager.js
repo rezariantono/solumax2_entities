@@ -56,17 +56,15 @@ angular
 			localStorage.clear();
 		}
 
-		jwtValidator.login = function() {
+		jwtValidator.login = function(params) {
 
 			var uri = new URI(window.location.href);
 			var hash = uri.hash();
 
-			var search = {
-				'redirect': uri.fragment(""),
-				'state': hash
-			};
+			params.redirect = uri.fragment(""); 
+			params.state = hash;
 
-			window.location.href = new URI(LinkFactory.authentication.login).search(search).toString();
+			window.location.href = new URI(LinkFactory.authentication.login).search(params).toString();
 
 		}
 
@@ -132,11 +130,23 @@ angular
 				};
 			},
 			restrict: 'A',
+			scope: {
+				'admins': '='
+			},
 			link: function(scope, elem, attrs) {
+
 
 				scope.login = function() {
 
-					JwtValidator.login();
+					params = {
+						scopes: ''
+					};
+
+					if (scope.admins) {
+						params.scopes += "admins";
+					};
+
+					JwtValidator.login(params);
 				}
 
 				scope.logout = function() {

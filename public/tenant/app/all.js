@@ -88,6 +88,36 @@ app
 		});
 	});
 angular
+	.module('SolumaxAppTransfer', [])
+	.directive('appTransfer', function(
+		LinkFactory, JwtValidator) {
+
+		return {
+			template: function() {
+				return '<a style="text-decoration:none;" ng-href="{{url}}" target="_blank">{{text}}</a>';
+			},
+			restrict: 'AE',
+			scope: {
+				text: "@",
+				linkFactoryPath: "@",
+				resourceId: "=",
+				params: "=",
+			},
+			link: function(scope, elem, attrs) {
+
+				var baseLink = _.get(LinkFactory, scope.linkFactoryPath);
+
+				if (!_.isObject(scope.params)) {
+					scope.params = {};
+				};
+
+				scope.params.jwt = JwtValidator.encodedJwt;
+
+				scope.url = new URI(baseLink + scope.resourceId).search(scope.params).toString();
+			}
+		};
+	})
+angular
 	.module('Solumax.DirectUser', [])
 	.factory('DirectUserModel', function(
 		$http) {
@@ -317,17 +347,15 @@ angular
 			localStorage.clear();
 		}
 
-		jwtValidator.login = function() {
+		jwtValidator.login = function(params) {
 
 			var uri = new URI(window.location.href);
 			var hash = uri.hash();
 
-			var search = {
-				'redirect': uri.fragment(""),
-				'state': hash
-			};
+			params.redirect = uri.fragment(""); 
+			params.state = hash;
 
-			window.location.href = new URI(LinkFactory.authentication.login).search(search).toString();
+			window.location.href = new URI(LinkFactory.authentication.login).search(params).toString();
 
 		}
 
@@ -393,11 +421,23 @@ angular
 				};
 			},
 			restrict: 'A',
+			scope: {
+				'admins': '='
+			},
 			link: function(scope, elem, attrs) {
+
 
 				scope.login = function() {
 
-					JwtValidator.login();
+					params = {
+						scopes: ''
+					};
+
+					if (scope.admins) {
+						params.scopes += "admins";
+					};
+
+					JwtValidator.login(params);
 				}
 
 				scope.logout = function() {
@@ -457,6 +497,26 @@ angular
 			},
 			restrict: 'AE',
 			link: function(scope, elem, attrs) {
+			}
+		};
+	})
+	.directive('elementLoading', function() {
+
+		return {
+			restrict: 'E',
+			link: function(scope, elem, attrs) {
+
+				console.log(attrs);
+
+			    scope.$watch(attrs.elementLoading, function(value) {
+			    	console.log(value);
+			    	if (value) {
+			    		attrs.$set('disabled', true);
+			    	} else {
+			    		elm.removeAttr('disabled');
+			    	};
+			    });
+
 			}
 		};
 	});
