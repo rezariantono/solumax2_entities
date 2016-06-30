@@ -163,7 +163,8 @@ return [
         
         // Solumax
         \Solumax\Entity\SolumaxEntityProvider::class,
-        \Solumax\AuthorizationClientHttp\SolumaxAuthorizationClientHttpProvider::class,
+        // \Solumax\AuthorizationClientHttp\SolumaxAuthorizationClientHttpProvider::class,
+       \Solumax\AuthClient\SolumaxAuthClientProvider::class,
         
     ],
 

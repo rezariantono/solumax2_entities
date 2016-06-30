@@ -3,7 +3,7 @@
     <type>org.netbeans.modules.php.project</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/php-project/1">
-            <name>solumax2_entities_php</name>
+            <name>solumax2_entities</name>
         </data>
     </configuration>
 </project>

@@ -3,19 +3,20 @@ app
 
 		var domains = {
 			base: 'http://base.hondagelora.com/',
+			account: 'https://accounts.xolura.com/',
 			entity: window.location.protocol + '//' + window.location.host + '/',
 		}
 
 		var apps = {
-			authentication: domains.base + 'base/',
+			authentication: domains.account + 'views/user/',
 			entity: domains.entity + 'entity/',
 		};
 		
 		return {
 
 			authentication: {
-				login: apps.authentication + 'user/authentication/login',
-				tenantSelect: apps.authentication + 'user/tenant-select/selecting/'
+				login: apps.authentication + 'authentication/login',
+				tenantSelect: apps.authentication + 'token-exchange/tenant-select'
 			},
 
 			entity: {
