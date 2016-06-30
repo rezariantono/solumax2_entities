@@ -13,6 +13,3 @@
 [submodule "resources/angular/tenant/app/dependencies"]
 	path = resources/angular/tenant/app/dependencies
 	url = git@bitbucket.org:rezariantono/solumax2_spa_dependencies.git
-[submodule "Solumax/AuthClient"]
-	path = Solumax/AuthClient
-	url = git@bitbucket.org:rezariantono/solumax2_auth_client.git
