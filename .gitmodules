@@ -1,9 +1,6 @@
 [submodule "Solumax/PhpHelper"]
 	path = Solumax/PhpHelper
 	url = git@bitbucket.org:rezariantono/solumax2_php_helper.git
-[submodule "Solumax/AuthorizationClientHttp"]
-	path = Solumax/AuthorizationClientHttp
-	url = git@bitbucket.org:rezariantono/solumax2_authorization_client_http.git
 [submodule "public/standard"]
 	path = public/standard
 	url = git@bitbucket.org:rezariantono/publicfolder.git
