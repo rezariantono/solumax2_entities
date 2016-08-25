@@ -14,6 +14,9 @@ class OnCreateAndUpdate {
     
     public function action() {
         
+        \SolumaxLogger::write('Entity', $this->entity->id,
+                'Create or Update', $this->entity->toArray());       
+        
         $this->entity->save();
     }
 }

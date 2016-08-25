@@ -62,7 +62,8 @@
 				<button class="btn btn-block btn-danger" ng-click="ctrl.delete(ctrl.entity)">Hapus</button>
 			</div>
 		</div>
-		
+
+		<a ng-if="ctrl.entity.id" class="btn btn-block btn-success" ui-sref="entityLog({id:ctrl.entity.id})">Log</a>
 
 	</div>
 </div>

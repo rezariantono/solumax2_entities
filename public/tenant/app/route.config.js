@@ -36,5 +36,11 @@ app
   			templateUrl: 'app/entity/index/entityIndex.html',
   			controller: 'EntityIndexController as ctrl',
   			pageTitle: 'Daftar Contact'
+		})
+		.state('entityLog', {
+			url: '/entity/log/:id',
+  			templateUrl: 'app/entity/log/entityLog.html',
+  			controller: 'EntityLogController as ctrl',
+  			pageTitle: 'Entity Log'
 		});
 	});

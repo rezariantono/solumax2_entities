@@ -13,3 +13,6 @@
 [submodule "Solumax/AuthClient"]
 	path = Solumax/AuthClient
 	url = git@bitbucket.org:rezariantono/solumax2_auth_client.git
+[submodule "Solumax/Logger"]
+	path = Solumax/Logger
+	url = git@bitbucket.org:rezariantono/solumax2_logger.git
