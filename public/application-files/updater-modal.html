@@ -1,8 +1,8 @@
 <div ng-if="entity.id">
 
-	<button class="btn btn-sm btn-block btn-default" style="padding:8px 8px;border:1px solid #607285;" data-toggle="modal" data-target="#entityUpdaterModal" ng-click="insertValues()">Update Data Person</button>
+	<button class="btn btn-sm btn-block btn-default" style="padding:8px 8px;border:1px solid #607285;" data-toggle="modal" data-target="#entityUpdaterModal{{modalId}}" ng-click="insertValues()">Update Data Person</button>
 
-	<div class="modal fade" id="entityUpdaterModal" tabindex="-1" role="dialog">
+	<div class="modal fade" id="entityUpdaterModal{{modalId}}" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">

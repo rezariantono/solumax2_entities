@@ -1,0 +1,1 @@
+Move folder to publicly accessible location and install it

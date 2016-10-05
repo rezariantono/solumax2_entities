@@ -1,0 +1,47 @@
+<div class="row">
+	<div class="col-sm-12">
+
+		<div class="well">
+			<label>Dari</label>
+			<input type="text" ng-model="ctrl.filter.from" name="filter_from">
+
+			<label>Sampai</label>
+			<input type="text" ng-model="ctrl.filter.until" name="filter_until">
+
+			<button class="btn btn-block btn-info" ng-click="ctrl.load(ctrl.filter)">Filter</button>
+
+			<label>Extracted</label>
+			<input type="text" ng-model="ctrl.localFilter.extracted">
+
+			<button class="btn btn-block btn-info" ng-click="ctrl.localFilter(ctrl.localFilter)">Filter</button>
+
+		</div>
+
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<th>Type</th>
+						<th>Log Type</th>
+						<th>Log ID</th>
+						<th>Data 1</th>
+						<th>Data 2</th>
+						<th>Extracted Data 1</th>
+						<th>Extracted Data 2</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>{{log.type}}</td>
+						<td>{{log.loggable_type}}</td>
+						<td>{{log.loggable_id}}</td>
+						<td>{{log.data_one}}</td>
+						<td>{{log.data_two}}</td>
+						<td>{{log.extracted_data_one}}</td>
+						<td>{{log.extracted_data_two}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
