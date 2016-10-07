@@ -16,3 +16,6 @@
 [submodule "Solumax/Logger"]
 	path = Solumax/Logger
 	url = git@bitbucket.org:rezariantono/solumax2_logger.git
+[submodule "Solumax/FileManager"]
+	path = Solumax/FileManager
+	url = git@bitbucket.org:rezariantono/solumax2_file_manager.git

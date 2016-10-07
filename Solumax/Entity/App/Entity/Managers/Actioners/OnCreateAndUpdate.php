@@ -12,10 +12,10 @@ class OnCreateAndUpdate {
         $this->entity = $entity;
     }
     
-    public function action() {
+    public function action($logType = 'Create or Update') {
         
-        \SolumaxLogger::write('Entity', $this->entity->id,
-                'Create or Update', $this->entity->toArray());       
+        \SolLog::write('Entity', $this->entity->id,
+                $logType, $this->entity->toArray());       
         
         $this->entity->save();
     }

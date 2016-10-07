@@ -95,13 +95,13 @@ app
 		});
 	});
 angular
-	.module('SolumaxAppTransfer', [])
+	.module('Solumax.AppTransfer', [])
 	.directive('appTransfer', function(
 		LinkFactory, JwtValidator) {
 
 		return {
 			template: function() {
-				return '<a style="text-decoration:none;" ng-href="{{url}}" target="_blank">{{text}}</a>';
+				return '<a style="text-decoration:none;" ng-href="{{url}}" target="_blank"><ng-transclude></ng-transclude>{{text}}</a>';
 			},
 			restrict: 'AE',
 			scope: {
@@ -110,9 +110,12 @@ angular
 				resourceId: "=",
 				params: "=",
 			},
+			transclude: true,
 			link: function(scope, elem, attrs) {
 
 				var baseLink = _.get(LinkFactory, scope.linkFactoryPath);
+
+				console.log(baseLink)
 
 				if (!_.isObject(scope.params)) {
 					scope.params = {};
@@ -150,7 +153,12 @@ angular
 				selectedEntity: "=",
 				onEntitySelected: "&"
 			},
+			controller: function() {
+				
+			},
 			link: function(scope, elem, attrs) {
+
+				scope.modalId = "-" + Math.random().toString(36).substring(2, 7)
 
 				scope.registerNewEntity = function() {
 					window.open(LinkFactory.entity.base + 'redirect-app/entity/new');
@@ -167,7 +175,7 @@ angular
 						scope.onEntitySelected();
 					}, 250);
 
-					$('#entityFinderModal').modal('hide');
+					$('#entityFinderModal' + scope.modalId).modal('hide');
 				}
 
 				scope.search = function() {
@@ -219,10 +227,22 @@ angular
 			restrict: 'AE',
 			scope: {
 				entity: "=",
+				entityId: "@",
 				onEntityUpdated: "&",
 				newPhoneNumber: "@",
 			},
 			link: function(scope, elem, attrs) {
+
+				scope.modalId = "-" + Math.random().toString(36).substring(2, 7)
+
+				if (scope.entityId) {
+
+					$http.get(LinkFactory.entity.base + 'entity/api/entity/' + scope.entityId)
+					.success(function(data) {
+						scope.entity = data.data
+					})
+
+				}
 
 				scope.insertValues = function() {
 					if (scope.newPhoneNumber) {
@@ -245,11 +265,13 @@ angular
 						
 						scope.entity = data.data;
 						
+						alert('Update berhasil');
+
 						$timeout(function() {
 							scope.onEntityUpdated();
 						}, 250);
 
-						alert('Update berhasil');
+
 					});
 				}
 
@@ -272,7 +294,7 @@ angular
 			};
 
 			if (rejection.status == 500) {
-				alert('Server Error. Hubungi Admin.')
+				alert('Error. Harap hubungi system admin.')
 			};
 
 			if (rejection.status == 401 && rejection.data != 'Session verification failed') {
@@ -311,9 +333,18 @@ angular
 
 		var jwtName = 'solumax_jwt_token';
 
-		jwtValidator.encodedJwt = localStorage.getItem(jwtName);
+		jwtValidator.decodeToken = function(token) {
 
-		jwtValidator.decodedJwt = jwtValidator.encodedJwt == null ? null : jwtHelper.decodeToken(jwtValidator.encodedJwt);
+			try	{
+
+				return jwtHelper.decodeToken(jwtValidator.encodedJwt)
+
+			} catch (e) {
+
+				jwtValidator.unsetJwt()
+				return null
+			}
+		}
 
 		jwtValidator.isLoggedIn = function() {
 
@@ -365,6 +396,10 @@ angular
 			window.location.href = new URI(LinkFactory.authentication.login).search(params).toString();
 
 		}
+
+		jwtValidator.encodedJwt = localStorage.getItem(jwtName);
+
+		jwtValidator.decodedJwt = jwtValidator.encodedJwt == null ? null : jwtValidator.decodeToken(jwtValidator.encodedJwt);
 
 		return jwtValidator;
 	})
@@ -499,7 +534,7 @@ angular
 		return {
 			template: function() {
 
-				return "<div class='text-center' style='position:fixed;width:100%;height:100%;top:0;left:0;background:white;opacity:0.5;display:flex;align-items:center;vertical-align:middle;'><i class='fa fa-spinner fa-spin fa-5x' style='margin:auto;color:black;'></i></div>";
+				return "<div class='text-center' style='z-index:100000;position:fixed;width:100%;height:100%;top:0;left:0;background:white;opacity:0.5;display:flex;align-items:center;vertical-align:middle;'><i class='fa fa-spinner fa-spin fa-5x' style='margin:auto;color:black;'></i></div>";
 
 			},
 			restrict: 'AE',
@@ -526,6 +561,14 @@ angular
 
 			}
 		};
+	});
+angular
+	.module('Solumax.PageTitle', [])
+	.run(function($rootScope, $state) {
+
+		$rootScope.$on('$stateChangeSuccess', function () {
+			$rootScope.pageTitle = $state.current.pageTitle;
+		});
 	});
 angular
 	.module('Solumax.TenantDatabaseConnection', ['Solumax.JwtManager'])
@@ -625,6 +668,16 @@ app
 		entityModel.delete = function(entity) {
 			return $http.delete(LinkFactory.entity.api + entity.id);
 		}
+
+		entityModel.action = {
+			editLock: function(id, data) {
+				return $http.post(LinkFactory.entity.api + 'edit-lock/' + id, data);
+			},
+			requestDelete: function(id, data) {
+				return $http.post(LinkFactory.entity.api + 'request-delete/' + id, data);
+			}
+		}
+		
 
 		return entityModel;
 	});
@@ -735,6 +788,21 @@ app
 				alert('Berhasil dihapus');
 				$state.go('entitySearch');
 			});
+		}
+
+		vm.action = {
+			requestDelete: function(entity, requestDelete) {
+				EntityModel.action.requestDelete(entity.id, {request_delete: requestDelete})
+				.success(function(data) {
+					vm.entity = data.data
+				})
+			},
+			editLock: function(entity, editLock) {
+				EntityModel.action.editLock(entity.id, {edit_lock: editLock})
+				.success(function(data) {
+					vm.entity = data.data
+				})
+			}
 		}
 
 		vm.findDirectUser = function(email) {

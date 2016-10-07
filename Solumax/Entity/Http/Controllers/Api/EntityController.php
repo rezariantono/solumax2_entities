@@ -5,7 +5,12 @@ namespace Solumax\Entity\Http\Controllers\Api;
 use Solumax\PhpHelper\Http\Controllers\ApiBaseV1Controller as Controller;
 use Illuminate\Http\Request;
 
+use Solumax\Entity\Http\Controllers\Api\Entity\EditLock;
+use Solumax\Entity\Http\Controllers\Api\Entity\RequestDelete;
+
 class EntityController extends Controller {
+    
+    use EditLock, RequestDelete;
     
     protected $entity;
     
@@ -97,7 +102,7 @@ class EntityController extends Controller {
             return $this->formatErrors($validation);
         }
         
-        $entity->action()->onCreateAndUpdate();
+        $entity->action()->onCreateAndUpdate('CREATE');
         
         return $this->formatItem($entity);
     }
@@ -107,16 +112,17 @@ class EntityController extends Controller {
         $entity = $this->entity->find($id);
         $entity->assign()->fromRequest($request);
         
-        if ($request->has('request_delete')) {
-            $entity->assign()->onRequestDelete();
-        }
-        
         $validation = $entity->validate()->onCreateAndUpdate();
         if ($validation !== true) {
             return $this->formatErrors($validation);
         }
         
-        $entity->action()->onCreateAndUpdate();
+        $validation = $entity->validate()->onUpdate();
+        if ($validation !== true) {
+            return $this->formatErrors($validation);
+        }
+        
+        $entity->action()->onCreateAndUpdate('UPDATE');
         
         return $this->formatItem($entity);
     }

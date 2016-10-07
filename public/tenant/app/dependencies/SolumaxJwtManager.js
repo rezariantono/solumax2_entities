@@ -13,9 +13,18 @@ angular
 
 		var jwtName = 'solumax_jwt_token';
 
-		jwtValidator.encodedJwt = localStorage.getItem(jwtName);
+		jwtValidator.decodeToken = function(token) {
 
-		jwtValidator.decodedJwt = jwtValidator.encodedJwt == null ? null : jwtHelper.decodeToken(jwtValidator.encodedJwt);
+			try	{
+
+				return jwtHelper.decodeToken(jwtValidator.encodedJwt)
+
+			} catch (e) {
+
+				jwtValidator.unsetJwt()
+				return null
+			}
+		}
 
 		jwtValidator.isLoggedIn = function() {
 
@@ -67,6 +76,10 @@ angular
 			window.location.href = new URI(LinkFactory.authentication.login).search(params).toString();
 
 		}
+
+		jwtValidator.encodedJwt = localStorage.getItem(jwtName);
+
+		jwtValidator.decodedJwt = jwtValidator.encodedJwt == null ? null : jwtValidator.decodeToken(jwtValidator.encodedJwt);
 
 		return jwtValidator;
 	})

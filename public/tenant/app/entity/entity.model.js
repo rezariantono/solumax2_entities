@@ -27,5 +27,15 @@ app
 			return $http.delete(LinkFactory.entity.api + entity.id);
 		}
 
+		entityModel.action = {
+			editLock: function(id, data) {
+				return $http.post(LinkFactory.entity.api + 'edit-lock/' + id, data);
+			},
+			requestDelete: function(id, data) {
+				return $http.post(LinkFactory.entity.api + 'request-delete/' + id, data);
+			}
+		}
+		
+
 		return entityModel;
 	});

@@ -33,6 +33,21 @@ app
 			});
 		}
 
+		vm.action = {
+			requestDelete: function(entity, requestDelete) {
+				EntityModel.action.requestDelete(entity.id, {request_delete: requestDelete})
+				.success(function(data) {
+					vm.entity = data.data
+				})
+			},
+			editLock: function(entity, editLock) {
+				EntityModel.action.editLock(entity.id, {edit_lock: editLock})
+				.success(function(data) {
+					vm.entity = data.data
+				})
+			}
+		}
+
 		vm.findDirectUser = function(email) {
 
 			DirectUserModel.index({email: email})

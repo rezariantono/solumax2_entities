@@ -163,10 +163,9 @@ return [
         
         // Solumax
         \Solumax\Entity\SolumaxEntityProvider::class,
-        // \Solumax\AuthorizationClientHttp\SolumaxAuthorizationClientHttpProvider::class,
-       \Solumax\AuthClient\SolumaxAuthClientProvider::class,
+        \Solumax\AuthClient\SolumaxAuthClientProvider::class,
         \Solumax\Logger\SolumaxLoggerProvider::class,
-        
+        \Solumax\FileManager\SolumaxFileManagerProvider::class,
     ],
 
     /*
@@ -215,7 +214,7 @@ return [
 
 	'ParsedJwt' => Wala\Jwt\Facade\ParsedJwtFacade::class,
         
-        'SolumaxLogger' => Solumax\Logger\App\Log\Facade\LogFacade::class,
+	'SolLog' => Solumax\Logger\App\Log\Facade\LogFacade::class,
     ],
 
 ];

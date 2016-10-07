@@ -1,11 +1,11 @@
 angular
-	.module('SolumaxAppTransfer', [])
+	.module('Solumax.AppTransfer', [])
 	.directive('appTransfer', function(
 		LinkFactory, JwtValidator) {
 
 		return {
 			template: function() {
-				return '<a style="text-decoration:none;" ng-href="{{url}}" target="_blank">{{text}}</a>';
+				return '<a style="text-decoration:none;" ng-href="{{url}}" target="_blank"><ng-transclude></ng-transclude>{{text}}</a>';
 			},
 			restrict: 'AE',
 			scope: {
@@ -14,9 +14,12 @@ angular
 				resourceId: "=",
 				params: "=",
 			},
+			transclude: true,
 			link: function(scope, elem, attrs) {
 
 				var baseLink = _.get(LinkFactory, scope.linkFactoryPath);
+
+				console.log(baseLink)
 
 				if (!_.isObject(scope.params)) {
 					scope.params = {};

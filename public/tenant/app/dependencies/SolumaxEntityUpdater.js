@@ -9,10 +9,22 @@ angular
 			restrict: 'AE',
 			scope: {
 				entity: "=",
+				entityId: "@",
 				onEntityUpdated: "&",
 				newPhoneNumber: "@",
 			},
 			link: function(scope, elem, attrs) {
+
+				scope.modalId = "-" + Math.random().toString(36).substring(2, 7)
+
+				if (scope.entityId) {
+
+					$http.get(LinkFactory.entity.base + 'entity/api/entity/' + scope.entityId)
+					.success(function(data) {
+						scope.entity = data.data
+					})
+
+				}
 
 				scope.insertValues = function() {
 					if (scope.newPhoneNumber) {
@@ -35,11 +47,13 @@ angular
 						
 						scope.entity = data.data;
 						
+						alert('Update berhasil');
+
 						$timeout(function() {
 							scope.onEntityUpdated();
 						}, 250);
 
-						alert('Update berhasil');
+
 					});
 				}
 

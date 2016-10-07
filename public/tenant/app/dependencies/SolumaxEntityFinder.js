@@ -11,7 +11,12 @@ angular
 				selectedEntity: "=",
 				onEntitySelected: "&"
 			},
+			controller: function() {
+				
+			},
 			link: function(scope, elem, attrs) {
+
+				scope.modalId = "-" + Math.random().toString(36).substring(2, 7)
 
 				scope.registerNewEntity = function() {
 					window.open(LinkFactory.entity.base + 'redirect-app/entity/new');
@@ -28,7 +33,7 @@ angular
 						scope.onEntitySelected();
 					}, 250);
 
-					$('#entityFinderModal').modal('hide');
+					$('#entityFinderModal' + scope.modalId).modal('hide');
 				}
 
 				scope.search = function() {

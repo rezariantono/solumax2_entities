@@ -51,8 +51,9 @@
 
 		<div class="well">
 			<div ng-if="ctrl.entity && !ctrl.entity.deletion_request">
-				<input type="checkbox" class="form-not-applied" ng-model="ctrl.entity.request_delete">
-				<label>Hapus data person ini</label>
+				<button class="btn btn-block btn-danger" ng-click="ctrl.action.requestDelete(ctrl.entity, true)">
+					Hapus
+				</button>
 			</div>
 
 			<div ng-if="ctrl.entity.deletion_request">
@@ -60,6 +61,18 @@
 				<p>Dimita Oleh: {{ctrl.entity.deletion_request.name}} ({{ctrl.entity.deletion_request.id}}); Waktu: {{ctrl.entity.deletion_request.time}}</p>
 
 				<button class="btn btn-block btn-danger" ng-click="ctrl.delete(ctrl.entity)">Hapus</button>
+				<button class="btn btn-block btn-danger" ng-click="ctrl.action.requestDelete(ctrl.entity, false)">Batalkan</button>
+			</div>
+		</div>
+
+		<div class="well">
+			<button ng-if="!ctrl.entity.edit_lock" class="btn btn-block btn-danger" ng-click="ctrl.action.editLock(ctrl.entity, true)">Kunci Data</button>
+
+			<div ng-if="ctrl.entity.edit_lock" >
+				<h4>Data Lock</h4>
+				<p>Oleh: {{ctrl.entity.edit_lock.name}} ({{ctrl.entity.edit_lock.id}}); Waktu: {{ctrl.entity.edit_lock.time}}</p>
+
+				<button class="btn btn-block btn-danger" ng-click="ctrl.action.editLock(ctrl.entity, false)">Batalkan Kunci Data</button>
 			</div>
 		</div>
 

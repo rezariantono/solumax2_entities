@@ -13,7 +13,7 @@ angular
 			};
 
 			if (rejection.status == 500) {
-				alert('Server Error. Hubungi Admin.')
+				alert('Error. Harap hubungi system admin.')
 			};
 
 			if (rejection.status == 401 && rejection.data != 'Session verification failed') {
