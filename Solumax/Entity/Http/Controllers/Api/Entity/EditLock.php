@@ -11,7 +11,7 @@ trait EditLock {
         $entity = $this->entity->find($id);
         $entity->assign()->onEditLock($request->get('edit_lock', 'true'));
         
-        $entity->action()->onCreateOrUpdate('EDIT LOCK ' . $request->get('edit_lock', 'true'));
+        $entity->action()->onCreateAndUpdate('EDIT LOCK ' . $request->get('edit_lock', 'true'));
         
         return $this->formatItem($entity);
     }

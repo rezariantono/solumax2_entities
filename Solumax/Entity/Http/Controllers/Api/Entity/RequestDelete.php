@@ -11,7 +11,7 @@ trait RequestDelete {
         $entity = $this->entity->find($id);
         $entity->assign()->onRequestDelete($request->get('request_delete', 'true'));
         
-        $entity->action()->onCreateOrUpdate('REQUEST DELETE ' . $request->get('request_delete', 'true'));
+        $entity->action()->onCreateAndUpdate('REQUEST DELETE ' . $request->get('request_delete', 'true'));
         
         return $this->formatItem($entity);
     }
