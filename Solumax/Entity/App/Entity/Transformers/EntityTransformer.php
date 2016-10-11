@@ -11,7 +11,7 @@ class EntityTransformer extends Fractal\TransformerAbstract {
         
         return [
             'id' => (int) $entity->id,
-            'user_id' => (int) $entity->user_id,
+            'user_id' => $entity->user_id ? (int) $entity->user_id : null,
             
             'name' => $entity->name,
             

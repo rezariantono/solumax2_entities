@@ -9,30 +9,62 @@
 			</div>
 			<div class="modal-body">
 
-				<label>ID</label>
-				<input type="number" ng-model="filter.id" name="id">
-
 				<label>Name</label>
 				<input type="text" ng-model="filter.name" name="name">
 
-				<label>Nomor Telepon</label>
-				<input type="text" ng-model="filter.phone_number" name="phone_number">
 
-				<label>Email</label>
-				<input type="text" ng-model="filter.email" name="email">
+				<div class="row">
+					<div class="col-sm-6">
 
-				<label>KTP</label>
-				<input type="text" ng-model="filter.ktp" name="ktp">
+						<label>Nomor Telepon</label>
+						<input type="text" ng-model="filter.phone_number" name="phone_number">
 
-				<label>Hasil Per Halaman</label>
-				<input type="text" ng-model="filter.paginate" name="paginate">
+					</div>
+					<div class="col-sm-6">
+						
+						<label>Email</label>
+						<input type="text" ng-model="filter.email" name="email">
+						
+					</div>
+				</div>
 
-				<label>Pengurutan</label>
-				<select ng-model="filter.order" ng-init="asc" name="order">
-					<option value="likeness">Termirip (nama)</option>
-					<option value="asc">Terlama</option>
-					<option value="desc">Terbaru</option>
-				</select>
+				<div class="row">
+					<div class="col-sm-4">
+
+						<label>ID</label>
+						<input type="number" ng-model="filter.id" name="id">
+					</div>
+					<div class="col-sm-8">
+
+						<label>KTP</label>
+						<input type="text" ng-model="filter.ktp" name="ktp">
+
+					</div>
+				</div>
+
+
+
+				<div class="row">
+					<div class="col-sm-6">
+						
+						<label>Hasil Per Halaman</label>
+						<input type="text" ng-model="filter.paginate" name="paginate">
+
+					</div>
+					<div class="col-sm-6">
+
+
+						<label>Pengurutan</label>
+						<select ng-model="filter.order" ng-init="asc" name="order">
+							<option value="likeness">Termirip (nama)</option>
+							<option value="asc">Terlama</option>
+							<option value="desc">Terbaru</option>
+						</select>
+
+					</div>
+				</div>
+
+
 
 				<button class="btn btn-block btn-info" ng-click="search(filter)">Cari</button>
 				<br>
