@@ -10,6 +10,7 @@
 			<div class="modal-body">
 
 				<label>Name</label>
+				<a id="info-entity-searchmodal-name">?</a>
 				<input type="text" ng-model="filter.name" name="name">
 
 
@@ -124,3 +125,15 @@
 		</div>
 	</div>
 </div>
+
+
+<script type="text/javascript">
+
+	$('#info-entity-searchmodal-name').popover({
+		container: 'body',
+		placement: 'right',
+		trigger: 'hover',
+		content: 'Gunakan tanda | untuk memisahkan search kriteria'
+	})
+
+</script>

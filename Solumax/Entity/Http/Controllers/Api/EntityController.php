@@ -31,7 +31,16 @@ class EntityController extends Controller {
         }
         
         if ($request->has('name')) {
-            $query->where('name', 'LIKE', '%' . $request->get('name') . '%');
+            if (strpos($request->get('name'), '|') !== false) {
+                
+                $strings = explode('|', $request->get('name'));
+                foreach ($strings as $string) {
+                    $query->where('name', 'LIKE', '%' . $string . '%');
+                }
+                
+            } else {
+                $query->where('name', 'LIKE', '%' . $request->get('name') . '%');
+            }
         }
         
         if ($request->has('phone_number')) {
@@ -48,6 +57,10 @@ class EntityController extends Controller {
         
         if ($request->has('npwp')) {
             $query->where('npwp', '=', $request->get('npwp'));
+        }
+        
+        if ($request->get('is_linked_to_user') == 'true') {
+            $query->whereNotNull('user_id');
         }
         
         if ($request->get('deletion_request') == 'true') {

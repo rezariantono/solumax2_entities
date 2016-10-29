@@ -1,13 +1,13 @@
 <div ng-if="entity.id">
 
-	<button class="btn btn-sm btn-block btn-default" style="padding:8px 8px;border:1px solid #607285;" data-toggle="modal" data-target="#entityUpdaterModal{{modalId}}" ng-click="insertValues()">Update Data Person</button>
+	<button class="btn btn-sm btn-block btn-default" style="padding:8px 8px;border:1px solid #607285;" data-toggle="modal" data-target="#entityUpdaterModal{{modalId}}" ng-click="insertValues()">Update Data Person <span ng-if="entity">{{ '(ID: ' + entity.id + ' Name: ' + entity.name + ')' }}</span></button>
 
 	<div class="modal fade" id="entityUpdaterModal{{modalId}}" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title"><strong>Update {{entity.id}} : {{entity.name}}</strong></h4>
+					<a ng-click="openInApp(entity)"><h4 class="modal-title"><strong>Update {{entity.id}} : {{entity.name}}</strong></h4></a>
 				</div>
 				<div class="modal-body">
 
