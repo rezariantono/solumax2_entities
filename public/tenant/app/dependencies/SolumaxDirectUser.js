@@ -6,7 +6,7 @@ angular
 		var directUserModel= {};
 
 		directUserModel.index = function(filter) {
-			return $http.get('https://sbase.hondagelora.com/base/api/user/', {params: filter});
+			return $http.get('https://accounts.xolura.com/api/resources/tenant/user/profile/', {params: filter});
 		}
 
 		return directUserModel;

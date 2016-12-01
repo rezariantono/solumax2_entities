@@ -135,7 +135,7 @@ angular
 		var directUserModel= {};
 
 		directUserModel.index = function(filter) {
-			return $http.get('https://sbase.hondagelora.com/base/api/user/', {params: filter});
+			return $http.get('https://accounts.xolura.com/api/resources/tenant/user/profile/', {params: filter});
 		}
 
 		return directUserModel;
@@ -569,6 +569,21 @@ angular
 		$rootScope.$on('$stateChangeSuccess', function () {
 			$rootScope.pageTitle = $state.current.pageTitle;
 		});
+
+
+		$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
+
+			var elements = document.getElementsByClassName('modal');
+
+			for (var i = elements.length - 1; i >= 0; i--) {
+
+				if ($('#' + elements[i].id).hasClass('in')) {
+					$('#' + elements[i].id).modal('hide')
+					event.preventDefault()
+				}
+			}
+
+		})
 	});
 angular
 	.module('Solumax.TenantDatabaseConnection', ['Solumax.JwtManager'])
