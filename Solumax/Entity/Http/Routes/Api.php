@@ -1,6 +1,6 @@
 <?php
 
-$middlewares = ['wala.jwt.header.parser', 'wala.jwt.header.validation',
+$middlewares = ['auth.jwt_key_modifier', 'wala.jwt.header.parser', 'wala.jwt.header.validation',
     'auth.db.groupOverwrite'];
 
 Route::group(['prefix' => 'api', 'namespace' => 'Api', 'middleware' => $middlewares], function() {
