@@ -52,11 +52,14 @@ app
 
 			DirectUserModel.index({email: email})
 			.success(function(data) {
-				if (data.data.length > 0) {
-					var foundUser = data.data[0];
+				
+				if (data.data.id) {
+
+					var foundUser = data.data
+				
 					alert('User ditemukan dengan ID: ' + foundUser.id + ' Nama: ' + foundUser.name);
 					vm.entity.user_id = foundUser.id;
-				};
+				}
 			})
 		}
 
