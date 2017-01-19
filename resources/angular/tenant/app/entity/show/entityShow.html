@@ -30,19 +30,26 @@
 			<label>NPWP</label>
 			<input type="text" ng-model="ctrl.entity.npwp" name="npwp">
 
-			<hr>
+			<button class="btn btn-block btn-xs btn-primary" type="button" data-toggle="collapse" data-target="#programUser" aria-expanded="false" aria-controls="programUser">Link Dengan User ID</button>
+			<br>
 
-			<label>Program User ID</label>
-			<input type="text" ng-model="ctrl.entity.user_id" name="user_id" readonly>
+			<div class="collapse" id="programUser">
+				<div class="well">
+					<label>Program User ID</label>
+					<input type="text" ng-model="ctrl.entity.user_id" name="user_id" readonly>
 
-			<div class="row">
-				<div class="col-sm-8">
-					<input type="text" ng-model="ctrl.directUserEmail">
-				</div>
-				<div class="col-sm-4">
-					<button class="btn btn-block btn-success" ng-click="ctrl.findDirectUser(ctrl.directUserEmail)">Cari</button>
-				</div>
+					<div class="row">
+						<div class="col-sm-8">
+							<input type="text" ng-model="ctrl.directUserEmail">
+						</div>
+						<div class="col-sm-4">
+							<button class="btn btn-block btn-success" ng-click="ctrl.findDirectUser(ctrl.directUserEmail)">Cari</button>
+						</div>
+					</div>
+					
+  				</div>
 			</div>
+
 			
 		</form>
 
@@ -63,9 +70,8 @@
 				<button class="btn btn-block btn-danger" ng-click="ctrl.delete(ctrl.entity)">Hapus</button>
 				<button class="btn btn-block btn-danger" ng-click="ctrl.action.requestDelete(ctrl.entity, false)">Batalkan</button>
 			</div>
-		</div>
-
-		<div class="well">
+			<br>
+			
 			<button ng-if="!ctrl.entity.edit_lock" class="btn btn-block btn-danger" ng-click="ctrl.action.editLock(ctrl.entity, true)">Kunci Data</button>
 
 			<div ng-if="ctrl.entity.edit_lock" >
@@ -77,6 +83,7 @@
 		</div>
 
 		<a ng-if="ctrl.entity.id" class="btn btn-block btn-success" ui-sref="entityLog({id:ctrl.entity.id})">Log</a>
+		<br>
 
 	</div>
 </div>
