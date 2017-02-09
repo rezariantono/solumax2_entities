@@ -44,7 +44,7 @@ class EntityController extends Controller {
         }
         
         if ($request->has('phone_number')) {
-            $query->where('phone_number', '=', $request->get('phone_number'));
+            $query->where('phone_number', 'LIKE', '%' . $request->get('phone_number') . '%');
         }
         
         if ($request->has('email')) {
