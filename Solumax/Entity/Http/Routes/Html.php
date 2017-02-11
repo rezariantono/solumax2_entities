@@ -26,10 +26,5 @@ Route::group(['middleware' => ['cors']], function() {
         return response($html);
     });
     
-    Route::get('entity-updater-modal2.html', function() {
-
-        $html = file_get_contents(public_path('plugins/entity-updater/modal2.html'));
-        return response($html);
-    });
 });
 
