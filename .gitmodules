@@ -13,9 +13,9 @@
 [submodule "Solumax/AuthClient"]
 	path = Solumax/AuthClient
 	url = git@bitbucket.org:rezariantono/solumax2_auth_client.git
-[submodule "Solumax/Logger"]
-	path = Solumax/Logger
-	url = git@bitbucket.org:rezariantono/solumax2_logger2.git
 [submodule "Solumax/FileManager"]
 	path = Solumax/FileManager
 	url = git@bitbucket.org:rezariantono/solumax2_file_manager.git
+[submodule "Solumax/Logger"]
+	path = Solumax/Logger
+	url = git@bitbucket.org:rezariantono/solumax2_logger2.git
