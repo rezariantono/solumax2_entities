@@ -10,10 +10,8 @@ var solumaxEntityFinder = angular
 			scope: {
 				selectedEntity: "=",
 				additionalParams: "@",
-				onEntitySelected: "&"
-			},
-			controller: function() {
-				
+				onEntitySelected: "&",
+				searchOnly: "@"
 			},
 			link: function(scope, elem, attrs) {
 
