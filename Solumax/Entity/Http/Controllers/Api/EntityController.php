@@ -30,6 +30,10 @@ class EntityController extends Controller {
             $query->where('id', $request->get('id'));
         }
         
+        if ($request->has('ids')) {
+            $query->whereIn('id', explode(',', $request->get('ids')));
+        }
+        
         if ($request->has('name')) {
             if (strpos($request->get('name'), '|') !== false) {
                 
