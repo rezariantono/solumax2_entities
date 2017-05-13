@@ -96,6 +96,15 @@ angular
 	    			event.preventDefault();
 	    		};
 	    	};
+
+	    	if (toState.requireTenantSelection) {
+
+	    		if (typeof JwtValidator.decodedJwt.selected_tenant_id == 'undefined') {
+	    			alert('Anda perlu pilih tenant dulu untuk menggunakan fitur ini.');
+	    			event.preventDefault();
+	    		}
+
+	    	}
 		    
 		});
 
@@ -142,9 +151,11 @@ angular
 					return '<a href="" ng-click="login()">Login</a>';
 				};
 			},
-			restrict: 'A',
+			restrict: 'AE',
 			scope: {
-				'admins': '='
+				'admins': '=',
+				'moduleId': '@',
+				'alg': '@'
 			},
 			link: function(scope, elem, attrs) {
 
@@ -157,7 +168,21 @@ angular
 
 					if (scope.admins) {
 						params.scopes += "admins";
-					};
+					}
+
+					if (scope.alg) {
+						params.alg = scope.alg;
+					}
+
+					if (scope.moduleId) {
+						
+						params.module_id = scope.moduleId;
+
+					} else if (localStorage.getItem('module_id') != null) {
+						
+						params.module_id = localStorage.getItem('module_id');
+					}
+
 
 					JwtValidator.login(params);
 				}

@@ -1,14 +1,17 @@
 angular
-	.module('Solumax.EntityUpdater', [])
+	.module('Solumax.EntityUpdater', ['Solumax.AppTransfer'])
 	.directive('entityUpdaterModal', function(
 		$sce, $http, $timeout,
-		LinkFactory) {
+		LinkFactory, GenerateLink) {
 
+
+		// This version 2 of entity updater supports only injecting entity id now
+		// 
 		return {
 			templateUrl: $sce.trustAsResourceUrl(LinkFactory.entity.base + 'entity-updater-modal.html'),
 			restrict: 'AE',
 			scope: {
-				entity: "=",
+				selectedEntity: "=entity",
 				entityId: "@",
 				onEntityUpdated: "&",
 				newPhoneNumber: "@",
@@ -17,7 +20,11 @@ angular
 
 				scope.modalId = "-" + Math.random().toString(36).substring(2, 7)
 
-				if (scope.entityId) {
+				if (typeof scope.selectedEntity != 'undefined') {
+
+					scope.entity = scope.selectedEntity
+
+				} else if (scope.entityId) {
 
 					$http.get(LinkFactory.entity.base + 'entity/api/entity/' + scope.entityId)
 					.success(function(data) {
@@ -37,7 +44,7 @@ angular
 				}
 
 				scope.openInApp = function(entity) {
-					window.open(LinkFactory.entity.base + 'redirect-app/entity/' + entity.id);
+					window.open(GenerateLink.redirectWithJwt(LinkFactory.entity.base + 'redirect-app/entity/' + entity.id));
 				}
 
 				scope.update = function(entity) {
@@ -46,6 +53,7 @@ angular
 					.success(function(data) {
 						
 						scope.entity = data.data;
+						scope.selectedEntity = data.data;
 						
 						alert('Update berhasil');
 

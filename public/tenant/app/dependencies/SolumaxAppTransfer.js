@@ -31,3 +31,26 @@ angular
 			}
 		};
 	})
+	.factory('GenerateLink', function(
+		JwtValidator) {
+
+		return {
+			redirectWithJwt: function(url) {
+
+				var obj = {
+					'jwt': JwtValidator.encodedJwt
+				}
+
+				return url + '?' + $.param(obj);
+			},
+			directToPage: function(appIndex, state) {
+
+				var obj = {
+					'state': state,
+					'jwt': JwtValidator.encodedJwt
+				}
+
+				return appIndex + '?' + $.param(obj);
+			}
+		}
+	})

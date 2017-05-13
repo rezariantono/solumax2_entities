@@ -33,3 +33,5 @@ angular
 			}
 		};
 	});
+
+	// <fullscreen-loading ng-if="ctrl.loading"></fullscreen-loading>
