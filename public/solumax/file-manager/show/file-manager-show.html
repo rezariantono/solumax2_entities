@@ -1,0 +1,9 @@
+<div ng-if="displayType=='iframe'" >
+	<iframe class="img-responsive"  ng-src="{{file.full_url}}"></iframe>
+</div>
+<div ng-if="displayType=='img'">
+	<img class="img-responsive" ng-src="{{file.full_url}}"></img>
+</div>
+<div ng-if="displayType=='downloadButton'">
+	<a class="btn btn-sm btn-block btn-info" ng-href="{{file.full_url}}" target="_blank">Download</a>
+</div>

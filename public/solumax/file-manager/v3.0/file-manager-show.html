@@ -1,0 +1,15 @@
+<div ng-if="displayType=='iframe'" >
+	<iframe class="img-responsive"  ng-src="{{file.full_url}}"></iframe>
+</div>
+<div ng-if="displayType=='img'">
+	<img class="img-responsive" ng-src="{{file.full_url}}"></img>
+</div>
+<div ng-if="displayType=='downloadButton'">
+	<a class="btn btn-sm btn-block btn-info" ng-href="{{file.full_url}}" target="_blank">Download</a>
+</div>
+<div ng-if="displayType=='pdf'" >
+	<object width="100%" height="700px" type="application/pdf" data="{{ file.full_url }}">
+		<iframe ng-src="{{ file.google_pdf_viewer_url }}" style="width:100%; height:650px;" frameborder="0"></iframe>
+		<p>Klik <a ng-href="{{ file.full_url }}">disini</a> untuk download file PDF</p>
+	</object>
+</div>

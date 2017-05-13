@@ -69,5 +69,21 @@ app
 			.success(function(data) {
 				vm.entity = data.data;
 			});
-		};
+		}
+
+		vm.fileManager = {
+			ktp: {
+				displayedInput: JSON.stringify({
+					file: { label : "KTP", show : true },
+				}),
+				additionalData: JSON.stringify({
+                    image: {resize: {height: 1000, width: 1000}},
+					path: 'entity',
+					subpath: $state.params.id + '/ktp',
+					fileable_type: 'Entity',
+					fileable_id: $state.params.id,
+					name: 'KTP'
+				})
+			},
+		}
 	});

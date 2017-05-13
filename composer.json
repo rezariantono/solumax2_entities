@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
+        "aws/aws-sdk-php": "^3.25",
         "laravel/framework": "5.2.*",
         "firebase/php-jwt": "^3.0",
         "barryvdh/laravel-cors": "0.7.x",

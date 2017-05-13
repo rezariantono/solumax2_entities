@@ -1,8 +1,8 @@
 <div ng-if="entity.id">
 
-	<button class="btn btn-sm btn-block btn-default" style="padding:8px 8px;border:1px solid #607285;" data-toggle="modal" data-target="#entityUpdaterModal{{modalId}}" ng-click="insertValues()">Update Data Person <span ng-if="entity">{{ '(ID: ' + entity.id + ' Name: ' + entity.name + ')' }}</span></button>
+	<button class="btn btn-sm btn-block btn-default" style="padding:8px 8px;border:1px solid #607285;" data-toggle="modal" data-target="#entity-updater-modal-{{modalId}}" ng-click="insertValues()">Update Data Person <span ng-if="entity">{{ '(ID: ' + entity.id + ' Name: ' + entity.name + ')' }}</span></button>
 
-	<div class="modal fade" id="entityUpdaterModal{{modalId}}" tabindex="-1" role="dialog">
+	<div class="modal fade" id="entity-updater-modal-{{modalId}}" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -22,6 +22,9 @@
 
 					<label>Alamat</label>
 					<textarea ng-model="entity.address" rows="5" style="height: 5em;"></textarea>
+
+					<label>KTP</label>
+					<input type="text" ng-model="entity.ktp" name="ktp">
 
 					<button class="btn btn-block btn-info" ng-click="update(entity)">Update</button>
 					

@@ -1,0 +1,30 @@
+<div class="well" style="border:1px solid #808080;">
+	
+	<p ng-if="display.description"><small>{{display.description}}</small></p>
+
+	<form id="file-manager-upload-form-{{boxId}}">
+
+		<div ng-if="display.name.show">
+			<label>{{ display.name.label || 'Nama' }}</label>
+			<input type="text" name="file-manager-name" id="file-manager-name-{{boxId}}" ng-model="formData.name">
+		</div>
+
+		<div ng-if="display.description.show">
+			<label>{{ display.description.label || 'Keterangan' }}</label>
+			<input type="text" name="file-manager-description" id="file-manager-description-{{boxId}}"  ng-model="formData.description">
+		</div>
+
+		<div ng-if="display.file.show">
+			<label>{{ display.file.label || 'File' }}</label>
+			<input type="file" name="file-manager-file-{{boxId}}" id="file-manager-file-{{boxId}}">
+		</div>
+
+		<p ng-if="display.info"><small>{{display.info}}</small></p>
+
+		<button ng-click="upload()" class="btn btn-block btn-warning btn-sm" ng-disabled="uploading">Upload</button>
+
+		<button ng-if="display.reset.show" ng-click="reset()" class="btn btn-block btn-danger btn-sm" ng-disabled="uploading">Reset</button>
+
+	</form>
+
+</div>

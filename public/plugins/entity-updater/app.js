@@ -1,62 +1,79 @@
-var solumaxEntityUpdater = angular
-	.module('Solumax.EntityUpdater', [])
+angular
+	.module('Solumax.EntityUpdater', ['Solumax.AppTransfer'])
 	.directive('entityUpdaterModal', function(
-		$sce, $http, $timeout) {
+		$sce, $http, $timeout,
+		LinkFactory, GenerateLink) {
 
 
-		var env = window.location.hostname == '192.168.0.227' ? 'dev' : 'prod'
-		var domain = env == 'dev' ? 'http://192.168.0.227:10777/' : 'https://entity.hondagelora.com/'
-
+		// This version 2 of entity updater supports only injecting entity id now
+		// 
 		return {
-			templateUrl: $sce.trustAsResourceUrl(domain + 'entity-updater-modal.html'),
+			templateUrl: $sce.trustAsResourceUrl(LinkFactory.entity.base + 'entity-updater-modal.html'),
 			restrict: 'AE',
 			scope: {
-				entityObject: "=entity",
+				selectedEntity: "=entity",
 				entityId: "@",
 				onEntityUpdated: "&",
 				newPhoneNumber: "@",
+				newEntityData: "="
 			},
 			link: function(scope, elem, attrs) {
 
 				scope.modalId = "-" + Math.random().toString(36).substring(2, 7)
 
-				if (scope.entityId) {
+				if (typeof scope.selectedEntity != 'undefined') {
 
-					$http.get(domain + 'entity/api/entity/' + scope.entityId)
-					.success(function(data) {
-						scope.entity = data.data
+					scope.entity = scope.selectedEntity
+
+				} else if (scope.entityId) {
+
+					$http.get(LinkFactory.entity.base + 'entity/api/entity/' + scope.entityId)
+					.then(function(res) {
+						scope.entity = res.data.data
 					})
 
-				} else if (scope.entityObject) {
-					scope.entity = scope.entityObject
 				}
 
 				scope.insertValues = function() {
+
+					var updateableFields = ["phone_number", "address", "ktp"]
+
+					updateableFields.forEach(function(updateableField) {
+
+						if (newEntityData[updateableField]) {
+							scope.entity[updateableField] = newEntityData[updateableField]
+						}
+					})
+
 					if (scope.newPhoneNumber) {
-						scope.entity.phone_number = scope.newPhoneNumber;
-					};
+						scope.entity.phone_number = scope.newPhoneNumber
+					}
 				}
 
+
 				scope.registerNew = function() {
-					window.open(domain + 'redirect-app/entity/new');
+					window.open(LinkFactory.entity.base + 'redirect-app/entity/new');
 				}
 
 				scope.openInApp = function(entity) {
-					window.open(domain + 'redirect-app/entity/' + entity.id);
+					window.open(GenerateLink.redirectWithJwt(LinkFactory.entity.base + 'redirect-app/entity/' + entity.id));
 				}
 
 				scope.update = function(entity) {
 
-					$http.post(domain + 'entity/api/entity/' + entity.id, entity)
-					.success(function(data) {
+					$http.post(LinkFactory.entity.base + 'entity/api/entity/' + entity.id, entity)
+					.then(function(res) {
 						
-						scope.entity = data.data;
+						scope.entity = res.data.data;
+						scope.selectedEntity = res.data.data;
 						
+						alert('Update berhasil');
+
 						$timeout(function() {
 							scope.onEntityUpdated();
 						}, 250);
 
-						alert('Update berhasil');
+
 					});
 				}
 
