@@ -16,5 +16,8 @@ elixir(function(mix) {
     
     mix.scriptsIn('resources/angular/tenant', 'public/tenant/app/all.js');
     mix.copy('resources/angular/tenant', 'public/tenant');
+    
+    mix.scriptsIn('resources/plugins/v2', 'public/plugins/v2/all.js');
+    mix.copy('resources/plugins/v2', 'public/plugins/v2');
 
 });

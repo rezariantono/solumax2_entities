@@ -996,6 +996,17 @@ app
 		})
 	})
 app
+	.controller('EntitySearchController', function(
+		$state,
+		EntityModel) {
+
+		var vm = this;
+
+		vm.open = function(id) {
+			$state.go('entityShow', {id: id});
+		}
+	});
+app
 	.controller('EntityShowController', function(
 		$stateParams, $state,
 		EntityModel, DirectUserModel) {
@@ -1082,17 +1093,6 @@ app
 					name: 'KTP'
 				})
 			},
-		}
-	});
-app
-	.controller('EntitySearchController', function(
-		$state,
-		EntityModel) {
-
-		var vm = this;
-
-		vm.open = function(id) {
-			$state.go('entityShow', {id: id});
 		}
 	});
 //# sourceMappingURL=all.js.map
