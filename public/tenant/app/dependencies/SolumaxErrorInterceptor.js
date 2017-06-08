@@ -1,38 +1,70 @@
 angular
-	.module('Solumax.ErrorInterceptor', [])
-	.service('ErrorInterceptorFactory', function($q) {
+    .module('Solumax.ErrorInterceptor', [])
+    .service('ErrorInterceptorFactory', function($q) {
 
-		var errorInterceptorFactory = {};
+        var errorInterceptorFactory = {};
 
-		errorInterceptorFactory.responseError =  function(rejection) {
+        function proccessArrayError(err, rejection) {
 
-			if (rejection.data.errors && rejection.status == 400) {
+            switch (err.type) {
+                case 'confirm':
+                    if (confirm(err.text)) {
 
-				var errorString = rejection.data.errors.join('\n');
-				alert(errorString);
-			};
+                    	rejection.userResponse = {}
+                        rejection.userResponse[err.if_confirmed] = true
 
-			if (rejection.status == 500) {
-				alert('Error. Harap hubungi system admin.')
-			};
+                        $q.reject(rejection)
+                    }
+            }
+        }
 
-			if (rejection.status == 401 && rejection.data != 'Session verification failed') {
-				alert('Anda perlu login dahulu untuk menggunakan fungsi ini')
-			};
+        errorInterceptorFactory.responseError = function(rejection) {
 
-			if (rejection.status == 403) {
-				alert('Anda tidak memiliki access untuk fungsi ini');
-			};
+            if (rejection.data && rejection.data.errors && rejection.status == 400) {
 
-			if (rejection.status == 404) {
-				alert('Data yang Anda cari tidak tersedia');
-			};
+                if (rejection.data.errors.constructor === Array) {
 
-			return $q.reject(rejection);
-		}
+                    var allString = true
+                    rejection.data.errors.forEach(function(val) {
+                        if (val.constructor !== String) {
+                            allString = false
+                            proccessArrayError(val, rejection)
+                            return
+                        }
+                    })
 
-		return errorInterceptorFactory;
-	})
-	.config(function($httpProvider) {
-		$httpProvider.interceptors.push('ErrorInterceptorFactory');		
-	});
+                    if (allString) {
+                        alert(rejection.data.errors.join('\n'))
+                    }
+
+                } else {
+
+                    alert(rejection.data.errors)
+
+                }
+            };
+
+            if (rejection.status == 500) {
+                alert('Error. Harap hubungi system admin.')
+            };
+
+            if (rejection.status == 401 && rejection.data != 'Session verification failed') {
+                alert('Anda perlu login dahulu untuk menggunakan fungsi ini')
+            };
+
+            if (rejection.status == 403) {
+                alert('Anda tidak memiliki access untuk fungsi ini');
+            };
+
+            if (rejection.status == 404) {
+                alert('Data yang Anda cari tidak tersedia');
+            };
+
+            return $q.reject(rejection);
+        }
+
+        return errorInterceptorFactory;
+    })
+    .config(function($httpProvider) {
+        $httpProvider.interceptors.push('ErrorInterceptorFactory');
+    });

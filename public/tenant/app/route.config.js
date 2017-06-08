@@ -42,5 +42,12 @@ app
   			templateUrl: 'app/entity/log/entityLog.html',
   			controller: 'EntityLogController as ctrl',
   			pageTitle: 'Entity Log'
-		});
+		})
+
+		.state('relationshipIndex', {
+			url: '/relationship/index/:encodedQuery',
+  			templateUrl: 'app/relationship/index/relationshipIndex.html',
+  			controller: 'RelationshipIndexController as ctrl',
+  			pageTitle: 'Daftar Relations'
+		})
 	});

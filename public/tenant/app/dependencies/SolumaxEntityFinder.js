@@ -41,10 +41,10 @@ angular
 					$http.get(LinkFactory.entity.base + 'entity/api/entity/', {
 						params: _.omit(scope.filter, ['pageIncrease', 'pageDecrease'])
 					})
-					.success(function(data) {
+					.then(function(res) {
 						
-						scope.entities = data.data;
-						scope.meta = data.meta;
+						scope.entities = res.data.data;
+						scope.meta = res.data.meta;
 					});
 				}
 
@@ -68,9 +68,16 @@ angular
 
 		var externalEntityModel = {};
 
+		externalEntityModel.index = function(params) {
+			return $http.get(LinkFactory.entity.base + 'entity/api/entity/', {params: params});
+		}
+
 		externalEntityModel.get = function(id) {
 			return $http.get(LinkFactory.entity.base + 'entity/api/entity/' + id);
 		}
 
 		return externalEntityModel;
-	});
+	})
+	.run(function() {
+		console.log('Masih menggunakan entity finder lama. Update sekarang')
+	})

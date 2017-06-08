@@ -24,6 +24,10 @@ app
 				api: apps.entity + 'api/entity/',
 			},
 
+			relationship: {
+				api: apps.entity + 'api/relationship/',
+			},
+
 
 		};
 	});

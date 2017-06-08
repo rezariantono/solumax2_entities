@@ -22,7 +22,6 @@ class CreateEntityRelationshipsTable extends Migration {
         });
         
         Schema::table('entity_relationships', function (Blueprint $table) {
-            
             $table->foreign('entity_id')->references('id')->on('entities');
         });
     }

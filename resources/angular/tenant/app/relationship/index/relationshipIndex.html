@@ -1,0 +1,38 @@
+<div class="row">
+	<div class="col-sm-4">
+
+		<div class="well">
+			<h4>Relationship {{ ctrl.focused.id || 'Baru' }}</h4>
+			<hr>
+
+			<label>Nama</label>
+			<input type="text" ng-model="ctrl.focused.name">
+
+			<button class="btn btn-block btn-primary" ng-click="ctrl.store(ctrl.focused)">Simpan</button>
+		</div>
+
+	</div>	
+	<div class="col-sm-8">
+
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Nama</th>
+						<th>Cari Entity</th>
+						<th>Edit</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="relationship in ctrl.relationships">
+						<td>{{ relationship.id }}</td>
+						<td>{{ relationship.name }}</td>
+						<td></td>
+						<td><button class="btn btn-xs btn-danger" ng-click="ctrl.focused=relationship">Edit</button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

@@ -58,16 +58,24 @@ angular
 				triggerNext(data, config)
 			}
 
-			config.upload(data)
-			.success(function(response) {
+			return config.upload(data)
+			.then(function(res) {
+
 				data.status = 1
-				data.response = response
+				
+				if (typeof res != 'undefined') {
+					data.response = res.data
+				}
 
 				triggerNext(data, config)
-			})
-			.error(function(errors) {
+
+			}, function(res) {
+
 				data.status = 0
-				data.errors = errors
+
+				if (typeof res != 'undefined') {
+					data.response = res.data
+				}
 
 				triggerNext(data, config)
 			})

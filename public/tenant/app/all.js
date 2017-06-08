@@ -1,7 +1,7 @@
 var app = angular
 	.module('Solumax.Entities', ['ui.router',
 		'Solumax.ErrorInterceptor', 'Solumax.JwtManager', 'Solumax.Loading',
-		'Solumax.TenantDatabaseConnection', 'Solumax.EntityFinder', 'Solumax.DirectUser',
+		'Solumax.TenantDatabaseConnection', 'Solumax.Entity', 'Solumax.DirectUser',
 		'Solumax.Logger', 'Solumax.AccountPlugin', 'Solumax.FileManager'])
 	.factory('AppFactory', function() {
 
@@ -43,6 +43,10 @@ app
 			entity: {
 				base: domains.entity,
 				api: apps.entity + 'api/entity/',
+			},
+
+			relationship: {
+				api: apps.entity + 'api/relationship/',
 			},
 
 
@@ -92,7 +96,14 @@ app
   			templateUrl: 'app/entity/log/entityLog.html',
   			controller: 'EntityLogController as ctrl',
   			pageTitle: 'Entity Log'
-		});
+		})
+
+		.state('relationshipIndex', {
+			url: '/relationship/index/:encodedQuery',
+  			templateUrl: 'app/relationship/index/relationshipIndex.html',
+  			controller: 'RelationshipIndexController as ctrl',
+  			pageTitle: 'Daftar Relations'
+		})
 	});
 angular
 	.module('Solumax.AppTransfer', [])
@@ -267,16 +278,24 @@ angular
 				triggerNext(data, config)
 			}
 
-			config.upload(data)
-			.success(function(response) {
+			return config.upload(data)
+			.then(function(res) {
+
 				data.status = 1
-				data.response = response
+				
+				if (typeof res != 'undefined') {
+					data.response = res.data
+				}
 
 				triggerNext(data, config)
-			})
-			.error(function(errors) {
+
+			}, function(res) {
+
 				data.status = 0
-				data.errors = errors
+
+				if (typeof res != 'undefined') {
+					data.response = res.data
+				}
 
 				triggerNext(data, config)
 			})
@@ -354,10 +373,10 @@ angular
 					$http.get(LinkFactory.entity.base + 'entity/api/entity/', {
 						params: _.omit(scope.filter, ['pageIncrease', 'pageDecrease'])
 					})
-					.success(function(data) {
+					.then(function(res) {
 						
-						scope.entities = data.data;
-						scope.meta = data.meta;
+						scope.entities = res.data.data;
+						scope.meta = res.data.meta;
 					});
 				}
 
@@ -381,12 +400,19 @@ angular
 
 		var externalEntityModel = {};
 
+		externalEntityModel.index = function(params) {
+			return $http.get(LinkFactory.entity.base + 'entity/api/entity/', {params: params});
+		}
+
 		externalEntityModel.get = function(id) {
 			return $http.get(LinkFactory.entity.base + 'entity/api/entity/' + id);
 		}
 
 		return externalEntityModel;
-	});
+	})
+	.run(function() {
+		console.log('Masih menggunakan entity finder lama. Update sekarang')
+	})
 angular
 	.module('Solumax.EntityUpdater', ['Solumax.AppTransfer'])
 	.directive('entityUpdaterModal', function(
@@ -404,6 +430,7 @@ angular
 				entityId: "@",
 				onEntityUpdated: "&",
 				newPhoneNumber: "@",
+				newEntityData: "="
 			},
 			link: function(scope, elem, attrs) {
 
@@ -416,17 +443,30 @@ angular
 				} else if (scope.entityId) {
 
 					$http.get(LinkFactory.entity.base + 'entity/api/entity/' + scope.entityId)
-					.success(function(data) {
-						scope.entity = data.data
+					.then(function(res) {
+						scope.entity = res.data.data
 					})
 
 				}
 
 				scope.insertValues = function() {
+
+					if (scope.newEntityData) {
+
+						var updateableFields = ["phone_number", "address", "ktp"]
+
+						updateableFields.forEach(function(updateableField) {
+							if (scope.newEntityData[updateableField]) {
+								scope.entity[updateableField] = scope.newEntityData[updateableField]
+							}
+						})
+					}
+
 					if (scope.newPhoneNumber) {
-						scope.entity.phone_number = scope.newPhoneNumber;
-					};
+						scope.entity.phone_number = scope.newPhoneNumber
+					}
 				}
+
 
 				scope.registerNew = function() {
 					window.open(LinkFactory.entity.base + 'redirect-app/entity/new');
@@ -439,10 +479,10 @@ angular
 				scope.update = function(entity) {
 
 					$http.post(LinkFactory.entity.base + 'entity/api/entity/' + entity.id, entity)
-					.success(function(data) {
+					.then(function(res) {
 						
-						scope.entity = data.data;
-						scope.selectedEntity = data.data;
+						scope.entity = res.data.data;
+						scope.selectedEntity = res.data.data;
 						
 						alert('Update berhasil');
 
@@ -457,45 +497,80 @@ angular
 
 			}
 		};
-	});
-angular
-	.module('Solumax.ErrorInterceptor', [])
-	.service('ErrorInterceptorFactory', function($q) {
-
-		var errorInterceptorFactory = {};
-
-		errorInterceptorFactory.responseError =  function(rejection) {
-
-			if (rejection.data.errors && rejection.status == 400) {
-
-				var errorString = rejection.data.errors.join('\n');
-				alert(errorString);
-			};
-
-			if (rejection.status == 500) {
-				alert('Error. Harap hubungi system admin.')
-			};
-
-			if (rejection.status == 401 && rejection.data != 'Session verification failed') {
-				alert('Anda perlu login dahulu untuk menggunakan fungsi ini')
-			};
-
-			if (rejection.status == 403) {
-				alert('Anda tidak memiliki access untuk fungsi ini');
-			};
-
-			if (rejection.status == 404) {
-				alert('Data yang Anda cari tidak tersedia');
-			};
-
-			return $q.reject(rejection);
-		}
-
-		return errorInterceptorFactory;
 	})
-	.config(function($httpProvider) {
-		$httpProvider.interceptors.push('ErrorInterceptorFactory');		
-	});
+	.run(function() {
+		console.log('Masih menggunakan entity updater lama. Update sekarang')
+	})
+angular
+    .module('Solumax.ErrorInterceptor', [])
+    .service('ErrorInterceptorFactory', function($q) {
+
+        var errorInterceptorFactory = {};
+
+        function proccessArrayError(err, rejection) {
+
+            switch (err.type) {
+                case 'confirm':
+                    if (confirm(err.text)) {
+
+                    	rejection.userResponse = {}
+                        rejection.userResponse[err.if_confirmed] = true
+
+                        $q.reject(rejection)
+                    }
+            }
+        }
+
+        errorInterceptorFactory.responseError = function(rejection) {
+
+            if (rejection.data && rejection.data.errors && rejection.status == 400) {
+
+                if (rejection.data.errors.constructor === Array) {
+
+                    var allString = true
+                    rejection.data.errors.forEach(function(val) {
+                        if (val.constructor !== String) {
+                            allString = false
+                            proccessArrayError(val, rejection)
+                            return
+                        }
+                    })
+
+                    if (allString) {
+                        alert(rejection.data.errors.join('\n'))
+                    }
+
+                } else {
+
+                    alert(rejection.data.errors)
+
+                }
+            };
+
+            if (rejection.status == 500) {
+                alert('Error. Harap hubungi system admin.')
+            };
+
+            if (rejection.status == 401 && rejection.data != 'Session verification failed') {
+                alert('Anda perlu login dahulu untuk menggunakan fungsi ini')
+            };
+
+            if (rejection.status == 403) {
+                alert('Anda tidak memiliki access untuk fungsi ini');
+            };
+
+            if (rejection.status == 404) {
+                alert('Data yang Anda cari tidak tersedia');
+            };
+
+            return $q.reject(rejection);
+        }
+
+        return errorInterceptorFactory;
+    })
+    .config(function($httpProvider) {
+        $httpProvider.interceptors.push('ErrorInterceptorFactory');
+    });
 
 angular
 	.module('Solumax.JwtManager', ['angular-jwt'])
@@ -797,7 +872,7 @@ angular
 		$timeout) {
 
 		return {
-			template: '<nav ng-if="pagination" class="text-center"><ul class="pagination"><li ng-if="pagination.current_page > 1"><a ng-click="loadPage(pagination.current_page - 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li><li class="disabled"><span>Halaman ke {{pagination.current_page}} dari {{pagination.total_pages}} ({{pagination.total}} total data; {{pagination.per_page}} data per halaman)</span></li><li ng-if="pagination.current_page < pagination.total_pages"><a ng-click="loadPage(pagination.current_page + 1)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li></ul></nav>',
+			template: '<nav ng-if="pagination" class="text-center"><ul class="pagination"> <li ng-if="pagination.current_page > 1"><a ng-click="loadPage(pagination.current_page - 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li> <li class="disabled"><span>Halaman ke <input class="form-not-applied" type="number" ng-model="pagination.current_page" ng-blur="loadPage(pagination.current_page)" style="max-width:5em;" min="1"> dari {{pagination.total_pages}} ({{pagination.total}} total data; {{pagination.per_page}} data per halaman)</span></li> <li ng-if="pagination.current_page < pagination.total_pages"><a ng-click="loadPage(pagination.current_page + 1)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li></ul></nav>',
 			restrict: 'E',
 			scope: {
 				pagination: '=', // pased from view to directive
@@ -806,6 +881,27 @@ angular
 			},
 			transclude: true,
 			link: function(scope, elem, attrs) {
+
+				scope.previousPages = function() {
+
+					var latestPage = 2
+					var pages = [
+					]
+					
+					while (scope.pagination.current_page > 1 && pages.length <= 5 && latestPage > 1) {
+
+						if (pages.length == 0) {
+							latestPage = scope.pagination.current_page
+						}
+
+						latestPage = latestPage - 1
+						pages.unshift({page: latestPage})
+					}
+
+					console.log(pages)
+
+					return pages
+				}
 
 				scope.loadPage = function(page) {
 
@@ -936,6 +1032,35 @@ app
 
 		var vm = this;
 		
+	});
+app
+	.factory('RelationshipModel', function(
+		$http,
+		LinkFactory) {
+
+		var relationshipModel = {};
+
+		relationshipModel.index = function(params) {
+			return $http.get(LinkFactory.relationship.api, {params: params});
+		}
+
+		relationshipModel.get = function(relationshipId) {
+			return $http.get(LinkFactory.relationship.api + relationshipId);
+		}
+
+		relationshipModel.store = function(relationship) {
+			return $http.post(LinkFactory.relationship.api, relationship);
+		}
+
+		relationshipModel.update = function(id, relationship) {
+			return $http.post(LinkFactory.relationship.api + id, relationship);
+		}
+
+		relationshipModel.delete = function(relationship) {
+			return $http.delete(LinkFactory.relationship.api + relationship.id);
+		}
+
+		return relationshipModel;
 	});
 !function(){angular.module("angular-jwt",["angular-jwt.interceptor","angular-jwt.jwt"]),angular.module("angular-jwt.interceptor",[]).provider("jwtInterceptor",function(){this.urlParam=null,this.authHeader="Authorization",this.authPrefix="Bearer ",this.tokenGetter=function(){return null};var e=this;this.$get=["$q","$injector","$rootScope",function(r,t,a){return{request:function(a){if(a.skipAuthorization)return a;if(e.urlParam){if(a.params=a.params||{},a.params[e.urlParam])return a}else if(a.headers=a.headers||{},a.headers[e.authHeader])return a;var n=r.when(t.invoke(e.tokenGetter,this,{config:a}));return n.then(function(r){return r&&(e.urlParam?a.params[e.urlParam]=r:a.headers[e.authHeader]=e.authPrefix+r),a})},responseError:function(e){return 401===e.status&&a.$broadcast("unauthenticated",e),r.reject(e)}}}]}),angular.module("angular-jwt.jwt",[]).service("jwtHelper",function(){this.urlBase64Decode=function(e){var r=e.replace(/-/g,"+").replace(/_/g,"/");switch(r.length%4){case 0:break;case 2:r+="==";break;case 3:r+="=";break;default:throw"Illegal base64url string!"}return decodeURIComponent(escape(window.atob(r)))},this.decodeToken=function(e){var r=e.split(".");if(3!==r.length)throw new Error("JWT must have 3 parts");var t=this.urlBase64Decode(r[1]);if(!t)throw new Error("Cannot decode the token");return JSON.parse(t)},this.getTokenExpirationDate=function(e){var r;if(r=this.decodeToken(e),"undefined"==typeof r.exp)return null;var t=new Date(0);return t.setUTCSeconds(r.exp),t},this.isTokenExpired=function(e,r){var t=this.getTokenExpirationDate(e);return r=r||0,null===t?!1:!(t.valueOf()>(new Date).valueOf()+1e3*r)}})}();
 
@@ -1095,4 +1220,49 @@ app
 			},
 		}
 	});
+app
+    .controller('RelationshipIndexController', function(
+        $state,
+        RelationshipModel) {
+
+        var vm = this;
+
+        vm.filter = {}
+        vm.relationships = []
+
+        vm.get = function() {
+
+            RelationshipModel.index(vm.filter)
+                .then(function(res) {
+
+                    vm.relationships = res.data.data;
+                    vm.meta = res.data.meta;
+                });
+        }
+        vm.get()
+
+        vm.store = function(relationship) {
+
+            if (relationship.id) {
+
+                RelationshipModel.update(relationship.id, relationship)
+                    .then(function(res) {
+                        alert('Update berhasil')
+                        relationship = res.data.data
+                        vm.focused = null
+                    })
+
+            } else {
+
+
+                RelationshipModel.store(relationship)
+                    .then(function(res) {
+                        relationship = res.data.data
+                        vm.relationships.push(relationship)
+                        vm.focused = null
+                    })
+            }
+        }
+    });
+
 //# sourceMappingURL=all.js.map

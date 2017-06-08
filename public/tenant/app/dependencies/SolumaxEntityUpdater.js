@@ -15,6 +15,7 @@ angular
 				entityId: "@",
 				onEntityUpdated: "&",
 				newPhoneNumber: "@",
+				newEntityData: "="
 			},
 			link: function(scope, elem, attrs) {
 
@@ -27,17 +28,30 @@ angular
 				} else if (scope.entityId) {
 
 					$http.get(LinkFactory.entity.base + 'entity/api/entity/' + scope.entityId)
-					.success(function(data) {
-						scope.entity = data.data
+					.then(function(res) {
+						scope.entity = res.data.data
 					})
 
 				}
 
 				scope.insertValues = function() {
+
+					if (scope.newEntityData) {
+
+						var updateableFields = ["phone_number", "address", "ktp"]
+
+						updateableFields.forEach(function(updateableField) {
+							if (scope.newEntityData[updateableField]) {
+								scope.entity[updateableField] = scope.newEntityData[updateableField]
+							}
+						})
+					}
+
 					if (scope.newPhoneNumber) {
-						scope.entity.phone_number = scope.newPhoneNumber;
-					};
+						scope.entity.phone_number = scope.newPhoneNumber
+					}
 				}
+
 
 				scope.registerNew = function() {
 					window.open(LinkFactory.entity.base + 'redirect-app/entity/new');
@@ -50,10 +64,10 @@ angular
 				scope.update = function(entity) {
 
 					$http.post(LinkFactory.entity.base + 'entity/api/entity/' + entity.id, entity)
-					.success(function(data) {
+					.then(function(res) {
 						
-						scope.entity = data.data;
-						scope.selectedEntity = data.data;
+						scope.entity = res.data.data;
+						scope.selectedEntity = res.data.data;
 						
 						alert('Update berhasil');
 
@@ -68,4 +82,7 @@ angular
 
 			}
 		};
-	});
+	})
+	.run(function() {
+		console.log('Masih menggunakan entity updater lama. Update sekarang')
+	})

@@ -7,12 +7,17 @@
 		<div class="row">
 			<div class="col-sm-12">
 
-				<button class="btn btn-default btn-block" ui-sref='entityShow'>Tambah Baru</button>
-				<button class="btn btn-default btn-block" ui-sref='entitySearch'>Daftar Kontak</button>
+				<a class="btn btn-default btn-block" ui-sref='entityShow'>Tambah Baru</a>
+				<a class="btn btn-default btn-block" ui-sref='entitySearch'>Daftar Kontak</a>
+
+				<br>
+
+				<a class="btn btn-default btn-block" ui-sref="relationshipIndex">Relationships</a>
+
 
 				<hr>
 
-				<button class="btn btn-default btn-block" ui-sref='entityIndex({encodedQuery:"%7B%22deletion_request%22:true,%22paginate%22:20%7D"})'>Pending Delete</button>
+				<a class="btn btn-default btn-block" ui-sref='entityIndex({encodedQuery:"%7B%22deletion_request%22:true,%22paginate%22:20%7D"})'>Pending Delete</a>
 
 
 			</div>

@@ -20,4 +20,12 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api', 'middleware' => $middlewa
         Route::delete('{id}', ['uses' => 'EntityController@delete', 'middleware' => 'auth.jwt_tumr:DELETE_CONTACT']);
         
     });
+    
+    Route::group(['prefix' => 'relationship'], function() {
+        
+        Route::get('/', ['uses' => 'RelationshipController@index']);
+        Route::get('{id}', ['uses' => 'RelationshipController@get']);
+        Route::post('/', ['uses' => 'RelationshipController@store']);
+        Route::post('{id}', ['uses' => 'RelationshipController@update']);
+    });
 });
