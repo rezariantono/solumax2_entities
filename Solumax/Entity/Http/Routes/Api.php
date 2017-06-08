@@ -25,7 +25,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api', 'middleware' => $middlewa
         
         Route::get('/', ['uses' => 'RelationshipController@index']);
         Route::get('{id}', ['uses' => 'RelationshipController@get']);
-        Route::post('/', ['uses' => 'RelationshipController@store']);
-        Route::post('{id}', ['uses' => 'RelationshipController@update']);
+        Route::post('/', ['uses' => 'RelationshipController@store', 'middleware' => 'auth.jwt_tumr:WRITE_RELATIONSHIP']);
+        Route::post('{id}', ['uses' => 'RelationshipController@update', 'middleware' => 'auth.jwt_tumr:WRITE_RELATIONSHIP']);
     });
 });
