@@ -65,12 +65,4 @@ class RelationshipController extends Controller {
         return $this->formatItem($relationship);
     }
 
-    public function delete($id) {
-
-        $relationship = $this->$relationship->find($id);
-        $relationship->delete();
-
-        return response()->json(true);
-    }
-
 }

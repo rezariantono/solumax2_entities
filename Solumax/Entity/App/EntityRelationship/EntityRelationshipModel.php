@@ -6,12 +6,14 @@ use Solumax\PhpHelper\App\BaseModel as Model;
 
 class EntityRelationshipModel extends Model {
 
-    protected $table = 'entities';
+    protected $table = 'entity_relationships';
+    
+    protected $guarded = ['created_at', 'updated_at'];
 
     // Managers
 
-    public function action() {
-        return new Managers\Actioner($this);
+    public function assign() {
+        return new Managers\Assigner($this);
     }
 
 }

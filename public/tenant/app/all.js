@@ -50,6 +50,11 @@ app
 			},
 
 
+			entityRelationship: {
+				api: apps.entity + 'api/entity-relationship/',
+			},
+
+
 		};
 	});
 app
@@ -1028,6 +1033,27 @@ app
 		return entityModel;
 	});
 app
+	.factory('EntityRelationshipModel', function(
+		$http,
+		LinkFactory) {
+
+		var entityRelationshipModel = {};
+
+		entityRelationshipModel.index = function(params) {
+			return $http.get(LinkFactory.entityRelationship.api, {params: params});
+		}
+
+		entityRelationshipModel.store = function(entityRelationship) {
+			return $http.post(LinkFactory.entityRelationship.api, entityRelationship);
+		}
+
+		entityRelationshipModel.delete = function(params) {
+			return $http.delete(LinkFactory.entityRelationship.api, {params: params});
+		}
+
+		return entityRelationshipModel;
+	});
+app
 	.controller('IndexController', function() {
 
 		var vm = this;
@@ -1132,94 +1158,128 @@ app
 		}
 	});
 app
-	.controller('EntityShowController', function(
-		$stateParams, $state,
-		EntityModel, DirectUserModel) {
+    .controller('EntityShowController', function(
+        $stateParams, $state,
+        EntityModel, RelationshipModel, EntityRelationshipModel,
+        DirectUserModel) {
 
-		var vm = this;
+        var vm = this;
 
-		vm.save = function(entity) {
+        vm.save = function(entity) {
 
-			if ($stateParams.id) {
+            if ($stateParams.id) {
 
-				EntityModel.update(entity)
-				.success(function(data) {
-					vm.entity = data.data;
-					alert('Update berhasil');
-				});
+                EntityModel.update(entity)
+                    .success(function(data) {
+                        vm.entity = data.data;
+                        alert('Update berhasil');
+                    });
 
-			} else {
+            } else {
 
-				EntityModel.store(entity)
-				.success(function(data) {
-					$state.go('entityShow', {id: data.data.id});
-				});
-			};
-		}
+                EntityModel.store(entity)
+                    .success(function(data) {
+                        $state.go('entityShow', { id: data.data.id });
+                    });
+            };
+        }
 
-		vm.delete = function(entity) {
+        vm.delete = function(entity) {
 
-			EntityModel.delete(entity)
-			.success(function() {
-				alert('Berhasil dihapus');
-				$state.go('entitySearch');
-			});
-		}
+            EntityModel.delete(entity)
+                .success(function() {
+                    alert('Berhasil dihapus');
+                    $state.go('entitySearch');
+                });
+        }
 
-		vm.action = {
-			requestDelete: function(entity, requestDelete) {
-				EntityModel.action.requestDelete(entity.id, {request_delete: requestDelete})
-				.success(function(data) {
-					vm.entity = data.data
-				})
-			},
-			editLock: function(entity, editLock) {
-				EntityModel.action.editLock(entity.id, {edit_lock: editLock})
-				.success(function(data) {
-					vm.entity = data.data
-				})
-			}
-		}
+        vm.action = {
+            requestDelete: function(entity, requestDelete) {
+                EntityModel.action.requestDelete(entity.id, { request_delete: requestDelete })
+                    .success(function(data) {
+                        vm.entity = data.data
+                    })
+            },
+            editLock: function(entity, editLock) {
+                EntityModel.action.editLock(entity.id, { edit_lock: editLock })
+                    .success(function(data) {
+                        vm.entity = data.data
+                    })
+            }
+        }
 
-		vm.findDirectUser = function(email) {
+        vm.findDirectUser = function(email) {
 
-			DirectUserModel.index({email: email})
-			.success(function(data) {
-				
-				if (data.data.id) {
+            DirectUserModel.index({ email: email })
+                .success(function(data) {
 
-					var foundUser = data.data
-				
-					alert('User ditemukan dengan ID: ' + foundUser.id + ' Nama: ' + foundUser.name);
-					vm.entity.user_id = foundUser.id;
-				}
-			})
-		}
+                    if (data.data.id) {
 
-		if ($stateParams.id) {
+                        var foundUser = data.data
 
-			EntityModel.get($stateParams.id)
-			.success(function(data) {
-				vm.entity = data.data;
-			});
-		}
+                        alert('User ditemukan dengan ID: ' + foundUser.id + ' Nama: ' + foundUser.name);
+                        vm.entity.user_id = foundUser.id;
+                    }
+                })
+        }
 
-		vm.fileManager = {
-			ktp: {
-				displayedInput: JSON.stringify({
-					file: { label : "KTP", show : true },
-				}),
-				additionalData: JSON.stringify({
-                    image: {resize: {height: 1000, width: 1000}},
-					path: 'entity',
-					subpath: $state.params.id + '/ktp',
-					fileable_type: 'Entity',
-					fileable_id: $state.params.id,
-					name: 'KTP'
-				})
-			},
-		}
-	});
+        vm.updateEntityRelationship = function(relationship) {
+
+            if (relationship.assigned) {
+                EntityRelationshipModel.store({relationship_id: relationship.id, entity_id: vm.entity.id})
+            } else {
+                EntityRelationshipModel.delete({relationship_id: relationship.id, entity_id: vm.entity.id})
+            }
+        }
+
+        function processRelationships() {
+
+            _.each(vm.relationships, function(relationship) {
+
+                var entityRelationship = _.find(vm.entity.entityRelationships, { relationship_id: relationship.id });
+
+                if (_.isObject(entityRelationship)) {
+                    relationship.assigned = true;
+                    relationship.entityRelationship = entityRelationship;
+                } else {
+                    relationship.assigned = false;
+                };
+            });
+        }
+
+        if ($stateParams.id) {
+
+            EntityModel.get($stateParams.id)
+                .success(function(data) {
+                    vm.entity = data.data;
+                    vm.entity.entityRelationships = vm.entity.entityRelationships.data
+                    processRelationships()
+                });
+        }
+
+        RelationshipModel.index()
+            .then(function(res) {
+                vm.relationships = res.data.data
+                processRelationships()
+            })
+
+        vm.fileManager = {
+            ktp: {
+                displayedInput: JSON.stringify({
+                    file: { label: "KTP", show: true },
+                }),
+                additionalData: JSON.stringify({
+                    image: { resize: { height: 1000, width: 1000 } },
+                    path: 'entity',
+                    subpath: $state.params.id + '/ktp',
+                    fileable_type: 'Entity',
+                    fileable_id: $state.params.id,
+                    name: 'KTP'
+                })
+            },
+        }
+    });
+
 app
     .controller('RelationshipIndexController', function(
         $state,

@@ -7,6 +7,8 @@ use League\Fractal;
 
 class EntityTransformer extends Fractal\TransformerAbstract {
     
+    protected $defaultIncludes = ['entityRelationships'];
+    
     public function transform(EntityModel $entity) {
         
         return [
@@ -30,5 +32,14 @@ class EntityTransformer extends Fractal\TransformerAbstract {
             
             'creator_tenant_id' => (int) $entity->creator_tenant_id,
         ];
+    }
+    
+    public function includeEntityRelationships(EntityModel $entity) {
+        
+        $entityRelationships = $entity->entityRelationships;
+        
+        return $this->collection($entityRelationships,
+                new \Solumax\Entity\App\EntityRelationship\Transformers\EntityRelationshipTransformer,
+                'entity_relationships');
     }
 }

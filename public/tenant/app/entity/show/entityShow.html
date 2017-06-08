@@ -1,115 +1,70 @@
 <div class="row">
-	<div class="col-sm-12">
-
-		<h3 ng-if="!ctrl.entity.id">Tambah Contact Baru</h3>
-		<h3 ng-if="ctrl.entity.id">Contact ID: {{ctrl.entity.id}}</h3>
-		<hr>
-
-		<form>
-
-			<div class="row">
-				<div class="col-sm-8">
-					<label>Nama</label>
-					<input type="text" ng-model="ctrl.entity.name" name="name">
-
-					<label>Nomor Telepon</label>
-					<input type="text" ng-model="ctrl.entity.phone_number" name="phone_number">
-					
-					<label>Nomor Telepon 2</label>
-					<input type="text" ng-model="ctrl.entity.phone_number_2" name="phone_number_2">
-					
-					<label>Email</label>
-					<input type="email" ng-model="ctrl.entity.email" name="email">
-					
-					<label>Address</label>
-					<textarea ng-model="ctrl.entity.address" rows="4" style="height:80px;" name="address"></textarea>
-				</div>
-				<div class="col-sm-4">
-					<label>Nomor KTP</label>
-					<input type="text" ng-model="ctrl.entity.ktp" name="ktp">
-					
-			      	<file-manager-upload
-			      		displayed-input='{{ ctrl.fileManager.ktp.displayedInput }}'
-			      		additional-data='{{ ctrl.fileManager.ktp.additionalData }}'
-			      		uploaded-file="uploadedCustomerIdentification"
-			      		on-file-uploaded="ctrl.entity.ktp_file_uuid=uploadedCustomerIdentification.uuid;ctrl.save(ctrl.entity);">
-			      	</file-manager-upload>
-					
-					<file-manager-show
-						display-type="img"
-						file-uuid="{{ctrl.entity.ktp_file_uuid}}">
-					</file-manager-show>
-
-					<label>Nomor NPWP</label>
-					<input type="text" ng-model="ctrl.entity.npwp" name="npwp">
-					
-					<div ng-if="!ctrl.entity.user_id">
-						<label>Link dengan User</label>
-						<account-finder-modal selected-user="user" on-user-selected="ctrl.entity.user_id=user.id"></account-finder-modal>
-					</div>
-
-					<div ng-if="ctrl.entity.user_id">
-						<label>User ID</label>
-						<input type="text" ng-model='ctrl.entity.user_id' readonly="readonly">
-					</div>
-				</div>
-			</div>
-<!-- 
-			<button class="btn btn-block btn-xs btn-primary" type="button" data-toggle="collapse" data-target="#programUser" aria-expanded="false" aria-controls="programUser">Link Dengan User ID</button>
-			<br>
-
-			<div class="collapse" id="programUser">
-				<div class="well">
-
-					<label>Program User ID</label>
-					<input type="text" ng-model="ctrl.entity.user_id" name="user_id" readonly>
-
-					<div class="row">
-						<div class="col-sm-8">
-							<input type="text" ng-model="ctrl.directUserEmail">
-						</div>
-						<div class="col-sm-4">
-							<button class="btn btn-block btn-success" ng-click="ctrl.findDirectUser(ctrl.directUserEmail)">Cari</button>
-						</div>
-					</div>
-  				</div>
-			</div> -->
-
-			
-		</form>
-		<br>
-
-		<button class="btn btn-block btn-default" ng-click="ctrl.save(ctrl.entity)">Simpan</button>
-		<hr>
-
-		<div class="well">
-			<div ng-if="ctrl.entity && !ctrl.entity.deletion_request">
-				<button class="btn btn-block btn-danger" ng-click="ctrl.action.requestDelete(ctrl.entity, true)">
-					Hapus
-				</button>
-			</div>
-
-			<div ng-if="ctrl.entity.deletion_request">
-				<h4>Delete Requested</h4>
-				<p>Dimita Oleh: {{ctrl.entity.deletion_request.name}} ({{ctrl.entity.deletion_request.id}}); Waktu: {{ctrl.entity.deletion_request.time}}</p>
-
-				<button class="btn btn-block btn-danger" ng-click="ctrl.delete(ctrl.entity)">Hapus</button>
-				<button class="btn btn-block btn-danger" ng-click="ctrl.action.requestDelete(ctrl.entity, false)">Batalkan</button>
-			</div>
-			<br>
-			
-			<button ng-if="!ctrl.entity.edit_lock" class="btn btn-block btn-danger" ng-click="ctrl.action.editLock(ctrl.entity, true)">Kunci Data</button>
-
-			<div ng-if="ctrl.entity.edit_lock" >
-				<h4>Data Lock</h4>
-				<p>Oleh: {{ctrl.entity.edit_lock.name}} ({{ctrl.entity.edit_lock.id}}); Waktu: {{ctrl.entity.edit_lock.time}}</p>
-
-				<button class="btn btn-block btn-danger" ng-click="ctrl.action.editLock(ctrl.entity, false)">Batalkan Kunci Data</button>
-			</div>
-		</div>
-
-		<a ng-if="ctrl.entity.id" class="btn btn-block btn-success" ui-sref="entityLog({id:ctrl.entity.id})">Log</a>
-		<br>
-
-	</div>
+    <div class="col-sm-12">
+        <h3 ng-if="!ctrl.entity.id">Tambah Contact Baru</h3>
+        <h3 ng-if="ctrl.entity.id">Contact ID: {{ctrl.entity.id}}</h3>
+        <hr>
+        <div class="row">
+            <div class="col-sm-8">
+                <label>Nama</label>
+                <input type="text" ng-model="ctrl.entity.name" name="name">
+                <label>Nomor Telepon</label>
+                <input type="text" ng-model="ctrl.entity.phone_number" name="phone_number">
+                <label>Nomor Telepon 2</label>
+                <input type="text" ng-model="ctrl.entity.phone_number_2" name="phone_number_2">
+                <label>Email</label>
+                <input type="email" ng-model="ctrl.entity.email" name="email">
+                <label>Address</label>
+                <textarea ng-model="ctrl.entity.address" rows="4" style="height:80px;" name="address"></textarea>
+            </div>
+            <div class="col-sm-4">
+                <label>Nomor KTP</label>
+                <input type="text" ng-model="ctrl.entity.ktp" name="ktp">
+                <file-manager-upload displayed-input='{{ ctrl.fileManager.ktp.displayedInput }}' additional-data='{{ ctrl.fileManager.ktp.additionalData }}' uploaded-file="uploadedCustomerIdentification" on-file-uploaded="ctrl.entity.ktp_file_uuid=uploadedCustomerIdentification.uuid;ctrl.save(ctrl.entity);">
+                </file-manager-upload>
+                <file-manager-show display-type="img" file-uuid="{{ctrl.entity.ktp_file_uuid}}">
+                </file-manager-show>
+                <label>Nomor NPWP</label>
+                <input type="text" ng-model="ctrl.entity.npwp" name="npwp">
+                <div ng-if="!ctrl.entity.user_id">
+                    <label>Link dengan User</label>
+                    <account-finder-modal selected-user="user" on-user-selected="ctrl.entity.user_id=user.id"></account-finder-modal>
+                </div>
+                <div ng-if="ctrl.entity.user_id">
+                    <label>User ID</label>
+                    <input type="text" ng-model='ctrl.entity.user_id' readonly="readonly">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+        	<div ng-repeat="relationship in ctrl.relationships" class="col-sm-2">
+            <input type="checkbox" class="form-not-applied" ng-model="relationship.assigned" ng-change="ctrl.updateEntityRelationship(relationship)">
+            <label>{{ relationship.name }}</label><br>
+            </div>
+        </div>
+        <br>
+        <button class="btn btn-block btn-default" ng-click="ctrl.save(ctrl.entity)">Simpan</button>
+        <hr>
+        <div class="well">
+            <div ng-if="ctrl.entity && !ctrl.entity.deletion_request">
+                <button class="btn btn-block btn-danger" ng-click="ctrl.action.requestDelete(ctrl.entity, true)">
+                    Hapus
+                </button>
+            </div>
+            <div ng-if="ctrl.entity.deletion_request">
+                <h4>Delete Requested</h4>
+                <p>Dimita Oleh: {{ctrl.entity.deletion_request.name}} ({{ctrl.entity.deletion_request.id}}); Waktu: {{ctrl.entity.deletion_request.time}}</p>
+                <button class="btn btn-block btn-danger" ng-click="ctrl.delete(ctrl.entity)">Hapus</button>
+                <button class="btn btn-block btn-danger" ng-click="ctrl.action.requestDelete(ctrl.entity, false)">Batalkan</button>
+            </div>
+            <br>
+            <button ng-if="!ctrl.entity.edit_lock" class="btn btn-block btn-danger" ng-click="ctrl.action.editLock(ctrl.entity, true)">Kunci Data</button>
+            <div ng-if="ctrl.entity.edit_lock">
+                <h4>Data Lock</h4>
+                <p>Oleh: {{ctrl.entity.edit_lock.name}} ({{ctrl.entity.edit_lock.id}}); Waktu: {{ctrl.entity.edit_lock.time}}</p>
+                <button class="btn btn-block btn-danger" ng-click="ctrl.action.editLock(ctrl.entity, false)">Batalkan Kunci Data</button>
+            </div>
+        </div>
+        <a ng-if="ctrl.entity.id" class="btn btn-block btn-success" ui-sref="entityLog({id:ctrl.entity.id})">Log</a>
+        <br>
+    </div>
 </div>

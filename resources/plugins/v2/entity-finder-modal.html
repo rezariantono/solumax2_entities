@@ -1,145 +1,116 @@
 <button class="btn btn-sm btn-block btn-default" style="padding:8px 8px;border:1px solid #607285;" data-toggle="modal" data-target="#entity-finder-modal-{{modalId}}">{{ title || 'Cari Data Person / Organisasi'}}</button>
-
 <div class="modal fade" id="entity-finder-modal-{{modalId}}" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title"><strong>Filter</strong></h4>
-			</div>
-			<div class="modal-body">
-
-				<label>Name</label>
-				<a id="info-entity-searchmodal-name">?</a>
-				<input type="text" ng-model="filter.name" name="name">
-
-
-				<div class="row">
-					<div class="col-sm-6">
-
-						<label>Nomor Telepon</label>
-						<input type="text" ng-model="filter.phone_number" name="phone_number">
-
-					</div>
-					<div class="col-sm-6">
-						
-						<label>Email</label>
-						<input type="text" ng-model="filter.email" name="email">
-						
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-sm-3">
-
-						<label>ID</label>
-						<input type="number" ng-model="filter.id" name="id">
-					</div>
-					<div class="col-sm-7">
-
-						<label>KTP</label>
-						<input type="text" ng-model="filter.ktp" name="ktp">
-
-					</div>
-					<div class="col-sm-2">
-
-						<label>User Saja</label>
-						<input type="checkbox" ng-model="filter.is_linked_to_user" class="form-not-applied">
-
-					</div>
-				</div>
-
-
-
-				<div class="row">
-					<div class="col-sm-6">
-						
-						<label>Hasil Per Halaman</label>
-						<input type="text" ng-model="filter.paginate" name="paginate">
-
-					</div>
-					<div class="col-sm-6">
-
-
-						<label>Pengurutan</label>
-						<select ng-model="filter.order" ng-init="asc" name="order">
-							<option value="likeness">Termirip (nama)</option>
-							<option value="asc">Terlama</option>
-							<option value="desc">Terbaru</option>
-						</select>
-
-					</div>
-				</div>
-
-
-
-				<button class="btn btn-block btn-info" ng-click="search(filter)">Cari</button>
-				<br>
-				
-				<div class="table-responsive">
-					<table class="table table-hover table-bordered">
-						<thead>
-							<tr>
-								<th>ID</th>
-								<th>Nama</th>
-								<th>Alamat</th>
-								<th>Nomor Telepon</th>
-								<th>Email</th>
-								<th>Pilih</th>
-								<th>Buka</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="entity in entities">
-								<td>{{entity.id}}</td>
-								<td>{{entity.name}}</td>
-								<td>{{entity.address}}</td>
-								<td>{{entity.phone_number}}</td>
-								<td>{{entity.email}}</td>
-								<td><button class="btn btn-xs btn-warning" ng-click="select(entity)">Pilih</button></td>
-								<td><button class="btn btn-xs btn-warning" ng-click="openInApp(entity)">Buka</button></td>
-							</tr>
-
-							<tr ng-if="entities.length == 0">
-								<td colspan="7" class="text-center text-warning">Person / Organisasi tidak ditemukan</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-
-				<nav ng-if="meta.pagination">
-					<ul class="pagination">
-						<li ng-if="meta.pagination.links.previous">
-							<a ng-click="filter.pageDecrease();search(filter);" aria-label="Previous">
-								<span aria-hidden="true">&laquo;</span>
-							</a>
-						</li>
-						<li ng-if="meta.pagination.links.next">
-							<a ng-click="filter.pageIncrease();search(filter);" aria-label="Next">
-								<span aria-hidden="true">&raquo;</span>
-							</a>
-						</li>
-					</ul>
-				</nav>
-
-				<br>
-
-				<button ng-hide="{{ searchOnly == 'true' }}" class="btn btn-block btn-success" ng-click="registerNewEntity()">Baru</button>
-
-
-			</div>
-		</div>
-	</div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><strong>Filter</strong></h4>
+            </div>
+            <div class="modal-body">
+                <label>Name</label>
+                <a id="info-entity-searchmodal-name">?</a>
+                <input type="text" ng-model="filter.name" name="name">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>Nomor Telepon</label>
+                        <input type="text" ng-model="filter.phone_number" name="phone_number">
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Email</label>
+                        <input type="text" ng-model="filter.email" name="email">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label>ID</label>
+                        <input type="number" ng-model="filter.id" name="id">
+                    </div>
+                    <div class="col-sm-4">
+                        <label>KTP</label>
+                        <input type="text" ng-model="filter.ktp" name="ktp">
+                    </div>
+                    <div class="col-sm-4">
+                        <label>Hubungan</label>
+                        <select ng-model="filter.relationship_id" ng-options="relationship.id as relationship.name for relationship in relationships"></select>
+                    </div>
+                    <div class="col-sm-2">
+                        <label>User Saja</label>
+                        <input type="checkbox" ng-model="filter.is_linked_to_user" class="form-not-applied">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>Hasil Per Halaman</label>
+                        <input type="text" ng-model="filter.paginate" name="paginate">
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Pengurutan</label>
+                        <select ng-model="filter.order" ng-init="asc" name="order">
+                            <option value="asc">Terlama</option>
+                            <option value="desc">Terbaru</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-block btn-info" ng-click="search(filter)">Cari</button>
+                <br>
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nama</th>
+                                <th>Alamat</th>
+                                <th>Nomor Telepon</th>
+                                <th>Email</th>
+                                <th>Pilih</th>
+                                <th>Buka</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="entity in entities">
+                                <td>{{entity.id}}</td>
+                                <td>{{entity.name}}</td>
+                                <td>{{entity.address}}</td>
+                                <td>{{entity.phone_number}}</td>
+                                <td>{{entity.email}}</td>
+                                <td>
+                                    <button class="btn btn-xs btn-warning" ng-click="select(entity)">Pilih</button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-xs btn-warning" ng-click="openInApp(entity)">Buka</button>
+                                </td>
+                            </tr>
+                            <tr ng-if="entities.length == 0">
+                                <td colspan="7" class="text-center text-warning">Person / Organisasi tidak ditemukan</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <nav ng-if="meta.pagination">
+                    <ul class="pagination">
+                        <li ng-if="meta.pagination.links.previous">
+                            <a ng-click="filter.pageDecrease();search(filter);" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li ng-if="meta.pagination.links.next">
+                            <a ng-click="filter.pageIncrease();search(filter);" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <br>
+                <button ng-hide="{{ searchOnly == 'true' }}" class="btn btn-block btn-success" ng-click="registerNewEntity()">Baru</button>
+            </div>
+        </div>
+    </div>
 </div>
-
-
 <script type="text/javascript">
-
-	$('#info-entity-searchmodal-name').popover({
-		container: 'body',
-		placement: 'right',
-		trigger: 'hover',
-		content: 'Gunakan tanda | untuk memisahkan search kriteria'
-	})
-
+$('#info-entity-searchmodal-name').popover({
+    container: 'body',
+    placement: 'right',
+    trigger: 'hover',
+    content: 'Gunakan tanda | untuk memisahkan search kriteria'
+})
 </script>

@@ -2,7 +2,7 @@ var solumaxEntityFinder = angular
     .module('Solumax.Entity', [])
     .directive('entityFinderModal', function(
         $sce, $http, $timeout,
-        ExternalEntityModel) {
+        ExternalEntityModel, ExternalRelationshipModel) {
 
         return {
             templateUrl: $sce.trustAsResourceUrl(ExternalEntityModel.links.files + 'entity-finder-modal.html'),
@@ -48,6 +48,11 @@ var solumaxEntityFinder = angular
                             scope.meta = res.data.meta;
                         });
                 }
+
+                ExternalRelationshipModel.index()
+                    .then(function(res) {
+                        scope.relationships = res.data.data
+                    })
 
                 scope.filter = {
                     paginate: 20,
@@ -176,4 +181,15 @@ var solumaxEntityFinder = angular
         }
 
         return externalEntityModel;
+    })
+    .factory('ExternalRelationshipModel', function(
+        $http, LinkFactory, ExternalEntityModel) {
+
+        var externalRelationshipModel = {};
+
+        externalRelationshipModel.index = function(params) {
+            return $http.get(ExternalEntityModel.links.domain + 'entity/api/relationship/', { params: params });
+        }
+
+        return externalRelationshipModel;
     })
