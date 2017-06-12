@@ -39,3 +39,7 @@ Route::group(['prefix' => 'plugins', 'middleware' => 'cors'], function() {
         });
     });
 });
+
+Route::get('/tenant/index.html', function() {
+    return view('solumax.entity::tenantIndex');
+});
