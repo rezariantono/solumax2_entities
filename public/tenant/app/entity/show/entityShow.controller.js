@@ -6,7 +6,17 @@ app
 
         var vm = this;
 
+        $('#entity-dob').datepicker({
+            dateFormat: "yy-mm-dd",
+            defaultDate: "-30y",
+            changeYear: true,
+            changeMonth: true,
+        })
+
+
         vm.save = function(entity) {
+
+            console.log(entity)
 
             if ($stateParams.id) {
 

@@ -71,7 +71,7 @@ var solumaxEntityFinder = angular
     }).directive('entityUpdaterModal', function(
         $sce, $http, $timeout,
         ExternalEntityModel,
-        LinkFactory, GenerateLink) {
+        LinkFactory) {
 
         return {
             templateUrl: $sce.trustAsResourceUrl(ExternalEntityModel.links.files + 'entity-updater-modal.html'),
@@ -125,7 +125,7 @@ var solumaxEntityFinder = angular
                 }
 
                 scope.openInApp = function(entity) {
-                    window.open(GenerateLink.redirectWithJwt(ExternalEntityModel.links.domain + 'redirect-app/entity/' + entity.id));
+                    window.open(ExternalEntityModel.links.domain + 'redirect-app/entity/' + entity.id);
                 }
 
                 scope.update = function(entity) {

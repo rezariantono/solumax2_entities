@@ -1,0 +1,34 @@
+<span>
+	<label>Provinsi</label>
+	<select
+		ng-options="province as province.provinsi for province in provinces"
+		ng-model="province"
+		ng-change="filter='provinsi';value=province.provinsi;level=1;load(filter,value)">
+	</select>
+</span>
+<span ng-show="level>=1">
+	<label>Kota</label>
+	<select
+		ng-options="city as (city.kota + ' (' + city.jenis_kota + ')') for city in cities"
+		ng-model="city"
+		ng-change="filter='kota';value=city.kota;level=2;load(filter,value);innerjeniskota=city.jenis_kota">
+	</select>
+</span>
+<span ng-show="level>=2">
+	<label>Kecamatan</label>
+	<select
+		ng-options="kecamatan as kecamatan.kecamatan for kecamatan in kecamatans"
+		ng-model="kecamatan"
+		ng-change="filter='kecamatan';value=kecamatan.kecamatan;level=3;load(filter,value)">
+	</select>
+</span>
+<span ng-show="level>=3">
+	<label>Kelurahan</label>
+	<select
+		ng-options="kelurahan as (kelurahan.kelurahan + ' (' + kelurahan.kode_pos + ')') for kelurahan in kelurahans"
+		ng-model="kelurahan"
+		ng-change="filter='kelurahan';value=kelurahan.kelurahan;load(filter,value);innerkodepos=kelurahan.kode_pos;">
+	</select>
+</span>
+
+<label>Data Sekarang: {{ innerprovinsi }}, {{ innerkota }}, {{ innerkecamatan }}, {{ innerkelurahan }}, {{ innerkodepos }}</label><br>

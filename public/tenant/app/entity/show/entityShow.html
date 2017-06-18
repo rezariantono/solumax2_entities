@@ -15,6 +15,9 @@
                 <input type="email" ng-model="ctrl.entity.email" name="email">
                 <label>Address</label>
                 <textarea ng-model="ctrl.entity.address" rows="4" style="height:80px;" name="address"></textarea>
+                <area-selector provinsi="ctrl.entity.provinsi" kota="ctrl.entity.kota" kecamatan="ctrl.entity.kecamatan" kelurahan="ctrl.entity.kelurahan" kode-pos="ctrl.entity.kode_pos"></area-selector>
+                <label>Tanggal Lahir (YYYY/MM/DD)</label>
+                <input type="text" ng-model="ctrl.entity.dob" id="entity-dob" onfocus="this.blur()">
             </div>
             <div class="col-sm-4">
                 <label>Nomor KTP</label>
@@ -36,9 +39,13 @@
             </div>
         </div>
         <div class="row">
-        	<div ng-repeat="relationship in ctrl.relationships" class="col-sm-2">
-            <input type="checkbox" class="form-not-applied" ng-model="relationship.assigned" ng-change="ctrl.updateEntityRelationship(relationship)">
-            <label>{{ relationship.name }}</label><br>
+            <div class="col-sm-12">
+                <p>Hubungan</p>
+            </div>
+            <div ng-repeat="relationship in ctrl.relationships" class="col-sm-2">
+                <input type="checkbox" class="form-not-applied" ng-model="relationship.assigned" ng-change="ctrl.updateEntityRelationship(relationship)">
+                <label>{{ relationship.name }}</label>
+                <br>
             </div>
         </div>
         <br>
@@ -46,9 +53,7 @@
         <hr>
         <div class="well">
             <div ng-if="ctrl.entity && !ctrl.entity.deletion_request">
-                <button class="btn btn-block btn-danger" ng-click="ctrl.action.requestDelete(ctrl.entity, true)">
-                    Hapus
-                </button>
+                <button class="btn btn-block btn-danger" ng-click="ctrl.action.requestDelete(ctrl.entity, true)">Hapus</button>
             </div>
             <div ng-if="ctrl.entity.deletion_request">
                 <h4>Delete Requested</h4>

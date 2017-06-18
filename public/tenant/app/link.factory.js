@@ -19,6 +19,10 @@ app
 				tenantSelect: apps.authentication + 'token-exchange/tenant-select'
 			},
 
+			area: {
+				api: apps.entity + 'api/area/',
+			},
+
 			entity: {
 				base: domains.entity,
 				api: apps.entity + 'api/entity/',
