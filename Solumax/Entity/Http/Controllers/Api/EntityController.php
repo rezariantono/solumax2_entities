@@ -45,6 +45,10 @@ class EntityController extends Controller {
             }
         }
 
+        if ($request->has('address')) {
+            $query->where('address', 'LIKE', '%' . $request->get('address') . '%');
+        }
+
         if ($request->has('phone_number')) {
             $query->where('phone_number', 'LIKE', '%' . $request->get('phone_number') . '%');
         }
