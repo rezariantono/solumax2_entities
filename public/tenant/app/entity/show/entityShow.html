@@ -22,7 +22,7 @@
             <div class="col-sm-4">
                 <label>Nomor KTP</label>
                 <input type="text" ng-model="ctrl.entity.ktp" name="ktp">
-                <file-manager-upload displayed-input='{{ ctrl.fileManager.ktp.displayedInput }}' additional-data='{{ ctrl.fileManager.ktp.additionalData }}' uploaded-file="uploadedCustomerIdentification" on-file-uploaded="ctrl.entity.ktp_file_uuid=uploadedCustomerIdentification.uuid;ctrl.save(ctrl.entity);">
+                <file-manager-upload ng-show="ctrl.entity.id && ctrl.entity.ktp" displayed-input='{{ ctrl.fileManager.ktp.displayedInput }}' additional-data='{{ ctrl.fileManager.ktp.additionalData }}' uploaded-file="uploadedCustomerIdentification" on-file-uploaded="ctrl.entity.ktp_file_uuid=uploadedCustomerIdentification.uuid;ctrl.save(ctrl.entity);">
                 </file-manager-upload>
                 <file-manager-show display-type="img" file-uuid="{{ctrl.entity.ktp_file_uuid}}">
                 </file-manager-show>
