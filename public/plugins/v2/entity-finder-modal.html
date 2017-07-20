@@ -32,8 +32,21 @@
                         <input type="text" ng-model="filter.ktp" name="ktp">
                     </div>
                     <div class="col-sm-4">
-                        <label>Hubungan</label>
-                        <select ng-model="filter.relationship_id" ng-options="relationship.id as relationship.name for relationship in relationships"></select>
+                        <div class="dropdown dropdown-scroll">
+                            <button class="btn btn-default btn-block dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Hubungan <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                <li role="presentation">
+                                    <input type="text" class="form-control" placeholder="Cari Relation" ng-model="x"></input>
+                                </li>
+                                <li ng-repeat='relationship in relationships | filter:x'>
+                                    <a ng-click="checkRelationship(relationship)">
+                                        <input type="checkbox" class="form-not-applied" ng-model="relationshipIdsChecked[relationship.id].checked">
+                                        {{ relationship.name }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="col-sm-2">
                         <label>User Saja</label>

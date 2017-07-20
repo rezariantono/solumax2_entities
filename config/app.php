@@ -215,6 +215,7 @@ return [
 	'ParsedJwt' => Wala\Jwt\Facade\ParsedJwtFacade::class,
         
 	'SolLog' => Solumax\Logger\App\Log\Facade\LogFacade::class,
+        'SolFileManager' => \Solumax\FileManager\App\File\Facade\FileFacade::class,
     ],
 
 ];

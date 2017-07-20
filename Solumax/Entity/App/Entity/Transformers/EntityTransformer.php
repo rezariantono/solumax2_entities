@@ -11,7 +11,7 @@ class EntityTransformer extends Fractal\TransformerAbstract {
     
     public function transform(EntityModel $entity) {
         
-        return [
+        $data = [
             'id' => (int) $entity->id,
             'user_id' => $entity->user_id ? (int) $entity->user_id : null,
             
@@ -39,6 +39,12 @@ class EntityTransformer extends Fractal\TransformerAbstract {
             
             'creator_tenant_id' => (int) $entity->creator_tenant_id,
         ];
+        
+        if ($entity->ktp_file_uuid) {
+            $data['ktp_file_url'] = \SolFileManager::find($entity->ktp_file_uuid)->getFullUrl();
+        }
+        
+        return $data;
     }
     
     public function includeEntityRelationships(EntityModel $entity) {

@@ -11,11 +11,27 @@ var solumaxEntityFinder = angular
                 selectedEntity: "=",
                 additionalParams: "@",
                 onEntitySelected: "&",
-                searchOnly: "@"
+                searchOnly: "@",
+                relationshipIds: '@',
             },
             link: function(scope, elem, attrs) {
 
                 scope.modalId = Math.random().toString(36).substring(2, 7)
+
+                scope.relationshipIdsChecked = {}
+                scope.checkRelationship = function(relationship) {
+                    if (!_.get(scope.relationshipIdsChecked[relationship.id], 'checked')) {
+                        scope.relationshipIdsChecked[relationship.id] = {
+                            id: relationship.id,
+                            checked: true
+                        }
+                    } else {
+                        scope.relationshipIdsChecked[relationship.id] = {
+                            id: relationship.id,
+                            checked: false
+                        }
+                    }
+                }
 
                 scope.registerNewEntity = function() {
                     window.open(ExternalEntityModel.links.redirectApp.new);
@@ -41,6 +57,8 @@ var solumaxEntityFinder = angular
                         _.assign(scope.filter, JSON.parse(scope.additionalParams))
                     }
 
+                    scope.filter.relationship_ids = _.flatMap(_.filter(scope.relationshipIdsChecked, {checked: true}), 'id').join(',')
+
                     ExternalEntityModel.index(_.omit(scope.filter, ['pageIncrease', 'pageDecrease']))
                         .then(function(res) {
 
@@ -64,8 +82,15 @@ var solumaxEntityFinder = angular
                     pageDecrease: function() {
                         this.page--;
                     }
-                };
+                }
 
+                scope.$watch('relationshipIds', function(newVal) {
+                    if (newVal) {
+                        _.forEach(newVal.split(','), function(id) {
+                            scope.checkRelationship({id: id})
+                        })
+                    }
+                })
             }
         };
     }).directive('entityUpdaterModal', function(

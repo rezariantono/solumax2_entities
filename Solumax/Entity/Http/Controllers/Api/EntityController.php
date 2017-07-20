@@ -76,6 +76,9 @@ class EntityController extends Controller {
         if ($request->has('relationship_id')) {
             $query->join('entity_relationships', 'entities.id', '=', 'entity_relationships.entity_id')
                     ->where('entity_relationships.relationship_id', $request->get('relationship_id'));
+        } else if ($request->has('relationship_ids')) {
+            $query->join('entity_relationships', 'entities.id', '=', 'entity_relationships.entity_id')
+                    ->whereIn('entity_relationships.relationship_id', explode(',', $request->get('relationship_ids')));
         }
 
         $query->orderBy($request->get('order_by', 'id'), $request->get('order', 'asc'))
