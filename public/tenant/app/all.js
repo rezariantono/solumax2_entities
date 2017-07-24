@@ -566,7 +566,6 @@ angular
                 } else {
 
                     alert(rejection.data.errors)
-
                 }
             };
 
@@ -579,12 +578,14 @@ angular
             };
 
             if (rejection.status == 403) {
-                alert('Anda tidak memiliki access untuk fungsi ini');
+                alert('Anda tidak memiliki access untuk fungsi ini\n' . rejection.data);
             };
 
             if (rejection.status == 404) {
                 alert('Data yang Anda cari tidak tersedia');
             };
+
+            document.dispatchEvent(new CustomEvent("stop-loading"))
 
             return $q.reject(rejection);
         }
@@ -830,42 +831,113 @@ angular
 		$httpProvider.interceptors.push('JwtErrorInterceptor');
 	});
 angular
-	.module('Solumax.Loading', [])
-	.directive('fullscreenLoading', function($window) {
+    .module('Solumax.Loading', [])
+    .directive('fullscreenLoading', function($window) {
+
+        return {
+            template: function() {
+                return "<div class='text-center' style='z-index:100000;position:fixed;width:100%;height:100%;top:0;left:0;background:white;opacity:0.5;display:flex;align-items:center;vertical-align:middle;'><i class='fa fa-spinner fa-spin fa-5x' style='margin:auto;color:black;'></i></div>";
+            },
+            restrict: 'AE',
+            link: function(scope, elem, attrs) {}
+        };
+    })
+    .directive('elementLoading', function() {
+
+        return {
+            restrict: 'E',
+            link: function(scope, elem, attrs) {
+
+                scope.$watch(attrs.elementLoading, function(value) {
+                    console.log(value);
+                    if (value) {
+                        attrs.$set('disabled', true);
+                    } else {
+                        elm.removeAttr('disabled');
+                    };
+                });
+
+            }
+        };
+    })
+    .run(function(
+        $rootScope, $compile) {
+
+        document.addEventListener("loading", function() {
+
+            $('.solumax-loading').remove()
+            $('section').append("<div class='solumax-loading text-center' style='z-index:100000;position:fixed;width:100%;height:100%;top:0;left:0;background:white;opacity:0.5;display:flex;align-items:center;vertical-align:middle;'><i class='fa fa-spinner fa-spin fa-5x' style='margin:auto;color:black;'></i></div>")
+        })
+
+        document.addEventListener("stop-loading", function() {
+
+            $('.solumax-loading').remove()
+        })
+
+    })
+    .factory('SolumaxLoading', function() {
+
+        var solumaxLoading = {}
+
+        solumaxLoading.start = function() {
+
+            document.dispatchEvent(new CustomEvent("loading"))
+        }
+
+        solumaxLoading.stop = function() {
+
+            document.dispatchEvent(new CustomEvent("stop-loading"))
+        }
+
+        return solumaxLoading
+    })
+
+
+// document.dispatchEvent(new CustomEvent("loading"))
+// document.dispatchEvent(new CustomEvent("stop-loading"))
+
+angular
+	.module('Solumax.Messenger', [])
+	.directive('whatsappMessenger', function() {
 
 		return {
-			template: function() {
-
-				return "<div class='text-center' style='z-index:100000;position:fixed;width:100%;height:100%;top:0;left:0;background:white;opacity:0.5;display:flex;align-items:center;vertical-align:middle;'><i class='fa fa-spinner fa-spin fa-5x' style='margin:auto;color:black;'></i></div>";
-
+			template: '<button ng-show="phone" class="btn btn-block btn-success" style="background-color: #42f4c2; color: #000000; border-radius: 5px; border: 0px;" ng-click="send()"> <i class="fa fa-whatsapp" aria-hidden="true"></i> Kirim WA ke {{ phone }}</button>',
+			scope: {
+				innerPhone: '@phone',
+				innerText: '@text'
 			},
-			restrict: 'AE',
 			link: function(scope, elem, attrs) {
+
+				attrs.$observe('phone', function(val) { scope.phone = String(val) })
+				attrs.$observe('text', function(val) { scope.text = val })
+
+				function formatPhoneNumber(phoneNumber) {
+
+					switch (true) {
+						case phoneNumber.substring(0, 1) == 0:
+							return '62' + phoneNumber.substring(1)
+						case phoneNumber.substring(0, 3) == '+62':
+							return '62' + phoneNumber.substring(3)
+						default:
+							return phoneNumber
+					}
+				}
+
+				scope.send = function() {
+
+					var params = $.param({
+						phone: formatPhoneNumber(scope.phone),
+					})
+
+					if (scope.text) {
+						params = params + '&text=' + encodeURIComponent(scope.text)
+					}
+
+					window.open("https://api.whatsapp.com/send?" + params)
+				}
 			}
-		};
+		}
 	})
-	.directive('elementLoading', function() {
-
-		return {
-			restrict: 'E',
-			link: function(scope, elem, attrs) {
-
-				console.log(attrs);
-
-			    scope.$watch(attrs.elementLoading, function(value) {
-			    	console.log(value);
-			    	if (value) {
-			    		attrs.$set('disabled', true);
-			    	} else {
-			    		elm.removeAttr('disabled');
-			    	};
-			    });
-
-			}
-		};
-	});
-
-	// <fullscreen-loading ng-if="ctrl.loading"></fullscreen-loading>
 angular
 	.module('Solumax.PageTitle', [])
 	.run(function($rootScope, $state) {
@@ -921,8 +993,6 @@ angular
 						pages.unshift({page: latestPage})
 					}
 
-					console.log(pages)
-
 					return pages
 				}
 
@@ -937,6 +1007,25 @@ angular
 
 			}
 		};
+	})
+	.filter('fromDateTimeString', function(){
+		return function(text, format, initialFormat) {
+
+
+			var date 
+			
+			if (!text) {
+				return ''
+			}
+
+			date = moment(text, initialFormat || 'YYYY-MM-DD HH:mm:ss')
+
+			if (!date.isValid()) {
+				date = moment(text)
+			}
+
+			return date.format(format || 'YYYY-MM-DD')
+		}
 	})
 	
 angular

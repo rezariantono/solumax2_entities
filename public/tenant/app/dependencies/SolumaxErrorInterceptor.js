@@ -40,7 +40,6 @@ angular
                 } else {
 
                     alert(rejection.data.errors)
-
                 }
             };
 
@@ -53,12 +52,14 @@ angular
             };
 
             if (rejection.status == 403) {
-                alert('Anda tidak memiliki access untuk fungsi ini');
+                alert('Anda tidak memiliki access untuk fungsi ini\n' . rejection.data);
             };
 
             if (rejection.status == 404) {
                 alert('Data yang Anda cari tidak tersedia');
             };
+
+            document.dispatchEvent(new CustomEvent("stop-loading"))
 
             return $q.reject(rejection);
         }

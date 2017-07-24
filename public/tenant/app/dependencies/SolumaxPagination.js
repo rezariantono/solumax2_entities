@@ -30,8 +30,6 @@ angular
 						pages.unshift({page: latestPage})
 					}
 
-					console.log(pages)
-
 					return pages
 				}
 
@@ -46,5 +44,24 @@ angular
 
 			}
 		};
+	})
+	.filter('fromDateTimeString', function(){
+		return function(text, format, initialFormat) {
+
+
+			var date 
+			
+			if (!text) {
+				return ''
+			}
+
+			date = moment(text, initialFormat || 'YYYY-MM-DD HH:mm:ss')
+
+			if (!date.isValid()) {
+				date = moment(text)
+			}
+
+			return date.format(format || 'YYYY-MM-DD')
+		}
 	})
 	
