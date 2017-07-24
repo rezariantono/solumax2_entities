@@ -1321,7 +1321,7 @@ app
 	});
 app
     .controller('EntityShowController', function(
-        $stateParams, $state,
+        $stateParams, $state, $scope,
         EntityModel, RelationshipModel, EntityRelationshipModel,
         DirectUserModel) {
 
@@ -1398,9 +1398,26 @@ app
         vm.updateEntityRelationship = function(relationship) {
 
             if (relationship.assigned) {
-                EntityRelationshipModel.store({relationship_id: relationship.id, entity_id: vm.entity.id})
+                EntityRelationshipModel.store({ relationship_id: relationship.id, entity_id: vm.entity.id })
             } else {
-                EntityRelationshipModel.delete({relationship_id: relationship.id, entity_id: vm.entity.id})
+                EntityRelationshipModel.delete({ relationship_id: relationship.id, entity_id: vm.entity.id })
+            }
+        }
+
+        vm.coordinate = {
+            set: function() {
+
+                navigator.geolocation.getCurrentPosition(function(position) {
+
+                    vm.entity.address_lng = position.coords.longitude
+                    vm.entity.address_lat =position.coords.latitude
+
+                    $scope.$apply()
+                })
+            },
+            open: function() {
+                var coordString = _.toString(vm.entity.address_lat) + ',' + _.toString(vm.entity.address_lng)
+                window.open('https://maps.googleapis.com/maps/api/staticmap?center='+coordString+'&markers='+coordString+'&zoom=16&size=600x300')
             }
         }
 
@@ -1419,6 +1436,7 @@ app
             });
         }
 
+        vm.entity = {}
         if ($stateParams.id) {
 
             EntityModel.get($stateParams.id)
@@ -1451,7 +1469,6 @@ app
             },
         }
     });
-
 app
     .controller('RelationshipIndexController', function(
         $state,

@@ -22,6 +22,8 @@ class EntityTransformer extends Fractal\TransformerAbstract {
             
             'email' => (string) $entity->email,
             'address' => (string) $entity->address,
+            'address_lng' => $entity->address_lng ? (double) $entity->address_lng : null,
+            'address_lat' => $entity->address_lat ? (double) $entity->address_lat : null,
             'dob' => $entity->dob ? $entity->dob->toDateString() : null,
             
             'provinsi' => $entity->provinsi,

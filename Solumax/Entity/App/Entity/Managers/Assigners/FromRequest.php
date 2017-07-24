@@ -16,7 +16,8 @@ class FromRequest {
 
         $params = ['name', 'phone_number', 'phone_number_2',
             'provinsi', 'kota', 'kecamatan', 'kelurahan', 'kode_pos',
-            'email', 'address', 'ktp', 'ktp_file_uuid', 'npwp', 'user_id'];
+            'email', 'address', 'address_lng', 'address_lat',
+            'ktp', 'ktp_file_uuid', 'npwp', 'user_id'];
 
         foreach ($params as $param) {
             if (!empty($request->get($param))) {

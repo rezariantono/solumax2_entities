@@ -15,6 +15,20 @@
                 <input type="email" ng-model="ctrl.entity.email" name="email">
                 <label>Address</label>
                 <textarea ng-model="ctrl.entity.address" rows="4" style="height:80px;" name="address"></textarea>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label>Lng</label>
+                        <input type="text" ng-model="ctrl.entity.address_lng" readonly>
+                    </div>
+                    <div class="col-sm-4">
+                        <label>Lat</label>
+                        <input type="text" ng-model="ctrl.entity.address_lat" readonly>
+                    </div>
+                    <div class="col-sm-4">
+                        <button class="btn btn-block btn-default" ng-click="ctrl.coordinate.set()">Set Lokasi</button>
+                        <button ng-show="ctrl.entity.address_lng" class="btn btn-block btn-xs btn-default" ng-click="ctrl.coordinate.open()">Buka Peta</button>
+                    </div>
+                </div>
                 <area-selector provinsi="ctrl.entity.provinsi" kota="ctrl.entity.kota" kecamatan="ctrl.entity.kecamatan" kelurahan="ctrl.entity.kelurahan" kode-pos="ctrl.entity.kode_pos"></area-selector>
                 <label>Tanggal Lahir (YYYY-MM-DD)</label>
                 <input type="text" ng-model="ctrl.entity.dob" id="entity-dob" onfocus="this.blur()">
