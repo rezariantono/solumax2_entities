@@ -43,7 +43,7 @@ class EntityTransformer extends Fractal\TransformerAbstract {
         ];
         
         if ($entity->ktp_file_uuid) {
-            $data['ktp_file_url'] = \SolFileManager::find($entity->ktp_file_uuid)->getFullUrl();
+            $data['ktp_file_url'] = \SolFileManager::model()->where('uuid', $entity->ktp_file_uuid)->first()->getFullUrl();
         }
         
         return $data;
