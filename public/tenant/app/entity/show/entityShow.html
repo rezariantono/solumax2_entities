@@ -49,6 +49,11 @@
                     <label>User ID</label>
                     <input type="text" ng-model='ctrl.entity.user_id' readonly="readonly">
                 </div>
+                <span ng-show="ctrl.entity.updated_at">
+                    <br>
+                    <label>Dibuat: {{ ctrl.entity.created_at }}</label><br>
+                    <label>Terakhir Update: {{ ctrl.entity.updated_at }}</label>
+                </span>
             </div>
         </div>
         <div ng-show="ctrl.entity.id" class="row">

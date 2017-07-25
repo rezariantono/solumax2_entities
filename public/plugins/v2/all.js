@@ -57,7 +57,7 @@ var solumaxEntityFinder = angular
                         _.assign(scope.filter, JSON.parse(scope.additionalParams))
                     }
 
-                    scope.filter.relationship_ids = _.flatMap(_.filter(scope.relationshipIdsChecked, {checked: true}), 'id').join(',')
+                    scope.filter.relationship_ids = _.flatMap(_.filter(scope.relationshipIdsChecked, { checked: true }), 'id').join(',')
 
                     ExternalEntityModel.index(_.omit(scope.filter, ['pageIncrease', 'pageDecrease']))
                         .then(function(res) {
@@ -87,13 +87,82 @@ var solumaxEntityFinder = angular
                 scope.$watch('relationshipIds', function(newVal) {
                     if (newVal) {
                         _.forEach(newVal.split(','), function(id) {
-                            scope.checkRelationship({id: id})
+                            scope.checkRelationship({ id: id })
                         })
                     }
                 })
             }
         };
-    }).directive('entityUpdaterModal', function(
+    })
+    .directive('entityRedirect', function(ExternalEntityModel) {
+
+        return {
+            template: '<a class="btn btn-xs btn-primary" ng-click="open(entity)">{{ entity.id || "Belum Terdaftar. Klik Untuk Buat Baru" }}</a>',
+            restrict: 'E',
+            scope: {
+                innerEntity: '=entity',
+                entityId: '@'
+            },
+            link: function(scope, elem, attrs) {
+
+                scope.$watch('innerEntity', function(newValue) {
+                    if (newValue) {
+                        scope.entity = scope.innerEntity
+                    }
+                })
+
+                attrs.$observe('entityId', function(newValue) {
+                    if (newValue) {
+                        scope.entity = {
+                            id: newValue
+                        }
+                    }
+                })
+
+                scope.open = function(entity) {
+                    if (entity) {
+                        window.open(ExternalEntityModel.links.redirectApp.openById + entity.id);
+                    } else {
+                        window.open(ExternalEntityModel.links.redirectApp.openById + entity.id);
+                    }
+                }
+            }
+        }
+    })
+    .directive('entityRetriever', function(
+        $timeout,
+        ExternalEntityModel) {
+
+        return {
+            template: '<a ng-show="entityId" class="btn btn-xs btn-primary" ng-click="retrieve(entityId)">Refresh Data</a>',
+            restrict: 'E',
+            scope: {
+                entityId: '@',
+                entity: '=',
+                onEntityRetrieved: '&',
+            },
+            link: function(scope, elem, attrs) {
+
+                scope.retrieve = function(entityId) {
+
+                    ExternalEntityModel.get(entityId)
+                        .then(function(res) {
+
+                            scope.entity = res.data.data;
+                            alert('Entity data berhasil direfresh');
+
+                            $timeout(function() {
+                                scope.onEntityRetrieved();
+                            }, 250);
+
+
+                        });
+
+                }
+            }
+        }
+    })
+    .directive('entityUpdaterModal', function(
         $sce, $http, $timeout,
         ExternalEntityModel,
         LinkFactory) {
@@ -112,11 +181,7 @@ var solumaxEntityFinder = angular
 
                 scope.modalId = Math.random().toString(36).substring(2, 7)
 
-                if (typeof scope.selectedEntity != 'undefined') {
-
-                    scope.entity = scope.selectedEntity
-
-                } else if (scope.entityId) {
+                if (scope.entityId) {
 
                     attrs.$observe('entityId', function(newValue) {
 
@@ -126,6 +191,12 @@ var solumaxEntityFinder = angular
                             })
                     })
 
+                } else {
+                    scope.$watch('selectedEntity', function(newValue) {
+                        if (newValue) {
+                            scope.entity = newValue
+                        }
+                    })
                 }
 
                 scope.insertValues = function() {
@@ -218,5 +289,4 @@ var solumaxEntityFinder = angular
 
         return externalRelationshipModel;
     })
-
 //# sourceMappingURL=all.js.map

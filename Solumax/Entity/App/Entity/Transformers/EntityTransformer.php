@@ -40,6 +40,9 @@ class EntityTransformer extends Fractal\TransformerAbstract {
             'edit_lock' => $entity->edit_lock ? json_decode($entity->edit_lock) : null, 
             
             'creator_tenant_id' => (int) $entity->creator_tenant_id,
+
+            'created_at' => $entity->created_at ? $entity->created_at->toDateTimeString() : null,
+            'updated_at' => $entity->updated_at ? $entity->updated_at->toDateTimeString() : null,
         ];
         
         if ($entity->ktp_file_uuid) {

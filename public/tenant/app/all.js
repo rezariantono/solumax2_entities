@@ -1,6 +1,6 @@
 var app = angular
 	.module('Solumax.Entities', ['ui.router',
-		'Solumax.ErrorInterceptor', 'Solumax.JwtManager', 'Solumax.Loading',
+		'Solumax.ErrorInterceptor', 'Solumax.JwtManager', 'Solumax.Loading', 'Solumax.Pagination',
 		'Solumax.TenantDatabaseConnection', 'Solumax.Entity', 'Solumax.DirectUser',
 		'Solumax.Logger', 'Solumax.AccountPlugin', 'Solumax.FileManager'])
 	.factory('AppFactory', function() {

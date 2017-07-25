@@ -18,15 +18,16 @@
     <!-- Custom -->
     <link rel="stylesheet" type="text/css" href="/standard/custom/css/form.css">
     <link rel="stylesheet" type="text/css" href="/standard/custom/css/pastel-colors.css">
+
     <script type="text/javascript" src="/standard/jquery/jquery-2.2.0.min.js"></script>
     <script type="text/javascript" src="/standard/jquery-ui-1.11.4/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/standard/angular/angular.min.js"></script>
     <script type="text/javascript" src="/standard/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/standard/lodash-4.13.1/lodash.min.js"></script>
-    <script type="text/javascript" src="/standard/localforage/localforage.min.js"></script>
-    <script type="text/javascript" src="/standard/async-1.5.2/async.min.js"></script>
     <script type="text/javascript" src="/solumax/file-manager/v2/file-manager.js"></script>
     <script type="text/javascript" src="/custom/js/URI.js"></script>
+    <script type="text/javascript" src="/standard/moment-2.11.2/moment.min.js"></script>
+
     @if (env('APP_ENV') == 'dev')
     <script type="text/javascript" src="('http:' . explode(':', Request::root())[1] . ':10000/')/plugins/1.0/all.js"></script>
     @else 
@@ -34,6 +35,7 @@
     @endif
     <script type="text/javascript" src="/solumax/logger/logger.js"></script>
     <script type="text/javascript" src="/plugins/v2/all.js"></script>
+
     <script src="app/all.js"></script>
 </head>
 
