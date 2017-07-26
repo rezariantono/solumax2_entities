@@ -36,7 +36,7 @@
             <div class="col-sm-4">
                 <label>Nomor KTP</label>
                 <input type="text" ng-model="ctrl.entity.ktp" name="ktp">
-                <file-manager-upload ng-show="ctrl.entity.id && ctrl.entity.ktp" displayed-input='{{ ctrl.fileManager.ktp.displayedInput }}' additional-data='{{ ctrl.fileManager.ktp.additionalData }}' uploaded-file="uploadedCustomerIdentification" on-file-uploaded="ctrl.entity.ktp_file_uuid=uploadedCustomerIdentification.uuid;ctrl.save(ctrl.entity);">
+                <file-manager-upload ng-show="ctrl.entity.id && ctrl.entity.ktp" file-url="." displayed-input='{{ ctrl.fileManager.ktp.displayedInput }}' additional-data='{{ ctrl.fileManager.ktp.additionalData }}' uploaded-file="uploadedCustomerIdentification" on-file-uploaded="ctrl.entity.ktp_file_uuid=uploadedCustomerIdentification.uuid;ctrl.save(ctrl.entity);">
                 </file-manager-upload>
                 <img ng-show="ctrl.entity.ktp_file_url" ng-src="{{ ctrl.entity.ktp_file_url }}" class="img-responsive">
                 <label>Nomor NPWP</label>
