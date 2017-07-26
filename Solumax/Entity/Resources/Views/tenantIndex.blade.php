@@ -24,7 +24,7 @@
     <script type="text/javascript" src="/standard/angular/angular.min.js"></script>
     <script type="text/javascript" src="/standard/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/standard/lodash-4.13.1/lodash.min.js"></script>
-    <script type="text/javascript" src="/solumax/file-manager/v2/file-manager.js"></script>
+    <script type="text/javascript" src="/solumax/file-manager/v3.0/file-manager.js"></script>
     <script type="text/javascript" src="/custom/js/URI.js"></script>
     <script type="text/javascript" src="/standard/moment-2.11.2/moment.min.js"></script>
 
