@@ -1,17 +1,20 @@
 <div class="well">
-	<form id="file-manager-upload-form-{{boxId}}">
-
-		<div ng-if="attrs.nameLabel">
-			<label>{{ attrs.nameLabel || 'Nama' }}</label>
-			<input type="text" name="file-manager-name" id="file-manager-name-{{boxId}}" ng-model="formData.name">
-		</div>
-
-		<label>{{ attrs.fileLabel || 'File' }}</label>
-		<input type="file" name="file-manager-file-{{boxId}}" id="file-manager-file-{{boxId}}">
-
-		<button ng-click="upload()" class="btn btn-block btn-warning btn-sm" ng-disabled="uploading">Upload</button>
-
-		<button ng-if="display.reset.show" ng-click="reset()" class="btn btn-block btn-danger btn-sm" ng-disabled="uploading">Reset</button>
-
-	</form>
+    <form id="file-manager-upload-form-{{boxId}}">
+        <div ng-show="attrs.nameLabel">
+            <label>{{ attrs.nameLabel || 'Nama' }}</label>
+            <input type="text" name="file-manager-name" id="file-manager-name-{{boxId}}" ng-model="formData.name">
+        </div>
+        <label>{{ attrs.fileLabel || 'File' }}</label>
+        <input type="file" name="file-manager-file-{{boxId}}" id="file-manager-file-{{boxId}}">
+        <div class="row" ng-show="fileUrl">
+            <div class="col-sm-8">
+                <input type="text" ng-model="fileUrl">
+            </div>
+            <div class="col-sm-4">
+                <button ng-click="uploadFromUrl()" class="btn btn-block btn-primary btn-sm" ng-disabled="uploading">Upload Dari URL</button>
+            </div>
+        </div>
+        <button ng-click="upload()" class="btn btn-block btn-warning btn-sm" ng-disabled="uploading">Upload</button>
+        <button ng-if="display.reset.show" ng-click="reset()" class="btn btn-block btn-danger btn-sm" ng-disabled="uploading">Reset</button>
+    </form>
 </div>
