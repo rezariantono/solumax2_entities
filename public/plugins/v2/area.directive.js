@@ -1,10 +1,10 @@
-app
+solumaxEntityFinder
     .directive('areaSelector', function(
-        $parse,
-        AreaModel) {
+        $sce,
+        EntityPluginsFactory) {
 
         return {
-            templateUrl: 'app/area/selector/areaSelector.html',
+            templateUrl: $sce.trustAsResourceUrl(EntityPluginsFactory.links.files + 'area-selector.html'),
             scope: {
                 innerprovinsi: '=provinsi',
                 innerkota: '=kota',
@@ -15,16 +15,9 @@ app
             },
             link: function(scope, elem, attrs) {
 
-
-                // _.each(['innerprovinsi', 'innerkota', 'innerkecamatan', 'innerkelurahan'], function(val) {
-                //     scope.$watch(val, function(newValue) {
-                //         scope[val.substring(5,100)] = newValue
-                //     })
-                // })
-
                 scope.load = function(filter, value) {
 
-                    AreaModel.retrieve(filter, value)
+                    EntityPluginsFactory.models.area.retrieve(filter, value)
                         .then(function(res) {
 
                             switch (filter) {

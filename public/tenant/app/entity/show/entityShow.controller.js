@@ -16,8 +16,6 @@ app
 
         vm.save = function(entity) {
 
-            console.log(entity)
-
             if ($stateParams.id) {
 
                 EntityModel.update(entity)
@@ -96,7 +94,8 @@ app
             },
             open: function() {
                 var coordString = _.toString(vm.entity.address_lat) + ',' + _.toString(vm.entity.address_lng)
-                window.open('https://maps.googleapis.com/maps/api/staticmap?center='+coordString+'&markers='+coordString+'&zoom=16&size=600x300')
+                var placeString = _.toString(vm.entity.address_lat) + '+' + _.toString(vm.entity.address_lng)
+                window.open('https://www.google.co.id/maps/place/'+placeString+'/@'+coordString+',20z?hl=en')
             }
         }
 

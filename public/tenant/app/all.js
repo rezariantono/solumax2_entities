@@ -1195,61 +1195,6 @@ app
 
 		return relationshipModel;
 	});
-app
-    .directive('areaSelector', function(
-        $parse,
-        AreaModel) {
-
-        return {
-            templateUrl: 'app/area/selector/areaSelector.html',
-            scope: {
-                innerprovinsi: '=provinsi',
-                innerkota: '=kota',
-                innerjeniskota: '=jenisKota',
-                innerkecamatan: '=kecamatan',
-                innerkelurahan: '=kelurahan',
-                innerkodepos: '=kodePos',
-            },
-            link: function(scope, elem, attrs) {
-
-
-                // _.each(['innerprovinsi', 'innerkota', 'innerkecamatan', 'innerkelurahan'], function(val) {
-                //     scope.$watch(val, function(newValue) {
-                //         scope[val.substring(5,100)] = newValue
-                //     })
-                // })
-
-                scope.load = function(filter, value) {
-
-                    AreaModel.retrieve(filter, value)
-                        .then(function(res) {
-
-                            switch (filter) {
-                                case "provinsi":
-                                    scope.cities = res.data.data
-                                    break
-                                case "kota":
-                                    scope.kecamatans = res.data.data
-                                    break
-                                case "kecamatan":
-                                    scope.kelurahans = res.data.data
-                                    break
-                                case undefined:
-                                    scope.provinces = res.data.data
-                                    break
-                            }
-                        })
-
-                    scope['inner' + filter] = value
-                }
-                scope.load()
-
-
-            }
-        }
-
-    })
-
 !function(){angular.module("angular-jwt",["angular-jwt.interceptor","angular-jwt.jwt"]),angular.module("angular-jwt.interceptor",[]).provider("jwtInterceptor",function(){this.urlParam=null,this.authHeader="Authorization",this.authPrefix="Bearer ",this.tokenGetter=function(){return null};var e=this;this.$get=["$q","$injector","$rootScope",function(r,t,a){return{request:function(a){if(a.skipAuthorization)return a;if(e.urlParam){if(a.params=a.params||{},a.params[e.urlParam])return a}else if(a.headers=a.headers||{},a.headers[e.authHeader])return a;var n=r.when(t.invoke(e.tokenGetter,this,{config:a}));return n.then(function(r){return r&&(e.urlParam?a.params[e.urlParam]=r:a.headers[e.authHeader]=e.authPrefix+r),a})},responseError:function(e){return 401===e.status&&a.$broadcast("unauthenticated",e),r.reject(e)}}}]}),angular.module("angular-jwt.jwt",[]).service("jwtHelper",function(){this.urlBase64Decode=function(e){var r=e.replace(/-/g,"+").replace(/_/g,"/");switch(r.length%4){case 0:break;case 2:r+="==";break;case 3:r+="=";break;default:throw"Illegal base64url string!"}return decodeURIComponent(escape(window.atob(r)))},this.decodeToken=function(e){var r=e.split(".");if(3!==r.length)throw new Error("JWT must have 3 parts");var t=this.urlBase64Decode(r[1]);if(!t)throw new Error("Cannot decode the token");return JSON.parse(t)},this.getTokenExpirationDate=function(e){var r;if(r=this.decodeToken(e),"undefined"==typeof r.exp)return null;var t=new Date(0);return t.setUTCSeconds(r.exp),t},this.isTokenExpired=function(e,r){var t=this.getTokenExpirationDate(e);return r=r||0,null===t?!1:!(t.valueOf()>(new Date).valueOf()+1e3*r)}})}();
 
 /**
@@ -1295,6 +1240,17 @@ app
 
 	});
 app
+	.controller('EntitySearchController', function(
+		$state,
+		EntityModel) {
+
+		var vm = this;
+
+		vm.open = function(id) {
+			$state.go('entityShow', {id: id});
+		}
+	});
+app
 	.controller('EntityLogController', function(
 		$state,
 		LogModel) {
@@ -1308,17 +1264,6 @@ app
 			vm.logs = data.data
 		})
 	})
-app
-	.controller('EntitySearchController', function(
-		$state,
-		EntityModel) {
-
-		var vm = this;
-
-		vm.open = function(id) {
-			$state.go('entityShow', {id: id});
-		}
-	});
 app
     .controller('EntityShowController', function(
         $stateParams, $state, $scope,
@@ -1336,8 +1281,6 @@ app
 
 
         vm.save = function(entity) {
-
-            console.log(entity)
 
             if ($stateParams.id) {
 
@@ -1417,7 +1360,8 @@ app
             },
             open: function() {
                 var coordString = _.toString(vm.entity.address_lat) + ',' + _.toString(vm.entity.address_lng)
-                window.open('https://maps.googleapis.com/maps/api/staticmap?center='+coordString+'&markers='+coordString+'&zoom=16&size=600x300')
+                var placeString = _.toString(vm.entity.address_lat) + '+' + _.toString(vm.entity.address_lng)
+                window.open('https://www.google.co.id/maps/place/'+placeString+'/@'+coordString+',20z?hl=en')
             }
         }
 
