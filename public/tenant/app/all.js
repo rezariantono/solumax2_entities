@@ -1240,17 +1240,6 @@ app
 
 	});
 app
-	.controller('EntitySearchController', function(
-		$state,
-		EntityModel) {
-
-		var vm = this;
-
-		vm.open = function(id) {
-			$state.go('entityShow', {id: id});
-		}
-	});
-app
 	.controller('EntityLogController', function(
 		$state,
 		LogModel) {
@@ -1264,6 +1253,17 @@ app
 			vm.logs = data.data
 		})
 	})
+app
+	.controller('EntitySearchController', function(
+		$state,
+		EntityModel) {
+
+		var vm = this;
+
+		vm.open = function(id) {
+			$state.go('entityShow', {id: id});
+		}
+	});
 app
     .controller('EntityShowController', function(
         $stateParams, $state, $scope,

@@ -93,7 +93,8 @@ solumaxEntityFinder
             }
         };
     })
-    .directive('entityRedirect', function(ExternalEntityModel) {
+    .directive('entityRedirect', function(
+        EntityPluginsFactory) {
 
         return {
             template: '<a class="btn btn-xs btn-primary" ng-click="open(entity)">{{ entity.id || "Belum Terdaftar. Klik Untuk Buat Baru" }}</a>',
@@ -130,7 +131,7 @@ solumaxEntityFinder
     })
     .directive('entityRetriever', function(
         $timeout,
-        ExternalEntityModel) {
+        EntityPluginsFactory) {
 
         return {
             template: '<a ng-show="entityId" class="btn btn-xs btn-primary" ng-click="retrieve(entityId)">Refresh Data</a>',
@@ -163,7 +164,7 @@ solumaxEntityFinder
     })
     .directive('entityUpdaterModal', function(
         $sce, $http, $timeout,
-        ExternalEntityModel) {
+        EntityPluginsFactory) {
 
         return {
             templateUrl: $sce.trustAsResourceUrl(EntityPluginsFactory.links.files + 'entity-updater-modal.html'),
