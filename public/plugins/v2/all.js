@@ -159,11 +159,18 @@ solumaxEntityFinder
                             scope.meta = res.data.meta;
                         });
                 }
+                
+                scope.loadRelationships = function() {
+                    
+                    if (!scope.relationships) {
 
-                EntityPluginsFactory.models.relationship.index()
-                    .then(function(res) {
-                        scope.relationships = res.data.data
-                    })
+                        EntityPluginsFactory.models.relationship.index()
+                            .then(function(res) {
+                                scope.relationships = res.data.data
+                            })
+                    }
+                }
+
 
                 scope.filter = {
                     paginate: 20,
