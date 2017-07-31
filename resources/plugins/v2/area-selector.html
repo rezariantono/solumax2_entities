@@ -3,7 +3,8 @@
 	<select
 		ng-options="province as province.provinsi for province in provinces"
 		ng-model="province"
-		ng-change="filter='provinsi';value=province.provinsi;level=1;load(filter,value)">
+		ng-change="filter='provinsi';value=province.provinsi;level=1;load(filter,value)"
+		ng-click="load()">
 	</select>
 </span>
 <span ng-show="level>=1">

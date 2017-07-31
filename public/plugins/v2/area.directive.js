@@ -17,6 +17,10 @@ solumaxEntityFinder
 
                 scope.load = function(filter, value) {
 
+                    if (!filter && scope.provinces) {
+                        return;
+                    }
+
                     EntityPluginsFactory.models.area.retrieve(filter, value)
                         .then(function(res) {
 
@@ -38,9 +42,6 @@ solumaxEntityFinder
 
                     scope['inner' + filter] = value
                 }
-                scope.load()
-
-
             }
         }
 
