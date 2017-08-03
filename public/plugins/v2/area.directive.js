@@ -100,3 +100,18 @@ solumaxEntityFinder
         }
 
     })
+    .directive('areaDisplay', function(
+        $sce,
+        EntityPluginsFactory) {
+
+        return {
+            templateUrl: $sce.trustAsResourceUrl(EntityPluginsFactory.links.files + 'area-display.html'),
+            scope: {
+                entity: '='
+            },
+            link: function(scope, elem, attrs) {
+
+            }
+        }
+
+    })
