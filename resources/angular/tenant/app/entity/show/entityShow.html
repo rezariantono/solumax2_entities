@@ -29,7 +29,9 @@
                         <button ng-show="ctrl.entity.address_lng" class="btn btn-block btn-xs btn-default" ng-click="ctrl.coordinate.open()">Buka Peta</button>
                     </div>
                 </div>
-                <area-selector provinsi="ctrl.entity.provinsi" kota="ctrl.entity.kota" kecamatan="ctrl.entity.kecamatan" kelurahan="ctrl.entity.kelurahan" kode-pos="ctrl.entity.kode_pos"></area-selector>
+                <area-selector-by-province selected="ctrl.entity.area"></area-selector-by-province>
+                <label>Kode Pos</label>
+                <input type="text" ng-model="ctrl.entity.kode_pos">
                 <label>Tanggal Lahir (YYYY-MM-DD)</label>
                 <input type="text" ng-model="ctrl.entity.dob" id="entity-dob" onfocus="this.blur()">
             </div>

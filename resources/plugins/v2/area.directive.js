@@ -46,3 +46,57 @@ solumaxEntityFinder
         }
 
     })
+    .directive('areaSelectorByProvince', function(
+        $sce, $http,
+        EntityPluginsFactory) {
+
+        return {
+            templateUrl: $sce.trustAsResourceUrl(EntityPluginsFactory.links.files + 'area-selector-by-province.html'),
+            scope: {
+                directiveSelected: '=selected',
+            },
+            link: function(scope, elem, attrs) {
+
+                scope.provinces = [
+                    { name: 'Jawa Barat', file: 'jawaBarat.json' }
+                ]
+
+                scope.loadByProvince = function(provinceFile) {
+
+                    $http.get(EntityPluginsFactory.links.areasByProvince + provinceFile)
+                        .then(function(res) {
+                            scope.data = res.data
+
+                            scope.data.kota = transform(scope.data.kota)
+                            scope.data.kecamatan = transform(scope.data.kecamatan)
+                            scope.data.kelurahan = transform(scope.data.kelurahan)
+                        })
+                }
+
+                scope.$watch('selected', function(newValue, oldValue) {
+                    if (typeof scope.directiveSelected != 'undefined') {
+                        scope.directiveSelected = newValue
+                    }
+                }, true)
+
+                scope.$watch('directiveSelected', function(newValue, oldValue) {
+                    if (typeof newValue != 'undefined') {
+                        scope.selected = newValue
+                    }
+                    if (typeof newValue != 'undefined' && typeof oldValue == 'undefined') {
+                        scope.loadByProvince(newValue.provinsi.file)
+                    }
+                }, true)
+
+                function transform(array) {
+                    return _.map(array, function(val, key) {
+                        return {
+                            code: key,
+                            name: val
+                        }
+                    })
+                }
+            }
+        }
+
+    })

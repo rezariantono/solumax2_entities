@@ -1,0 +1,29 @@
+<span>
+	<label>Provinsi</label>
+	<select
+		ng-options="provinsi as provinsi.name for provinsi in provinces track by provinsi.name"
+		ng-model="selected.provinsi"
+		ng-change="loadByProvince(selected.provinsi.file)">
+	</select>
+</span>
+<span ng-show="selected.provinsi">
+	<label>Kota</label>
+	<select
+		ng-options="kota as kota.name for kota in data.kota track by kota.code"
+		ng-model="selected.kota">
+	</select>
+</span>
+<span ng-show="selected.kota">
+	<label>Kecamatan</label>
+	<select
+		ng-options="kecamatan as kecamatan.name for kecamatan in ( data.kecamatan | filter:selected.kota.code ) track by kecamatan.code"
+		ng-model="selected.kecamatan">
+	</select>
+</span>
+<span ng-show="selected.kecamatan">
+	<label>Kelurahan</label>
+	<select
+		ng-options="kelurahan as kelurahan.name for kelurahan in ( data.kelurahan | filter:selected.kecamatan.code ) track by kelurahan.code"
+		ng-model="selected.kelurahan">
+	</select>
+</span>

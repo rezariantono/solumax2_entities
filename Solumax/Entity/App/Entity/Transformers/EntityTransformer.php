@@ -26,11 +26,8 @@ class EntityTransformer extends Fractal\TransformerAbstract {
             'address_lat' => $entity->address_lat ? (double) $entity->address_lat : null,
             'dob' => $entity->dob ? $entity->dob->toDateString() : null,
             
-            'provinsi' => $entity->provinsi,
-            'kota' => $entity->kota,
-            'kecamatan' => $entity->kecamatan,
-            'kelurahan' => $entity->kelurahan,
             'kode_pos' => $entity->kode_pos,
+            'area' => json_decode($entity->area),
             
             'ktp' => (string) $entity->ktp,
             'ktp_file_uuid' => $entity->ktp_file_uuid,

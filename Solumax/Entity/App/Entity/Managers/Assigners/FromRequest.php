@@ -24,6 +24,8 @@ class FromRequest {
                 $this->entity->$param = $request->get($param);
             }
         }
+        
+        $this->entity->area = json_encode($request->get('area', []));
 
         if (!empty($request->get('dob', null))) {
             $this->entity->dob = \Carbon\Carbon::createFromFormat('Y-m-d', $request->get('dob'));

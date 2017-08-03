@@ -16,7 +16,8 @@ var solumaxEntityFinder = angular
                     new: domain + 'redirect-app/entity/new',
                 }
             },
-            files: domain + 'plugins/v2/files/'
+            files: domain + 'plugins/v2/files/',
+            areasByProvince: domain + 'hot/areasByProvince/'
         }
 
         entityPluginsFactory.models = {
