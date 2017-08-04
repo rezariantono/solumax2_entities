@@ -80,12 +80,12 @@ solumaxEntityFinder
                 }, true)
 
                 function transform(array) {
-                    return _.map(array, function(val, key) {
+                    return _.orderBy(_.map(array, function(val, key) {
                         return {
                             code: key,
                             name: val
                         }
-                    })
+                    }), 'name')
                 }
             }
         }
