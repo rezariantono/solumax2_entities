@@ -101,7 +101,7 @@ solumaxEntityFinder
         return {
             templateUrl: $sce.trustAsResourceUrl(EntityPluginsFactory.links.files + 'area-selector-by-province.html'),
             scope: {
-                selected: '=selected',
+                innerSelectedArea: '=selectedArea',
             },
             link: function(scope, elem, attrs) {
 
@@ -121,10 +121,15 @@ solumaxEntityFinder
                         })
                 }
 
-                scope.$watch('selected', function(newValue, oldValue) {
-                    if (typeof newValue != 'undefined' && typeof oldValue == 'undefined' && !_.isUndefined(newValue.provinsi) && !_.isUndefined(newValue.provinsi.file)) {
+                scope.$watch('innerSelectedArea', function(newValue, oldValue) {
+                    if (_.isUndefined(oldValue) && !_.isUndefined(newValue) && !_.isUndefined(newValue.provinsi) && !_.isUndefined(newValue.provinsi.file)) {
                         scope.loadByProvince(newValue.provinsi.file)
+                        scope.selectedArea = newValue
                     }
+                })
+
+                scope.$watch('selectedArea', function(newValue) {
+                    scope.innerSelectedArea = newValue
                 })
 
                 function transform(array) {

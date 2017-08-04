@@ -2,28 +2,28 @@
 	<label>Provinsi</label>
 	<select
 		ng-options="provinsi as provinsi.name for provinsi in provinces track by provinsi.name"
-		ng-model="selected.provinsi"
-		ng-change="loadByProvince(selected.provinsi.file)">
+		ng-model="selectedArea.provinsi"
+		ng-change="loadByProvince(selectedArea.provinsi.file)">
 	</select>
 </span>
-<span ng-show="selected.provinsi">
+<span ng-show="selectedArea.provinsi">
 	<label>Kota</label>
 	<select
 		ng-options="kota as kota.name for kota in data.kota track by kota.code"
-		ng-model="selected.kota">
+		ng-model="selectedArea.kota">
 	</select>
 </span>
-<span ng-show="selected.kota">
+<span ng-show="selectedArea.kota">
 	<label>Kecamatan</label>
 	<select
-		ng-options="kecamatan as kecamatan.name for kecamatan in ( data.kecamatan | filter:selected.kota.code ) track by kecamatan.code"
-		ng-model="selected.kecamatan">
+		ng-options="kecamatan as kecamatan.name for kecamatan in ( data.kecamatan | filter:selectedArea.kota.code ) track by kecamatan.code"
+		ng-model="selectedArea.kecamatan">
 	</select>
 </span>
-<span ng-show="selected.kecamatan">
+<span ng-show="selectedArea.kecamatan">
 	<label>Kelurahan</label>
 	<select
-		ng-options="kelurahan as kelurahan.name for kelurahan in ( data.kelurahan | filter:selected.kecamatan.code ) track by kelurahan.code"
-		ng-model="selected.kelurahan">
+		ng-options="kelurahan as kelurahan.name for kelurahan in ( data.kelurahan | filter:selectedArea.kecamatan.code ) track by kelurahan.code"
+		ng-model="selectedArea.kelurahan">
 	</select>
 </span>
