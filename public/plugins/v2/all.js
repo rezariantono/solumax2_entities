@@ -122,10 +122,10 @@ solumaxEntityFinder
                 }
 
                 scope.$watch('selected', function(newValue, oldValue) {
-                    if (typeof newValue != 'undefined' && typeof oldValue == 'undefined') {
+                    if (typeof newValue != 'undefined' && typeof oldValue == 'undefined' && _.isUndefined(newValue.provinsi) && _.isUndefined(newValue.provinsi.file)) {
                         scope.loadByProvince(newValue.provinsi.file)
                     }
-                }, true)
+                })
 
                 function transform(array) {
                     return _.orderBy(_.map(array, function(val, key) {
