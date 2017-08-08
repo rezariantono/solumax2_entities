@@ -30,7 +30,9 @@ class EntityController extends Controller {
                 ->get();
         
         $entities->each(function($entity) {
-            $entity->whatsapp = 'https://api.whatsapp.com/send?phone=' . str_replace('+', '', $entity->phone_number);
+            $phoneNumber = str_replace('+', '', $entity->phone_number);
+            $phoneNumber = str_replace('0', '62', $phoneNumber);
+            $entity->whatsapp = 'https://api.whatsapp.com/send?phone=' . $phoneNumber;
         });
         
         return $this->createCsv($entities->toArray(), 'entity');
