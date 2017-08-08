@@ -342,6 +342,9 @@ solumaxEntityFinder
             },
             link: function(scope, elem, attrs) {
 
+                $('.date').datepicker({
+                    dateFormat: "yy-mm-dd",
+                })
 
                 scope.loadRelationships = function() {
 

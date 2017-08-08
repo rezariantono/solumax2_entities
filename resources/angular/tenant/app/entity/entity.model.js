@@ -15,8 +15,8 @@ app
 			return $http.get(LinkFactory.entity.api + entityId);
 		}
 
-		entityModel.store = function(entity) {
-			return $http.post(LinkFactory.entity.api, entity);
+		entityModel.store = function(entity, params) {
+			return $http.post(LinkFactory.entity.api, entity, {params: params});
 		}
 
 		entityModel.update = function(entity) {

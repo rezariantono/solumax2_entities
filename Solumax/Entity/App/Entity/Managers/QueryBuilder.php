@@ -20,6 +20,15 @@ class QueryBuilder extends ManagerBase {
         if ($request->has('id')) {
             $query->where('id', $request->get('id'));
         }
+        
+        if ($request->has('created_at_from')) {
+            $query->where('created_at', '>=', \Carbon\Carbon::createFromFormat('Y-m-d', $request->get('created_at_from'))->startOfDay());
+        }
+        
+        if ($request->has('created_at_until')) {
+            $query->where('created_at', '<=', \Carbon\Carbon::createFromFormat('Y-m-d', $request->get('created_at_until'))->endOfDay());
+        }
+
 
         if ($request->has('ids')) {
             $query->whereIn('id', explode(',', $request->get('ids')));

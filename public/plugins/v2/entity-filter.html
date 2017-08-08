@@ -51,11 +51,19 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-3">
+        <label>Tanggal Input Mulai</label>
+        <input type="text" ng-model="filter.created_at_from" class="date">
+    </div>
+    <div class="col-sm-3">
+        <label>Tanggal Input Sampai</label>
+        <input type="text" ng-model="filter.created_at_until" class="date">
+    </div>
+    <div class="col-sm-3">
         <label>Hasil Per Halaman</label>
         <input type="text" ng-model="filter.paginate" name="paginate">
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-3">
         <label>Pengurutan</label>
         <select ng-model="filter.order" ng-init="asc" name="order">
             <option value="asc">Terlama</option>

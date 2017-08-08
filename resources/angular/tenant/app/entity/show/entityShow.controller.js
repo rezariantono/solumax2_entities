@@ -14,7 +14,7 @@ app
         })
 
 
-        vm.save = function(entity) {
+        vm.save = function(entity, params) {
 
             if ($stateParams.id) {
 
@@ -26,10 +26,16 @@ app
 
             } else {
 
-                EntityModel.store(entity)
-                    .success(function(data) {
-                        $state.go('entityShow', { id: data.data.id });
-                    });
+                EntityModel.store(entity, params)
+                    .then(function(res) {
+                        $state.go('entityShow', { id: res.data.data.id });
+                    }, function(res) {
+
+                        if (res.userResponse) {
+                            vm.save(entity, res.userResponse)
+                        }
+
+                    })
             };
         }
 
@@ -87,7 +93,7 @@ app
                 navigator.geolocation.getCurrentPosition(function(position) {
 
                     vm.entity.address_lng = position.coords.longitude
-                    vm.entity.address_lat =position.coords.latitude
+                    vm.entity.address_lat = position.coords.latitude
 
                     $scope.$apply()
                 })
@@ -95,7 +101,7 @@ app
             open: function() {
                 var coordString = _.toString(vm.entity.address_lat) + ',' + _.toString(vm.entity.address_lng)
                 var placeString = _.toString(vm.entity.address_lat) + '+' + _.toString(vm.entity.address_lng)
-                window.open('https://www.google.co.id/maps/place/'+placeString+'/@'+coordString+',20z?hl=en')
+                window.open('https://www.google.co.id/maps/place/' + placeString + '/@' + coordString + ',20z?hl=en')
             }
         }
 
