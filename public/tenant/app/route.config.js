@@ -37,6 +37,12 @@ app
   			controller: 'EntityIndexController as ctrl',
   			pageTitle: 'Daftar Contact'
 		})
+		.state('entityReport', {
+			url: '/entity/report',
+  			templateUrl: 'app/entity/report/entityReport.html',
+  			controller: 'EntityReportController as ctrl',
+  			pageTitle: 'Entity Report'
+		})
 		.state('entityLog', {
 			url: '/entity/log/:id',
   			templateUrl: 'app/entity/log/entityLog.html',

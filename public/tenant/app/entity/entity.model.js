@@ -35,7 +35,6 @@ app
 				return $http.post(LinkFactory.entity.api + 'request-delete/' + id, data);
 			}
 		}
-		
 
 		return entityModel;
 	});

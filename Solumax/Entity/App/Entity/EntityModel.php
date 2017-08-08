@@ -24,6 +24,10 @@ class EntityModel extends Model {
         return new Managers\Validator($this);
     }
 
+    public function queryBuild() {
+        return new Managers\QueryBuilder($this);
+    }
+
     // Managers
 
     public function entityRelationships() {

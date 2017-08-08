@@ -1,0 +1,65 @@
+<div class="row">
+    <div class="col-sm-6">
+        <label>Name</label>
+        <a id="info-entity-searchmodal-name">?</a>
+        <input type="text" ng-model="filter.name" name="name">
+    </div>
+    <div class="col-sm-6">
+        <label>Alamat</label>
+        <input type="text" ng-model="filter.address" name="address">
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <label>Nomor Telepon</label>
+        <input type="text" ng-model="filter.phone_number" name="phone_number">
+    </div>
+    <div class="col-sm-6">
+        <label>Email</label>
+        <input type="text" ng-model="filter.email" name="email">
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-2">
+        <label>ID</label>
+        <input type="number" ng-model="filter.id" name="id">
+    </div>
+    <div class="col-sm-4">
+        <label>KTP</label>
+        <input type="text" ng-model="filter.ktp" name="ktp">
+    </div>
+    <div class="col-sm-4">
+        <div class="dropdown dropdown-scroll">
+            <button class="btn btn-default btn-block dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" ng-click="loadRelationships()">Hubungan <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                <li role="presentation">
+                    <input type="text" class="form-control" placeholder="Cari Relation" ng-model="x"></input>
+                </li>
+                <li ng-repeat='relationship in relationships| filter:x'>
+                    <p style="padding-left: 10px; padding-right: 10px;" ng-click="checkRelationship(relationship)">
+                        <input type="checkbox" class="form-not-applied" ng-checked="relationshipIdsChecked[relationship.id].checked">
+                        <label>{{ relationship.name}}</label>
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <label>User Saja</label>
+        <input type="checkbox" ng-model="filter.is_linked_to_user" class="form-not-applied">
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <label>Hasil Per Halaman</label>
+        <input type="text" ng-model="filter.paginate" name="paginate">
+    </div>
+    <div class="col-sm-6">
+        <label>Pengurutan</label>
+        <select ng-model="filter.order" ng-init="asc" name="order">
+            <option value="asc">Terlama</option>
+            <option value="desc">Terbaru</option>
+        </select>
+    </div>
+</div>

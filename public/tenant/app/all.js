@@ -47,6 +47,7 @@ app
 			entity: {
 				base: domains.entity,
 				api: apps.entity + 'api/entity/',
+				report: apps.entity + 'report/entity/',
 			},
 
 			relationship: {
@@ -99,6 +100,12 @@ app
   			templateUrl: 'app/entity/index/entityIndex.html',
   			controller: 'EntityIndexController as ctrl',
   			pageTitle: 'Daftar Contact'
+		})
+		.state('entityReport', {
+			url: '/entity/report',
+  			templateUrl: 'app/entity/report/entityReport.html',
+  			controller: 'EntityReportController as ctrl',
+  			pageTitle: 'Entity Report'
 		})
 		.state('entityLog', {
 			url: '/entity/log/:id',
@@ -1135,7 +1142,6 @@ app
 				return $http.post(LinkFactory.entity.api + 'request-delete/' + id, data);
 			}
 		}
-		
 
 		return entityModel;
 	});
@@ -1252,6 +1258,23 @@ app
 		.success(function(data) {
 			vm.logs = data.data
 		})
+	})
+app
+	.controller('EntityReportController', function(
+		LinkFactory, JwtValidator,
+		EntityModel) {
+
+		var vm = this
+
+		vm.download = function(filter) {
+
+			filter.jwt = JwtValidator.encodedJwt
+			filter.limit = 300
+
+			window.open(LinkFactory.entity.report + '?' + $.param(filter))
+
+		}
+
 	})
 app
 	.controller('EntitySearchController', function(

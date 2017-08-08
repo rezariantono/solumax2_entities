@@ -226,9 +226,9 @@ solumaxEntityFinder
                             scope.meta = res.data.meta;
                         });
                 }
-                
+
                 scope.loadRelationships = function() {
-                    
+
                     if (!scope.relationships) {
 
                         EntityPluginsFactory.models.relationship.index()
@@ -327,6 +327,40 @@ solumaxEntityFinder
                         });
 
                 }
+            }
+        }
+    })
+    .directive('entityFilter', function(
+        $sce,
+        EntityPluginsFactory) {
+
+        return {
+            templateUrl: $sce.trustAsResourceUrl(EntityPluginsFactory.links.files + 'entity-filter.html'),
+            restrict: 'E',
+            scope: {
+                filter: '='
+            },
+            link: function(scope, elem, attrs) {
+
+
+                scope.loadRelationships = function() {
+
+                    if (!scope.relationships) {
+
+                        EntityPluginsFactory.models.relationship.index()
+                            .then(function(res) {
+                                scope.relationships = res.data.data
+                            })
+                    }
+                }
+
+
+                scope.filter = {
+                    paginate: 20,
+                    page: 1,
+                    order: 'desc',
+                }
+
             }
         }
     })

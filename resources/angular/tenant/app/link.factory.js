@@ -26,6 +26,7 @@ app
 			entity: {
 				base: domains.entity,
 				api: apps.entity + 'api/entity/',
+				report: apps.entity + 'report/entity/',
 			},
 
 			relationship: {
